@@ -67,7 +67,7 @@ FUNCTION GetBit(IntVar AS INTEGER, iBit AS INTEGER)
 
     //IF IntVar && bitflag[iBit] THEN EXITFUNCTION 1
 
-    IntVar = (IntVar >> (iBit)) && %1
+    IntVar = (IntVar >> iBit) && %1
 ENDFUNCTION IntVar
 
 
@@ -89,7 +89,7 @@ ENDFUNCTION IntVar
 FUNCTION ToggleBit(IntVar AS INTEGER, iBit AS INTEGER)
     IF iBit < 0 OR iBit > 31 THEN EXITFUNCTION 0
 
-    IntVar = IntVar ~~ bitflag[iBit]
+    IntVar = IntVar ~~ (%1 << iBit)
 ENDFUNCTION IntVar
 
 
