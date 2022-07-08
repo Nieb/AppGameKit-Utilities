@@ -29,11 +29,11 @@ FUNCTION TEST_ColorGamma()
     InputWhy AS FLOAT
     ColorInp AS INTEGER
 
-    GamToLin   AS FLOAT
+    GamToLin AS FLOAT
     ToLinWhy AS FLOAT
     ColorLin AS INTEGER
 
-    LinToGam   AS FLOAT
+    LinToGam AS FLOAT
     ToGamWhy AS FLOAT
     ColorGam AS INTEGER
 
