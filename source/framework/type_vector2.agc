@@ -42,7 +42,7 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION Print2(Label AS STRING, PrintMe REF AS Vec2, PadLeft AS INTEGER, TruncRight AS INTEGER)
-    Print(Label + padstr(PrintMe.x, PadLeft, TruncRight) + " " + padstr(PrintMe.y, PadLeft, TruncRight))
+    Print(Label + padstr(PrintMe.x, " ", PadLeft, TruncRight) + " " + padstr(PrintMe.y, " ", PadLeft, TruncRight))
 ENDFUNCTION
 
 
@@ -239,17 +239,17 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rndto2(VecA REF AS Vec2, RndTo AS FLOAT) // Round each component to nearest 'RndTo'.    ( Make this an overload of Round. )
+FUNCTION rndto2(VecA REF AS Vec2, RoundTo AS FLOAT) // Round each component to nearest 'RoundTo'.    ( Make this an overload of Round. )
     Result AS Vec2
-    Result.x = fmod(VecA.x, RndTo)
-    Result.y = fmod(VecA.y, RndTo)
-    Threshold AS FLOAT : Threshold = RndTo * 0.5
-    IF     Result.x > 0.0 : IF (Result.x >  Threshold) : Result.x = VecA.x + (RndTo -     Result.x ) : ELSE : Result.x = VecA.x -     Result.x  : ENDIF
-    ELSEIF Result.x < 0.0 : IF (Result.x < -Threshold) : Result.x = VecA.x - (RndTo - abs(Result.x)) : ELSE : Result.x = VecA.x + abs(Result.x) : ENDIF
+    Result.x = fmod(VecA.x, RoundTo)
+    Result.y = fmod(VecA.y, RoundTo)
+    Threshold AS FLOAT : Threshold = RoundTo * 0.5
+    IF     Result.x > 0.0 : IF (Result.x >  Threshold) : Result.x = VecA.x + (RoundTo -     Result.x ) : ELSE : Result.x = VecA.x -     Result.x  : ENDIF
+    ELSEIF Result.x < 0.0 : IF (Result.x < -Threshold) : Result.x = VecA.x - (RoundTo - abs(Result.x)) : ELSE : Result.x = VecA.x + abs(Result.x) : ENDIF
     ELSE : Result.x = VecA.x
     ENDIF
-    IF     Result.y > 0.0 : IF (Result.y >  Threshold) : Result.y = VecA.y + (RndTo -     Result.y ) : ELSE : Result.y = VecA.y -     Result.y  : ENDIF
-    ELSEIF Result.y < 0.0 : IF (Result.y < -Threshold) : Result.y = VecA.y - (RndTo - abs(Result.y)) : ELSE : Result.y = VecA.y + abs(Result.y) : ENDIF
+    IF     Result.y > 0.0 : IF (Result.y >  Threshold) : Result.y = VecA.y + (RoundTo -     Result.y ) : ELSE : Result.y = VecA.y -     Result.y  : ENDIF
+    ELSEIF Result.y < 0.0 : IF (Result.y < -Threshold) : Result.y = VecA.y - (RoundTo - abs(Result.y)) : ELSE : Result.y = VecA.y + abs(Result.y) : ENDIF
     ELSE : Result.y = VecA.y
     ENDIF
 ENDFUNCTION Result
