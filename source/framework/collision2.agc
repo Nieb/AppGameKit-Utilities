@@ -1,42 +1,26 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// AAL  = "Axis-Aligned Line"
-// AAB  = "Axis-Aligned Box"
-// AAR  = "Axis-Aligned Rectangle"
-// AART = "Axis-Aligned Right-Triangle"
-
-
-//@fix      Test >= Start    Test < End
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// "Point VS Axis-Aligned Rectangle"
-FUNCTION PointvsAAR( Pnt_Pos_X AS FLOAT, Pnt_Pos_Y AS FLOAT,
-                     Rct_Pos_X AS FLOAT, Rct_Pos_Y AS FLOAT,  // X,Y = TopLeft
-                     Rct_Width AS FLOAT, Rct_Height AS FLOAT )
-    IF Pnt_Pos_X < Rct_Pos_X+Rct_Width AND Pnt_Pos_X >= Rct_Pos_X AND Pnt_Pos_Y < Rct_Pos_Y+Rct_Height AND Pnt_Pos_Y >= Rct_Pos_Y THEN EXITFUNCTION 1
+//  "Point VS Axis-Aligned Rectangle"
+FUNCTION PointvsAAR( PntPos REF AS Vec2,
+                     RctPos REF AS Vec2,  // TopLeft.
+                     RctSiz REF AS Vec2 ) // Width, Height.
+    IF PntPos.x < RctPos.x+RctSiz.x AND PntPos.x >= RctPos.x AND PntPos.y < RctPos.y+RctSiz.y AND PntPos.y >= RctPos.y THEN EXITFUNCTION 1
 ENDFUNCTION 0
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION AARvsAAR( Rect1_X     AS FLOAT, Rect1_Y      AS FLOAT,  // X,Y = TopLeft
-                   Rect1_Width AS FLOAT, Rect1_Height AS FLOAT,
-                   Rect2_X     AS FLOAT, Rect2_Y      AS FLOAT,  // X,Y = TopLeft
-                   Rect2_Width AS FLOAT, Rect2_Height AS FLOAT )
-    IF Rect1_X <= Rect2_X+Rect2_Width AND Rect1_X+Rect1_Width >= Rect2_X AND Rect1_Y <= Rect2_Y+Rect2_Height AND Rect1_Y+Rect1_Height >= Rect2_Y THEN EXITFUNCTION 1
+//  "Axis-Aligned Rectangle VS Axis-Aligned Rectangle"
+FUNCTION AARvsAAR( Rect1Pos REF AS Vec2,  // TopLeft.
+                   Rect1Siz REF AS Vec2,  // Width, Height.
+                   Rect2Pos REF AS Vec2,  // TopLeft.
+                   Rect2Siz REF AS Vec2 ) // Width, Height.
+    IF Rect1Pos.x < Rect2Pos.x+Rect2Siz.x AND Rect1Pos.x+Rect1Siz.x >= Rect2Pos.x AND Rect1Pos.y < Rect2Pos.y+Rect2Siz.y AND Rect1Pos.y+Rect1Siz.y >= Rect2Pos.y THEN EXITFUNCTION 1
 ENDFUNCTION 0
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Axis-Aligned Line VS Axis-Aligned Rectangle"
 FUNCTION AALvsAAR()
 
     // TODO.
@@ -50,23 +34,24 @@ ENDFUNCTION 0
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Circle VS Axis-Aligned Rectangle"
 FUNCTION CirclevsAAR( CirPos REF AS Vec2,
                       CirRad AS FLOAT,
-                      RctPos REF AS Vec2,  // RctPos = TopLeft
-                      RctSiz REF AS Vec2 ) // RctSiz = Width, Height
+                      RctPos REF AS Vec2,  // TopLeft.
+                      RctSiz REF AS Vec2 ) // Width, Height.
     //==============================================================================================================================================================================
     Cir_Lf AS FLOAT : Cir_Lf = CirPos.x - CirRad // "Circle-Left"
     Cir_Tp AS FLOAT : Cir_Tp = CirPos.y - CirRad // "Circle-Top"
     Cir_Rt AS FLOAT : Cir_Rt = CirPos.x + CirRad // "Circle-Right"
     Cir_Bm AS FLOAT : Cir_Bm = CirPos.y + CirRad // "Circle-Bottom"
     //==============================================================================================================================================================================
-    Rct_Rt AS FLOAT : Rct_Rt = RctPos.x + RctSiz.x  // "Rectangle-Right"
+    Rct_Rt AS FLOAT : Rct_Rt = RctPos.x + RctSiz.x // "Rectangle-Right"
     Rct_Bm AS FLOAT : Rct_Bm = RctPos.y + RctSiz.y // "Rectangle-Bottom"
     //==============================================================================================================================================================================
     IF (Cir_Lf > Rct_Rt OR Cir_Tp > Rct_Bm OR Cir_Rt < RctPos.x OR Cir_Bm < RctPos.y) THEN EXITFUNCTION 0
     //==============================================================================================================================================================================
-    IF     CirPos.y >= RctPos.y AND CirPos.y < Rct_Bm : IF Cir_Lf < Rct_Rt AND Cir_Rt > RctPos.x THEN EXITFUNCTION 1
-    ELSEIF CirPos.x >= RctPos.x AND CirPos.x < Rct_Rt : IF Cir_Tp < Rct_Bm AND Cir_Bm > RctPos.y THEN EXITFUNCTION 1
+    IF     (CirPos.y >= RctPos.y AND CirPos.y < Rct_Bm) : IF (Cir_Lf < Rct_Rt AND Cir_Rt > RctPos.x) THEN EXITFUNCTION 1
+    ELSEIF (CirPos.x >= RctPos.x AND CirPos.x < Rct_Rt) : IF (Cir_Tp < Rct_Bm AND Cir_Bm > RctPos.y) THEN EXITFUNCTION 1
     ENDIF
     //==============================================================================================================================================================================
     Delta_X AS FLOAT
@@ -85,6 +70,7 @@ ENDFUNCTION 0
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Point VS Circle"
 FUNCTION PointvsCircle( PntPos REF AS Vec2,
                         CirPos REF AS Vec2,
                         CirRad AS FLOAT )
@@ -97,6 +83,7 @@ ENDFUNCTION 0
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Circle VS Circle"
 FUNCTION CirclevsCircle( Circle1_X AS FLOAT, Circle1_Y AS FLOAT, Circle1_Radius AS FLOAT,
                          Circle2_X AS FLOAT, Circle2_Y AS FLOAT, Circle2_Radius AS FLOAT )
     //==============================================================================================================================================================================
@@ -116,6 +103,7 @@ ENDFUNCTION 0
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Point VS Line"
 FUNCTION PointVsLine( PointX AS INTEGER, PointY AS INTEGER,                                        // "Line" not to be confused with "Ray"
                       LineAX AS INTEGER, LineAY AS INTEGER, LineBX AS INTEGER, LineBY AS INTEGER ) // "tolerance" Parameter?
     // Is this ever useful?
@@ -129,6 +117,7 @@ ENDFUNCTION
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Line VS Line"
 FUNCTION LineVsLine( LinPos1A REF AS Vec2,  // Overlapping parallel Lines will not test positive as a collision.
                      LinPos1B REF AS Vec2,
                      LinPos2A REF AS Vec2,
@@ -161,6 +150,7 @@ ENDFUNCTION 0
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Line VS Axis-Aligned Box"
 FUNCTION LineVsAAB( LinPosA REF AS Vec2,
                     LinPosB REF AS Vec2,
                     RctPos  REF AS Vec2,  // RctPos = TopLeft                      @FIX   Origin = Center
@@ -244,6 +234,7 @@ ENDFUNCTION 0
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Line VS Axis-Aligned Rectangle"
 FUNCTION LineVsAAR( LinPosA REF AS Vec2,
                     LinPosB REF AS Vec2,
                     RctPos  REF AS Vec2,  // RctPos = TopLeft
@@ -333,6 +324,7 @@ ENDFUNCTION 0
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Line VS Circle"
 FUNCTION LineVsCircle( LinPosA AS Vec2,
                        LinPosB AS Vec2,
                        CirPos  AS Vec2,
@@ -394,52 +386,53 @@ ENDFUNCTION 0
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//  FUNCTION PointvsAART( RiseOrFall      AS INTEGER,  // Triangulation Direction
-//                        Point_X         AS INTEGER,
-//                        Point_Y         AS INTEGER,
-//                        Triangle_X      AS INTEGER,  // X,Y = TopLeft
-//                        Triangle_Y      AS INTEGER,  // X,Y = TopLeft
-//                        Triangle_Width  AS INTEGER,  // Triangle Width
-//                        Triangle_Height AS INTEGER ) // Triangle Height
-//      //==============================================================================================================================================================================
-//      // First check if Point is in Rectangle with PointvsAAR() before using this function, it will not work properly otherwise.
-//
-//      // do this internally ???
-//      //      Might make sense to keep it external for this one.
-//
-//      // make which triangle you are testing for an argument?
-//      // along with RiseOrFall ?
-//
-//      //==============================================================================================================================================================================
-//      Point_X = Point_X - TriangleX // convert Point to local space
-//      Point_Y = Point_Y - TriangleY // convert Point to local space
-//      IF RiseOrFall = 0 // Rise
-//          // ******
-//          // *1  **
-//          // *  * *
-//          // * *  *
-//          // **  2*
-//          // ******
-//          //Print( tWidth * Point_Y + tHeight * Point_X - tWidth * tHeight )
-//          IF tWidth * Point_Y + tHeight * Point_X - tWidth * tHeight < 0
-//              EXITFUNCTION 1
-//          ELSE
-//              EXITFUNCTION 2
-//          ENDIF
-//      ELSEIF RiseOrFall = 1 // Fall
-//          // ******
-//          // **  1*
-//          // * *  *
-//          // *  * *
-//          // *2  **
-//          // ******
-//          //Print( tHeight * Point_X - tWidth * Point_Y )
-//          IF tHeight * Point_X - tWidth * Point_Y > 0
-//              EXITFUNCTION 1
-//          ELSE
-//              EXITFUNCTION 2
-//          ENDIF
-//      ENDIF
-//  ENDFUNCTION 0
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  "Point VS Axis-Aligned Right-Triangle"
+////FUNCTION PointvsAART( RiseOrFall      AS INTEGER,  // Triangulation Direction
+////                      Point_X         AS INTEGER,
+////                      Point_Y         AS INTEGER,
+////                      Triangle_X      AS INTEGER,  // X,Y = TopLeft
+////                      Triangle_Y      AS INTEGER,  // X,Y = TopLeft
+////                      Triangle_Width  AS INTEGER,  // Triangle Width
+////                      Triangle_Height AS INTEGER ) // Triangle Height
+////    //==============================================================================================================================================================================
+////    // First check if Point is in Rectangle with PointvsAAR() before using this function, it will not work properly otherwise.
+////
+////    // do this internally ???
+////    //      Might make sense to keep it external for this one.
+////
+////    // make which triangle you are testing for an argument?
+////    // along with RiseOrFall ?
+////
+////    //==============================================================================================================================================================================
+////    Point_X = Point_X - TriangleX // convert Point to local space
+////    Point_Y = Point_Y - TriangleY // convert Point to local space
+////    IF RiseOrFall = 0 // Rise
+////        // ******
+////        // *1  **
+////        // *  * *
+////        // * *  *
+////        // **  2*
+////        // ******
+////        //Print( tWidth * Point_Y + tHeight * Point_X - tWidth * tHeight )
+////        IF tWidth * Point_Y + tHeight * Point_X - tWidth * tHeight < 0
+////            EXITFUNCTION 1
+////        ELSE
+////            EXITFUNCTION 2
+////        ENDIF
+////    ELSEIF RiseOrFall = 1 // Fall
+////        // ******
+////        // **  1*
+////        // * *  *
+////        // *  * *
+////        // *2  **
+////        // ******
+////        //Print( tHeight * Point_X - tWidth * Point_Y )
+////        IF tHeight * Point_X - tWidth * Point_Y > 0
+////            EXITFUNCTION 1
+////        ELSE
+////            EXITFUNCTION 2
+////        ENDIF
+////    ENDIF
+////ENDFUNCTION 0
 
