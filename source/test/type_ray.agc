@@ -1,5 +1,8 @@
+
+
 FUNCTION TEST_type_ray()
-    Print("ray.agc") : Print("")
+    Print("ray.agc")
+    Print("")
 
 ENDFUNCTION
 
