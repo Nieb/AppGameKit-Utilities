@@ -52,7 +52,7 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION Print3(Label AS STRING, PrintMe REF AS Vec3, PadLeft AS INTEGER, TruncRight AS INTEGER)
-    Print(Label + padstr(PrintMe.x, PadLeft, TruncRight) + " " + padstr(PrintMe.y, PadLeft, TruncRight) + " " + padstr(PrintMe.z, PadLeft, TruncRight))
+    Print(Label + padstr(PrintMe.x, " ", PadLeft, TruncRight) + " " + padstr(PrintMe.y, " ", PadLeft, TruncRight) + " " + padstr(PrintMe.z, " ", PadLeft, TruncRight))
 ENDFUNCTION
 
 
@@ -275,22 +275,22 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rndto3(VecA REF AS Vec3, RndTo AS FLOAT) // "Round"  Each component of 'VecA' rounded to nearest 'RndTo'.    ( Make this an overload of round(). )
+FUNCTION rndto3(VecA REF AS Vec3, RoundTo AS FLOAT) // "Round"  Each component of 'VecA' rounded to nearest 'RoundTo'.    ( Make this an overload of round(). )
     Result AS Vec3
-    Result.x = fmod(VecA.x, RndTo)
-    Result.y = fmod(VecA.y, RndTo)
-    Result.z = fmod(VecA.z, RndTo)
-    Threshold AS FLOAT : Threshold = RndTo * 0.5
-    IF     (Result.x > 0.0) : IF (Result.x >  Threshold) : Result.x = VecA.x + RndTo -     Result.x  : ELSE : Result.x = VecA.x -     Result.x  : ENDIF
-    ELSEIF (Result.x < 0.0) : IF (Result.x < -Threshold) : Result.x = VecA.x - RndTo - abs(Result.x) : ELSE : Result.x = VecA.x + abs(Result.x) : ENDIF
+    Result.x = fmod(VecA.x, RoundTo)
+    Result.y = fmod(VecA.y, RoundTo)
+    Result.z = fmod(VecA.z, RoundTo)
+    Threshold AS FLOAT : Threshold = RoundTo * 0.5
+    IF     (Result.x > 0.0) : IF (Result.x >  Threshold) : Result.x = VecA.x + RoundTo -     Result.x  : ELSE : Result.x = VecA.x -     Result.x  : ENDIF
+    ELSEIF (Result.x < 0.0) : IF (Result.x < -Threshold) : Result.x = VecA.x - RoundTo - abs(Result.x) : ELSE : Result.x = VecA.x + abs(Result.x) : ENDIF
     ELSE : Result.x = VecA.x
     ENDIF
-    IF     (Result.y > 0.0) : IF (Result.y >  Threshold) : Result.y = VecA.y + RndTo -     Result.y  : ELSE : Result.y = VecA.y -     Result.y  : ENDIF
-    ELSEIF (Result.y < 0.0) : IF (Result.y < -Threshold) : Result.y = VecA.y - RndTo - abs(Result.y) : ELSE : Result.y = VecA.y + abs(Result.y) : ENDIF
+    IF     (Result.y > 0.0) : IF (Result.y >  Threshold) : Result.y = VecA.y + RoundTo -     Result.y  : ELSE : Result.y = VecA.y -     Result.y  : ENDIF
+    ELSEIF (Result.y < 0.0) : IF (Result.y < -Threshold) : Result.y = VecA.y - RoundTo - abs(Result.y) : ELSE : Result.y = VecA.y + abs(Result.y) : ENDIF
     ELSE : Result.y = VecA.y
     ENDIF
-    IF     (Result.z > 0.0) : IF (Result.z >  Threshold) : Result.z = VecA.z + RndTo -     Result.z  : ELSE : Result.z = VecA.z -     Result.z  : ENDIF
-    ELSEIF (Result.z < 0.0) : IF (Result.z < -Threshold) : Result.z = VecA.z - RndTo - abs(Result.z) : ELSE : Result.z = VecA.z + abs(Result.z) : ENDIF
+    IF     (Result.z > 0.0) : IF (Result.z >  Threshold) : Result.z = VecA.z + RoundTo -     Result.z  : ELSE : Result.z = VecA.z -     Result.z  : ENDIF
+    ELSEIF (Result.z < 0.0) : IF (Result.z < -Threshold) : Result.z = VecA.z - RoundTo - abs(Result.z) : ELSE : Result.z = VecA.z + abs(Result.z) : ENDIF
     ELSE : Result.z = VecA.z
     ENDIF
 ENDFUNCTION Result
