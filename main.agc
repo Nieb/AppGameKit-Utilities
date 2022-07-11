@@ -8,10 +8,14 @@ SetFolder("")
 SetWindowTitle("Framework Libraries Build Test")
 SetWindowAllowResize(0)
 
-       SetWindowSize(1536, 1024, 0)
-SetVirtualResolution(1536, 1024)
-SetPrintSize(24)
+       SetWindowSize(1536, 1280, 0)
+SetVirtualResolution(1536, 1280)
+
 SetClearColor(74,50,75)
+
+LoadFont(1, "media/ui/font/Hack-Regular.ttf")
+SetPrintFont(1)
+SetPrintSize(24)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +25,7 @@ InitializeColor()
 InitializeVector2()
 InitializeVector3()
 
-CurrentTest AS INTEGER = 6
+CurrentTest AS INTEGER = 1
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,8 +38,8 @@ DO
     Print( "          FPS: "+str(ScreenFPS(),0))
     PrintC("  CurrentTest: "+str(CurrentTest)+": ")
 
-    IF     GetRawKeyPressed(KEY_PageDown) : DEC CurrentTest : IF CurrentTest <  0 THEN CurrentTest = 26
-    ELSEIF GetRawKeyPressed(KEY_PageUp)   : INC CurrentTest : IF CurrentTest > 26 THEN CurrentTest =  0
+    IF     GetRawKeyPressed(KEY_PageDown) : DEC CurrentTest : IF CurrentTest <  0 THEN CurrentTest = 23
+    ELSEIF GetRawKeyPressed(KEY_PageUp)   : INC CurrentTest : IF CurrentTest > 23 THEN CurrentTest =  0
     ENDIF
 
     IF     CurrentTest =  0 : TEST_Collision1()
