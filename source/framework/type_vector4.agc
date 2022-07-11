@@ -38,6 +38,6 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION Print4(Label AS STRING, PrintMe REF AS Vec4, PadLeft AS INTEGER, TruncRight AS INTEGER)
-    Print(Label + padstr(PrintMe.x, PadLeft, TruncRight) + " " + padstr(PrintMe.y, PadLeft, TruncRight) + " " + padstr(PrintMe.z, PadLeft, TruncRight) + " " + padstr(PrintMe.w, PadLeft, TruncRight))
+    Print(Label + padstr(PrintMe.x, " ", PadLeft, TruncRight) + " " + padstr(PrintMe.y, " ", PadLeft, TruncRight) + " " + padstr(PrintMe.z, " ", PadLeft, TruncRight) + " " + padstr(PrintMe.w, " ", PadLeft, TruncRight))
 ENDFUNCTION
 
