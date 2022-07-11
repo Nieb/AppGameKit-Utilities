@@ -18,7 +18,7 @@ FUNCTION flt(Int AS FLOAT) : ENDFUNCTION Int  // For explicit casting.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION Print1(Label AS STRING, PrintMe AS FLOAT, PadLeft AS INTEGER, TruncRight AS INTEGER)
-    Print( Label + padstr(PrintMe, PadLeft, TruncRight) )
+    Print( Label + padstr(PrintMe, " ", PadLeft, TruncRight) )
 ENDFUNCTION
 
 
@@ -65,12 +65,12 @@ ENDFUNCTION WrapMe
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION roundto(RndMe AS FLOAT, RndTo AS FLOAT)
-    ModMe AS FLOAT : ModMe = fmod(RndMe, RndTo)
-    IF     ModMe > 0.0 : IF ModMe >  (RndTo * 0.5) : RndMe = RndMe + (RndTo -     ModMe ) : ELSE : RndMe = RndMe -     ModMe  : ENDIF
-    ELSEIF ModMe < 0.0 : IF ModMe < -(RndTo * 0.5) : RndMe = RndMe - (RndTo - abs(ModMe)) : ELSE : RndMe = RndMe + abs(ModMe) : ENDIF
+FUNCTION rndto(RoundMe AS FLOAT, RoundTo AS FLOAT)
+    ModMe AS FLOAT : ModMe = fmod(RoundMe, RoundTo)
+    IF     ModMe > 0.0 : IF (ModMe >  RoundTo*0.5) : RoundMe = RoundMe + (RoundTo -     ModMe ) : ELSE : RoundMe = RoundMe -     ModMe  : ENDIF
+    ELSEIF ModMe < 0.0 : IF (ModMe < -RoundTo*0.5) : RoundMe = RoundMe - (RoundTo - abs(ModMe)) : ELSE : RoundMe = RoundMe + abs(ModMe) : ENDIF
     ENDIF
-ENDFUNCTION RndMe
+ENDFUNCTION RoundMe
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
