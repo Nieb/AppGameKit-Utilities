@@ -1,22 +1,22 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Convert to STRING, then pad left with 'PadWith'.
+/// Convert to STRING, then pad left with 'PadWith'.
 FUNCTION PadStr(StringMe AS FLOAT, PadWith AS STRING, PadLeft AS INTEGER, TruncRight AS INTEGER)
-    Result       AS STRING  : Result       = str(StringMe, TruncRight) // Fun fact:  TruncRight = -1  will show all digits.
-    StringLength AS INTEGER : StringLength = len(Result)
-    IF StringLength >= PadLeft THEN EXITFUNCTION Result // Prevent spaces() crash.
+    Result       AS STRING  : Result       = str(StringMe, TruncRight) /// Fun fact:  TruncRight = -1  will show all digits.
+    StringLength AS INTEGER : StringLength = len(str(StringMe,0)) //  len(str(floor(StringMe)))   len(left(Result,FindString(Result,".")-1))
+    IF StringLength >= PadLeft THEN EXITFUNCTION Result /// Prevent spaces() crash.
     PadWith = Right(PadWith,1)
     Result = ReplaceString(Spaces(PadLeft - StringLength), " ", PadWith, -1) + Result
 ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Convert to Hex-STRING, then pad left with "0x" & "0"s.
+/// Convert to Hex-STRING, then pad left with "0x" & "0"s.
 FUNCTION Hex2(StringMe AS INTEGER, PadLeft AS INTEGER)
     Result       AS STRING  : Result       = hex(StringMe)
     StringLength AS INTEGER : StringLength = len(Result)
-    IF StringLength >= PadLeft THEN EXITFUNCTION "0x"+Result // Prevent spaces() crash.
+    IF StringLength >= PadLeft THEN EXITFUNCTION "0x"+Result /// Prevent spaces() crash.
     Result = "0x"+ReplaceString(Spaces(PadLeft - StringLength)," ","0",-1) + Result
 ENDFUNCTION Result
 
@@ -24,7 +24,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Convert to STRING, then insert 'Comma' every 3 digits.
+/// Convert to STRING, then insert 'Comma' every 3 digits.
 FUNCTION CommaDelimit(StringMe AS INTEGER)
     Result       AS STRING  : Result       = ""
     NumberString AS STRING  : NumberString = str(StringMe)
@@ -47,7 +47,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Convert to STRING, then insert 'Comma' every 3 digits, then pad left with 'Spaces'.
+/// Convert to STRING, then insert 'Comma' every 3 digits, then pad left with 'Spaces'.
 FUNCTION PadCommaDelimit(StringMe AS INTEGER, PadLeft AS INTEGER)
     Result       AS STRING  : Result       = ""
     NumberString AS STRING  : NumberString = str(StringMe)
@@ -67,7 +67,7 @@ FUNCTION PadCommaDelimit(StringMe AS INTEGER, PadLeft AS INTEGER)
         NEXT iDigit
     ENDIF
     ResultLength AS INTEGER : ResultLength = len(Result)
-    IF ResultLength >= PadLeft THEN EXITFUNCTION Result // Prevent spaces() crash.
+    IF ResultLength >= PadLeft THEN EXITFUNCTION Result /// Prevent spaces() crash.
     Result = Spaces(PadLeft - ResultLength) + Result
 ENDFUNCTION Result
 
