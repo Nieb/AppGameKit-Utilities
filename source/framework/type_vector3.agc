@@ -362,7 +362,7 @@ FUNCTION prj3(Point REF AS Vec3, LinePointA REF AS Vec3, LinePointB REF AS Vec3)
     DotAP_AB AS FLOAT : DotAP_AB = (Delta_AP_X * Delta_AB_X) + (Delta_AP_Y * Delta_AB_Y) + (Delta_AP_Z * Delta_AB_Z)
     DotAB_AB AS FLOAT : DotAB_AB = (Delta_AB_X * Delta_AB_X) + (Delta_AB_Y * Delta_AB_Y) + (Delta_AB_Z * Delta_AB_Z) // This is almost Pythagorean.  It's the Squared Length of Delta_AB.
 
-    ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB AS FLOAT // lol
+    ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB AS FLOAT // lol.
     ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB = DotAP_AB / DotAB_AB
 
     Result AS Vec3
