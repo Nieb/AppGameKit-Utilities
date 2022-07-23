@@ -2,15 +2,17 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION DrawVert(Vert REF AS Vec3, Size AS FLOAT, ClrABGR AS INTEGER)
-    CamLook AS Vec3
-    CamLook.y =              cos( GetCameraAngleX(1) ) // Length of XZ.
-    CamLook.x =  CamLook.y * sin( GetCameraAngleY(1) )
-    CamLook.z = -CamLook.y * cos( GetCameraAngleY(1) ) // Z is inverted.
-    CamLook.y =             -sin( GetCameraAngleX(1) ) // Actual Y value.
-    CamPos AS Vec3
-    CamPos = add3(vec3(GetCameraX(1), GetCameraY(1), -GetCameraZ(1)), mul3f(CamLook, 0.0625+0.001))
+    IF 1 /// Prevent GetScreenPosFrom3D() from barfing.
+        CamLook AS Vec3
+        CamLook.y =              cos( GetCameraAngleX(1) ) // Length of XZ.
+        CamLook.x =  CamLook.y * sin( GetCameraAngleY(1) )
+        CamLook.z = -CamLook.y * cos( GetCameraAngleY(1) ) // Z is inverted.
+        CamLook.y =             -sin( GetCameraAngleX(1) ) // Actual Y value.
+        CamPos AS Vec3
+        CamPos = add3(vec3(GetCameraX(1), GetCameraY(1), -GetCameraZ(1)), mul3f(CamLook, 0.0625+0.001))
 
-    IF dot3(CamLook, sub3(Vert, CamPos)) <= 0.0 THEN EXITFUNCTION // Is Vert behind Camera?
+        IF dot3(CamLook, sub3(Vert, CamPos)) <= 0.0 THEN EXITFUNCTION // Is Vert behind Camera?
+    ENDIF
 
     DrawEllipse( GetScreenXFrom3D(Vert.x,Vert.y,-Vert.z), GetScreenYFrom3D(Vert.x,Vert.y,-Vert.z), Size,Size, ClrABGR,ClrABGR, 1 )
 ENDFUNCTION
@@ -27,22 +29,24 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION DrawEdge(VertA AS Vec3, VertB AS Vec3, ClrABGR AS INTEGER)
-    CamLook AS Vec3
-    CamLook.y =              cos( GetCameraAngleX(1) ) // Length of XZ.
-    CamLook.x =  CamLook.y * sin( GetCameraAngleY(1) )
-    CamLook.z = -CamLook.y * cos( GetCameraAngleY(1) ) // Z is inverted.
-    CamLook.y =             -sin( GetCameraAngleX(1) ) // Actual Y value.
-    CamPos AS Vec3
-    CamPos = add3(vec3(GetCameraX(1),GetCameraY(1),-GetCameraZ(1)), mul3f(CamLook, 0.0625+0.001))
+    IF 1 /// Prevent GetScreenPosFrom3D() from barfing.
+        CamLook AS Vec3
+        CamLook.y =              cos( GetCameraAngleX(1) ) // Length of XZ.
+        CamLook.x =  CamLook.y * sin( GetCameraAngleY(1) )
+        CamLook.z = -CamLook.y * cos( GetCameraAngleY(1) ) // Z is inverted.
+        CamLook.y =             -sin( GetCameraAngleX(1) ) // Actual Y value.
+        CamPos AS Vec3
+        CamPos = add3(vec3(GetCameraX(1),GetCameraY(1),-GetCameraZ(1)), mul3f(CamLook, 0.0625+0.001))
 
-    VertA_IsBehindCamera AS INTEGER = 0
-    VertB_IsBehindCamera AS INTEGER = 0
-    IF dot3(CamLook, sub3(VertA, CamPos)) < 0.0 THEN VertA_IsBehindCamera = 1
-    IF dot3(CamLook, sub3(VertB, CamPos)) < 0.0 THEN VertB_IsBehindCamera = 1
+        VertA_IsBehindCamera AS INTEGER = 0
+        VertB_IsBehindCamera AS INTEGER = 0
+        IF dot3(CamLook, sub3(VertA, CamPos)) < 0.0 THEN VertA_IsBehindCamera = 1
+        IF dot3(CamLook, sub3(VertB, CamPos)) < 0.0 THEN VertB_IsBehindCamera = 1
 
-    IF     VertA_IsBehindCamera AND VertB_IsBehindCamera : EXITFUNCTION
-    ELSEIF VertA_IsBehindCamera : VertA = IRayVsIPlane( VertA, nrm3(sub3(VertB,VertA)), CamPos, CamLook )
-    ELSEIF VertB_IsBehindCamera : VertB = IRayVsIPlane( VertB, nrm3(sub3(VertA,VertB)), CamPos, CamLook )
+        IF     VertA_IsBehindCamera AND VertB_IsBehindCamera : EXITFUNCTION
+        ELSEIF VertA_IsBehindCamera : VertA = IRayVsIPlane( VertA, nrm3(sub3(VertB,VertA)), CamPos, CamLook )
+        ELSEIF VertB_IsBehindCamera : VertB = IRayVsIPlane( VertB, nrm3(sub3(VertA,VertB)), CamPos, CamLook )
+        ENDIF
     ENDIF
 
     DrawLine( GetScreenXFrom3D(VertA.x,VertA.y,-VertA.z),GetScreenYFrom3D(VertA.x,VertA.y,-VertA.z),  GetScreenXFrom3D(VertB.x,VertB.y,-VertB.z),GetScreenYFrom3D(VertB.x,VertB.y,-VertB.z),  ClrABGR,ClrABGR )
