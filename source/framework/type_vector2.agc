@@ -147,7 +147,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION inv2(VecA REF AS Vec2) // "Invert" (Additive Inverse) 'VecA'.
+FUNCTION inv2(VecA REF AS Vec2) // "Invert" (Additive Inverse) of 'VecA'.
     Result AS Vec2
     Result.x = -VecA.x
     Result.y = -VecA.y
@@ -188,7 +188,7 @@ ENDFUNCTION Result
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION setlen2(VecA REF AS Vec2, NewLength AS FLOAT) // "Set Length"  'VecA' scaled to 'NewLength'.
+FUNCTION setlen2(VecA REF AS Vec2, NewLength AS FLOAT) // "Set Length"  'VecA' scaled to 'NewLength'.      lnn2() "Lengthen"  lng() "Length"   ( Make overload of len()?  1arg=getlength, 2args=setlength )
     Result AS Vec2
     IF VecA.x = 0.0 AND VecA.y = 0.0
         Result.x = 0.0
@@ -304,34 +304,32 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//FUNCTION prj2(Point REF AS Vec2, LinePointA REF AS Vec2, LinePointB REF AS Vec2) // "Projection"  Get ClosestPointOnLine from Point.
-//    Delta_AP_X AS FLOAT : Delta_AP_X = Point.x - LinePointA.x
-//    Delta_AP_Y AS FLOAT : Delta_AP_Y = Point.y - LinePointA.y
-//
-//    Delta_AB_X AS FLOAT : Delta_AB_X = LinePointB.x - LinePointA.x
-//    Delta_AB_Y AS FLOAT : Delta_AB_Y = LinePointB.y - LinePointA.y
-//
-//    DotAP_AB AS FLOAT : DotAP_AB = (Delta_AP_X * Delta_AB_X) + (Delta_AP_Y * Delta_AB_Y) + (Delta_AP_Z * Delta_AB_Z)
-//    DotAB_AB AS FLOAT : DotAB_AB = (Delta_AB_X * Delta_AB_X) + (Delta_AB_Y * Delta_AB_Y) + (Delta_AB_Z * Delta_AB_Z) // This is almost Pythagorean.    It's the Squared Length of Delta_AB.
-//
-//    ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB AS FLOAT // lol
-//    ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB = DotAP_AB / DotAB_AB
-//
-//    Result AS Vec2
-//    Result.x = LinePointA.x + (Delta_AB_X * ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB)
-//    Result.y = LinePointA.y + (Delta_AB_Y * ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB)
-//    Result.z = LinePointA.z + (Delta_AB_Z * ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB)
-//ENDFUNCTION Result
+FUNCTION prj2(Point REF AS Vec2, LinePointA REF AS Vec2, LinePointB REF AS Vec2) // "Projection"  Get ClosestPointOnLine from Point.
+    Delta_AP_X AS FLOAT : Delta_AP_X = Point.x - LinePointA.x
+    Delta_AP_Y AS FLOAT : Delta_AP_Y = Point.y - LinePointA.y
+
+    Delta_AB_X AS FLOAT : Delta_AB_X = LinePointB.x - LinePointA.x
+    Delta_AB_Y AS FLOAT : Delta_AB_Y = LinePointB.y - LinePointA.y
+
+    DotAP_AB AS FLOAT : DotAP_AB = (Delta_AP_X * Delta_AB_X) + (Delta_AP_Y * Delta_AB_Y)
+    DotAB_AB AS FLOAT : DotAB_AB = (Delta_AB_X * Delta_AB_X) + (Delta_AB_Y * Delta_AB_Y) // This is almost Pythagorean.    It's the Squared Length of Delta_AB.
+
+    ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB AS FLOAT // lol
+    ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB = DotAP_AB / DotAB_AB
+
+    Result AS Vec2
+    Result.x = LinePointA.x + (Delta_AB_X * ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB)
+    Result.y = LinePointA.y + (Delta_AB_Y * ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB)
+ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//FUNCTION prj2n(Point REF AS Vec2, LinePos REF AS Vec2, LineNrm REF AS Vec2) // "Projection"  Get ClosestPointOnLine from Point.
-//    DotAP_AB AS FLOAT : DotAP_AB = ((Point.x - LinePos.x) * LineNrm.x) + ((Point.y - LinePos.y) * LineNrm.y) + ((Point.z - LinePos.z) * LineNrm.z)
-//    Result AS Vec2
-//    Result.x = LinePos.x + (LineNrm.x * DotAP_AB)
-//    Result.y = LinePos.y + (LineNrm.y * DotAP_AB)
-//    Result.z = LinePos.z + (LineNrm.z * DotAP_AB)
-//ENDFUNCTION Result
+FUNCTION prj2n(Point REF AS Vec2, LinePos REF AS Vec2, LineNrm REF AS Vec2) // "Projection"  Get ClosestPointOnLine from Point.
+    DotAP_AB AS FLOAT : DotAP_AB = ((Point.x - LinePos.x) * LineNrm.x) + ((Point.y - LinePos.y) * LineNrm.y)
+    Result AS Vec2
+    Result.x = LinePos.x + (LineNrm.x * DotAP_AB)
+    Result.y = LinePos.y + (LineNrm.y * DotAP_AB)
+ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
