@@ -15,7 +15,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION IRayVsIPlane(RayPos REF AS Vec3, RayNrm REF AS Vec3,  // "Infinite-Ray vs Infinite-Plane"
-                      PlnPos REF AS Vec3, PlnNrm     AS Vec3)
+                      PlnPos REF AS Vec3, PlnNrm REF AS Vec3)
     HitPos AS Vec3
     WhichSide AS FLOAT : WhichSide = dot3(PlnNrm, sub3(RayPos, PlnPos))
     Dot_RayNrm_PlnNrm AS FLOAT : Dot_RayNrm_PlnNrm = -dot3(RayNrm, PlnNrm)
@@ -83,7 +83,7 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION iRayVsAAB(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayNrmRecip REF AS Vec3,   // "Infinite-Ray vs Axis-Aligned-Box"
                    BoxPos REF AS Vec3, BoxSiz REF AS Vec3)
-    // Distance to bounds Planes from RayPos, for 3 Axis' Min & Max, 6 total.
+    // Distance to bounds Planes from RayPos, for 3 Axes Min & Max, 6 total.
     DistMinX AS FLOAT : DistMinX = (BoxPos.x            - RayPos.x) * RayNrmRecip.x  // We can avoid div here by using (1.0 / RayNormal).
     DistMaxX AS FLOAT : DistMaxX = (BoxPos.x + BoxSiz.x - RayPos.x) * RayNrmRecip.x
     DistMinY AS FLOAT : DistMinY = (BoxPos.y            - RayPos.y) * RayNrmRecip.y
@@ -104,7 +104,7 @@ FUNCTION iRayVsAAB(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayNrmRecip REF AS Ve
     //        DistMinX  ^
     //               DistMaxX
 
-    // Reorient Min<-->Max Relative to RayPos.
+    // Reorient Min<-->Max relative to RayPos.
     HoldMe AS FLOAT
     IF (DistMinX > DistMaxX) : HoldMe = DistMinX : DistMinX = DistMaxX : DistMaxX = HoldMe : ENDIF // max(DistMinX, DistMaxX)
     IF (DistMinY > DistMaxY) : HoldMe = DistMinY : DistMinY = DistMaxY : DistMaxY = HoldMe : ENDIF // max(DistMinY, DistMaxY)
@@ -142,7 +142,7 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION RayVsTriangle(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, TriVrt AS Vec3[], BackFaceTest AS INTEGER)
+FUNCTION RayVsTriangle(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, TriVrt REF AS Vec3[], BackFaceTest AS INTEGER)
     HitPos AS Vec3
 
   //TriVrt[0] = TriVrt[0]
@@ -179,6 +179,7 @@ ENDFUNCTION HitPos
 FUNCTION RayVsTriMesh(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, TriMesh REF AS Vec3[], BackFaceTest AS INTEGER)
 
     // Option to stop at first Hit, or to register all hits, or closest hit?
+    Hits AS Vec3[]
 
     HitPos AS Vec3
 
@@ -225,6 +226,12 @@ ENDFUNCTION HitPos
 FUNCTION IRayVsSphere(RayPos REF AS Vec3, RayNrm REF AS Vec3, SphPos REF AS Vec3, SphRad AS FLOAT)
 
     HitPos AS Vec3
+
+    /// Is RayPos inside the Sphere?
+    ///     HitPos = RayPos
+
+    /// Project SphPos onto Ray-Line, is this point inside the Sphere?
+    ///     HitPos = ...
 
 ENDFUNCTION HitPos
 
