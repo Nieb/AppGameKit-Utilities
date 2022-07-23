@@ -394,7 +394,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION AngleToVec3( Theta AS FLOAT, Axis AS INTEGER )
+FUNCTION AngleToVec3(Theta AS FLOAT, Axis AS INTEGER)
     Theta = -Theta // Theta is inverted.
     Result AS Vec3
     IF     Axis = 0 // Axis X, point will be on plane spanning YZ.
@@ -615,9 +615,9 @@ FUNCTION rot3m(Point REF AS Vec3, ThetaVec REF AS Vec3) // "Rotate" 'Point' arou
         Axis.y = ThetaVec.y * ThetaRcp
         Axis.z = ThetaVec.z * ThetaRcp
 
-        iCosT AS FLOAT : iCosT = 1.0 - cos(Theta) // "Inverse Cosine Theta".
-         CosT AS FLOAT :  CosT =       cos(Theta)
-         SinT AS FLOAT :  SinT =       sin(Theta)
+        iCosT AS FLOAT : iCosT = 1.0-cos(Theta) // "Inverse Cosine Theta".
+         CosT AS FLOAT :  CosT =     cos(Theta)
+         SinT AS FLOAT :  SinT =     sin(Theta)
 
         Result AS Vec3
         Result.x = ( Point.x * (Axis.x*Axis.x*iCosT +        CosT) )  +  ( Point.y * (Axis.y*Axis.x*iCosT - Axis.z*SinT) )  +  ( Point.z * (Axis.z*Axis.x*iCosT + Axis.y*SinT) )
