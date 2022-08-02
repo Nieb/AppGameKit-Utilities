@@ -16,8 +16,8 @@ FUNCTION TEST_type_vector2()
     Prjct2_Pos AS Vec2 : Prjct2_Pos = prj2n(Mouse1_Pos, LineA_Pos, nrm2(sub2(LineB_Pos, LineA_Pos)))
 
 
-    DrawLine2(LineA_Pos,   LineB_Pos,   0xFF777777)
-    DrawLine2(Mouse1_Pos,  Prjct2_Pos,  0xFF99BB99)
+    DrawLine_(LineA_Pos,   LineB_Pos,   0xFF777777)
+    DrawLine_(Mouse1_Pos,  Prjct2_Pos,  0xFF99BB99)
 
     DrawPoint(LineA_Pos, 3, 0xFFBBBBBB)
     DrawPoint(LineB_Pos, 3, 0xFFBBBBBB)
