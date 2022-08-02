@@ -25,7 +25,7 @@ InitializeColor()
 InitializeVector2()
 InitializeVector3()
 
-CurrentTest AS INTEGER = 1
+CurrentTest AS INTEGER = 21
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +73,9 @@ DO
 LOOP
 END
 
+/// Garbage in, garbage out.
+///     There are no safety checks and no validity checks.
+///     Use this library at your own peril.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +92,7 @@ END
 #Include "source/framework/input_mouse.agc"    : #Include "source/test/input_mouse.agc"
 #Include "source/framework/interpolation.agc"  : #Include "source/test/interpolation.agc"
 #Include "source/framework/math.agc"           : #Include "source/test/math.agc"
+#Include "source/framework/math_const.agc"     : #Include "source/test/math_const.agc"
 #Include "source/framework/shader.agc"         : #Include "source/test/shader.agc"
 #Include "source/framework/signeddistance.agc" : #Include "source/test/signeddistance.agc"
 #Include "source/framework/time.agc"           : #Include "source/test/time.agc"
