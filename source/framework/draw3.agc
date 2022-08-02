@@ -19,7 +19,7 @@ ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION DrawVert2(Vert REF AS Vec3, Size AS FLOAT, Clr REF AS RGBA)
+FUNCTION DrawVertC(Vert REF AS Vec3, Size AS FLOAT, Clr REF AS RGBA)
     ClrABGR AS INTEGER : ClrABGR = (Clr.a << 24) + (Clr.b << 16) + (Clr.g <<  8) + Clr.r
     DrawEllipse( GetScreenXFrom3D(Vert.x,Vert.y,-Vert.z), GetScreenYFrom3D(Vert.x,Vert.y,-Vert.z), Size,Size, ClrABGR,ClrABGR, 1 )
 ENDFUNCTION
@@ -54,7 +54,7 @@ ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION DrawEdge2(VertA REF AS Vec3, VertB REF AS Vec3, Clr REF AS RGBA)
+FUNCTION DrawEdgeC(VertA REF AS Vec3, VertB REF AS Vec3, Clr REF AS RGBA)
     ClrABGR AS INTEGER : ClrABGR = (Clr.a << 24) + (Clr.b << 16) + (Clr.g <<  8) + Clr.r
     DrawLine( GetScreenXFrom3D(VertA.x,VertA.y,-VertA.z),GetScreenYFrom3D(VertA.x,VertA.y,-VertA.z),  GetScreenXFrom3D(VertB.x,VertB.y,-VertB.z),GetScreenYFrom3D(VertB.x,VertB.y,-VertB.z),  ClrABGR,ClrABGR )
 ENDFUNCTION
