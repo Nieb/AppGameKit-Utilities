@@ -12,6 +12,8 @@ TYPE MouseType
     RayPos    AS Vec3
     RayNrm    AS Vec3
     RayNrmRcp AS Vec3 // "Reciprocal"
+
+    //Visible AS INTEGER
 ENDTYPE
 GLOBAL Mouse AS MouseType
 
