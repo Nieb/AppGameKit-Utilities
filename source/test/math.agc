@@ -36,3 +36,6 @@ ENDFUNCTION
 /// NEXT i
 
 
+
+// atan( Rise / Run ) = SlopeAngle
+
