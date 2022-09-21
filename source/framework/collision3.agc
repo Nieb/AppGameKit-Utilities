@@ -178,7 +178,7 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION RayVsTriMesh(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, TriMesh REF AS Vec3[], BackFaceTest AS INTEGER)
 
-    // Option to stop at first Hit, or to register all hits, or closest hit?
+    // Option to stop at first Hit, or to register all hits, then closest hit, or all hits sorted in order?
     Hits AS Vec3[]
 
     HitPos AS Vec3
@@ -231,7 +231,8 @@ FUNCTION IRayVsSphere(RayPos REF AS Vec3, RayNrm REF AS Vec3, SphPos REF AS Vec3
     ///     HitPos = RayPos
 
     /// Project SphPos onto Ray-Line, is this point inside the Sphere?
-    ///     HitPos = ...
+    ///     Then, determine HitPos...
+    ///         HitPos = ...
 
 ENDFUNCTION HitPos
 
