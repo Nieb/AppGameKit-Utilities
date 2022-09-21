@@ -22,7 +22,7 @@ FUNCTION UpdateTime()
     Time.ThisFrame = Timer()
     Time.Delta     = Time.ThisFrame - Time.LastFrame
 
-    // This maintains time precision to: ~0.000_001 seconds.
+    // This maintains time precision to: ~0.000_001 seconds. (microsecond)
     IF Time.ThisFrame >= 60.0
         ResetTimer()
         Time.LastFrame = Timer()
