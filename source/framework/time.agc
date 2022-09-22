@@ -23,7 +23,7 @@ FUNCTION UpdateTime()
     Time.Delta     = Time.ThisFrame - Time.LastFrame
 
     // This maintains time precision to: ~0.000_001 seconds. (microsecond)
-    IF Time.ThisFrame >= 60.0
+    IF (Time.ThisFrame >= 60.0)
         ResetTimer()
         Time.LastFrame = Timer()
     ELSE
@@ -31,7 +31,7 @@ FUNCTION UpdateTime()
     ENDIF
 
     // This effectively makes all Deltas 'Units per-second'.
-    IF Time.Speed > 0.0
+    IF (Time.Speed > 0.0)
         Time.Multiplier = 60.0 * Time.Delta * Time.Speed
     ELSE
         Time.Multiplier = 60.0 * Time.Delta
