@@ -32,21 +32,21 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION signf(SignMe AS FLOAT)
-    IF     SignMe > 0.0 : EXITFUNCTION  1.0
-    ELSEIF SignMe < 0.0 : EXITFUNCTION -1.0
+    IF     (SignMe > 0.0) : EXITFUNCTION  1.0
+    ELSEIF (SignMe < 0.0) : EXITFUNCTION -1.0
     ENDIF
 ENDFUNCTION 0.0
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION minf(FltA AS FLOAT, FltB AS FLOAT) : IF FltA < FltB THEN EXITFUNCTION FltA : ENDFUNCTION FltB
-FUNCTION maxf(FltA AS FLOAT, FltB AS FLOAT) : IF FltA > FltB THEN EXITFUNCTION FltA : ENDFUNCTION FltB
+FUNCTION minf(FltA AS FLOAT, FltB AS FLOAT) : IF (FltA < FltB) THEN EXITFUNCTION FltA : ENDFUNCTION FltB
+FUNCTION maxf(FltA AS FLOAT, FltB AS FLOAT) : IF (FltA > FltB) THEN EXITFUNCTION FltA : ENDFUNCTION FltB
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION clampf(ClampMe AS FLOAT, ClampMin AS FLOAT, ClampMax AS FLOAT)
-    IF     ClampMe < ClampMin : EXITFUNCTION ClampMin
-    ELSEIF ClampMe > ClampMax : EXITFUNCTION ClampMax
+    IF     (ClampMe < ClampMin) : EXITFUNCTION ClampMin
+    ELSEIF (ClampMe > ClampMax) : EXITFUNCTION ClampMax
     ENDIF
 ENDFUNCTION ClampMe
 
@@ -67,8 +67,8 @@ ENDFUNCTION WrapMe
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION rndto(RoundMe AS FLOAT, RoundTo AS FLOAT)
     ModMe AS FLOAT : ModMe = fmod(RoundMe, RoundTo)
-    IF     ModMe > 0.0 : IF (ModMe >  RoundTo*0.5) : RoundMe = RoundMe + (RoundTo -     ModMe ) : ELSE : RoundMe = RoundMe -     ModMe  : ENDIF
-    ELSEIF ModMe < 0.0 : IF (ModMe < -RoundTo*0.5) : RoundMe = RoundMe - (RoundTo - abs(ModMe)) : ELSE : RoundMe = RoundMe + abs(ModMe) : ENDIF
+    IF     (ModMe > 0.0) : IF (ModMe >  RoundTo*0.5) : RoundMe = RoundMe + (RoundTo -     ModMe ) : ELSE : RoundMe = RoundMe -     ModMe  : ENDIF
+    ELSEIF (ModMe < 0.0) : IF (ModMe < -RoundTo*0.5) : RoundMe = RoundMe - (RoundTo - abs(ModMe)) : ELSE : RoundMe = RoundMe + abs(ModMe) : ENDIF
     ENDIF
 ENDFUNCTION RoundMe
 
@@ -111,7 +111,7 @@ FUNCTION Sigmoid(X AS FLOAT) : ENDFUNCTION 1.0 / (1.0 + Euler^-X) // Returns Y.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Sigmoid centered at (0,0):
-//  https://www.desmos.com/calculator/civpexqum0
+//  https://www.desmos.com/calculator/b6f0ca1hhh
 FUNCTION Sigmoidish(X AS FLOAT, PosX AS FLOAT, PosY AS FLOAT, SclX AS FLOAT, SclY AS FLOAT) // "Position", "Scale".
 ENDFUNCTION PosY - 1.0 + (  SclY / (1.0 + (Euler^(-X*SclX)) * (Euler^(PosX*SclX)))  )
 
