@@ -5,7 +5,7 @@
 FUNCTION PadStr(StringMe AS FLOAT, PadWith AS STRING, PadLeft AS INTEGER, TruncRight AS INTEGER)
     Result       AS STRING  : Result       = str(StringMe, TruncRight) /// Fun fact:  TruncRight = -1  will show all digits.
     StringLength AS INTEGER : StringLength = len(str(StringMe,0)) //  len(str(floor(StringMe)))   len(left(Result,FindString(Result,".")-1))
-    IF StringLength >= PadLeft THEN EXITFUNCTION Result /// Prevent spaces() crash.
+    IF (StringLength >= PadLeft) THEN EXITFUNCTION Result /// Prevent spaces() crash.
     PadWith = Right(PadWith,1)
     Result = ReplaceString(Spaces(PadLeft - StringLength), " ", PadWith, -1) + Result
 ENDFUNCTION Result
@@ -16,7 +16,7 @@ ENDFUNCTION Result
 FUNCTION Hex2(StringMe AS INTEGER, PadLeft AS INTEGER)
     Result       AS STRING  : Result       = hex(StringMe)
     StringLength AS INTEGER : StringLength = len(Result)
-    IF StringLength >= PadLeft THEN EXITFUNCTION "0x"+Result /// Prevent spaces() crash.
+    IF (StringLength >= PadLeft) THEN EXITFUNCTION "0x"+Result /// Prevent spaces() crash.
     Result = "0x"+ReplaceString(Spaces(PadLeft - StringLength)," ","0",-1) + Result
 ENDFUNCTION Result
 
@@ -30,9 +30,9 @@ FUNCTION CommaDelimit(StringMe AS INTEGER)
     NumberString AS STRING  : NumberString = str(StringMe)
     NumberLength AS INTEGER : NumberLength = len(NumberString)
     iDigit       AS INTEGER
-    IF StringMe > -1000 AND StringMe < 1000
+    IF (StringMe > -1000 AND StringMe < 1000)
         Result = str(StringMe)
-    ELSEIF StringMe < 0
+    ELSEIF (StringMe < 0)
         FOR iDigit = 1 TO NumberLength
             Result = mid(NumberString, NumberLength-iDigit+1, 1) + Result
             IF NOT (mod(iDigit,3) OR iDigit >= NumberLength-1) THEN Result = "," + Result
@@ -53,9 +53,9 @@ FUNCTION PadCommaDelimit(StringMe AS INTEGER, PadLeft AS INTEGER)
     NumberString AS STRING  : NumberString = str(StringMe)
     NumberLength AS INTEGER : NumberLength = len(NumberString)
     iDigit       AS INTEGER
-    IF StringMe > -1000 AND StringMe < 1000
+    IF (StringMe > -1000 AND StringMe < 1000)
         Result = str(StringMe)
-    ELSEIF StringMe < 0
+    ELSEIF (StringMe < 0)
         FOR iDigit = 1 TO NumberLength
             Result = mid(NumberString, NumberLength-iDigit+1, 1) + Result
             IF NOT (mod(iDigit,3) OR iDigit >= NumberLength-1) THEN Result = "," + Result
