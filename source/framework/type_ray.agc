@@ -116,6 +116,9 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION SetRayNrm(RayA REF AS Ray, NrmX AS FLOAT, NrmY AS FLOAT, NrmZ AS FLOAT)
     Result AS Ray
+
+    Result = RayA
+
     Result.Nrm.x = NrmX
     Result.Nrm.y = NrmY
     Result.Nrm.z = NrmZ
@@ -129,6 +132,9 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION SetLineNrm(LineA REF AS Line, NrmX AS FLOAT, NrmY AS FLOAT)
     Result AS Line
+
+    Result = LineA
+
     Result.Nrm.x = NrmX
     Result.Nrm.y = NrmY
 
