@@ -2,21 +2,21 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION sign(SignMe AS INTEGER)
-    IF     SignMe > 0 : EXITFUNCTION  1
-    ELSEIF SignMe < 0 : EXITFUNCTION -1
+    IF     (SignMe > 0) : EXITFUNCTION  1
+    ELSEIF (SignMe < 0) : EXITFUNCTION -1
     ENDIF
 ENDFUNCTION 0
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION min(IntA AS INTEGER, IntB AS INTEGER) : IF IntA < IntB THEN EXITFUNCTION IntA : ENDFUNCTION IntB
-FUNCTION max(IntA AS INTEGER, IntB AS INTEGER) : IF IntA > IntB THEN EXITFUNCTION IntA : ENDFUNCTION IntB
+FUNCTION min(IntA AS INTEGER, IntB AS INTEGER) : IF (IntA < IntB) THEN EXITFUNCTION IntA : ENDFUNCTION IntB
+FUNCTION max(IntA AS INTEGER, IntB AS INTEGER) : IF (IntA > IntB) THEN EXITFUNCTION IntA : ENDFUNCTION IntB
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION clamp(ClampMe AS INTEGER, ClampMin AS INTEGER, ClampMax AS INTEGER)
-    IF     ClampMe < ClampMin : EXITFUNCTION ClampMin
-    ELSEIF ClampMe > ClampMax : EXITFUNCTION ClampMax
+    IF     (ClampMe < ClampMin) : EXITFUNCTION ClampMin
+    ELSEIF (ClampMe > ClampMax) : EXITFUNCTION ClampMax
     ENDIF
 ENDFUNCTION ClampMe
 
