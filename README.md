@@ -3,12 +3,12 @@ A collection of various functions.
 
 ***This is all very much a work in progress.***
 
-### A note about vectors & thetas:
+### A note about Vectors & Thetas:
 
 ![Coordinate System](README_Coordinate_System.png)
 
 
-### Common Abbreviations
+### Common Abbreviations:
 
     Pos = "Position"
     Rot = "Rotation"
