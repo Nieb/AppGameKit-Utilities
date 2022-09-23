@@ -25,7 +25,7 @@ FUNCTION TEST_ColorGamma()
     //==================================================================================================================
     iX AS INTEGER
 
-    sRGB   AS FLOAT
+    sRGB     AS FLOAT
     InputWhy AS FLOAT
     ColorInp AS INTEGER
 
