@@ -15,18 +15,14 @@ A collection of various functions.
     Siz = "Size"
     Scl = "Scale"
     Nrm = "Normal"
+    Rds = "Radius"
+    Dir = "Direction" or "Directory"
 
+    Dlt = "Delta"
 
     Deg = "Degrees"
-    Rad = "Radian" or "Radius" ???
-
-    Rds = "Radius" ???
-
+    Rad = "Radian"
 
     Inv = "Invert"
     Cmp = "Complement"
     Rcp = "Reciprocal"
-
-
-    Dlt = "Delta"
-
