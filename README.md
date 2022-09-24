@@ -17,6 +17,7 @@ A collection of various functions.
     Nrm = "Normal"
     Rds = "Radius"
     Dir = "Direction" or "Directory"
+    Clr = "Color"
 
     Dlt = "Delta"
 
