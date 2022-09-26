@@ -88,7 +88,7 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Axis-Aligned-Box"
-FUNCTION iRayVsAAB(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayNrmRecip REF AS Vec3,
+FUNCTION IRayVsAAB(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayNrmRecip REF AS Vec3,
                    BoxPos REF AS Vec3, BoxSiz REF AS Vec3)
     // Distance to bounds Planes from RayPos, for 3 Axes Min & Max, 6 total.
     DistMinX AS FLOAT : DistMinX = (BoxPos.x            - RayPos.x) * RayNrmRecip.x  // We can avoid div here by using (1.0 / RayNormal).
@@ -150,8 +150,6 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION RayVsTriangle(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, TriVrt AS Vec3[], BackFaceTest AS INTEGER)
-    HitPos AS Vec3
-
   //TriVrt[0] = TriVrt[0]
     TriVrt[1] = sub3(TriVrt[1], TriVrt[0])  // TriVrt1 In TriangleSpace.
     TriVrt[2] = sub3(TriVrt[2], TriVrt[0])  // TriVrt2 In TriangleSpace.
@@ -160,22 +158,23 @@ FUNCTION RayVsTriangle(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, 
     RayPosLocal AS Vec3 : RayPosLocal = sub3(TriVrt[0], RayPos)  // RayPos In TriangleSpace.
     Crs_RPL_RN  AS Vec3 : Crs_RPL_RN  = crs3(RayPosLocal, RayNrm)
 
-    Dtrmnt AS FLOAT : Dtrmnt = dot3(RayNrm, TriNrm)  // Determinant.
+    Dtrmnt AS FLOAT : Dtrmnt = dot3(RayNrm, TriNrm)  // "Determinant".
 
     Dot_CrsRPLRN_V2 AS FLOAT
     Dot_CrsRPLRN_V1 AS FLOAT
     Dot_RPL_TN  AS FLOAT
     IF Dtrmnt >= 0.0
         IF NOT BackFaceTest : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 < 0.0 OR Dot_CrsRPLRN_V2                   > Dtrmnt     ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 < 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 > Dtrmnt     ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_RPL_TN      =  dot3(RayPosLocal, TriNrm)    : IF (Dot_RPL_TN      < 0.0 OR Dot_RPL_TN  > RayLen*Dtrmnt OR Dtrmnt < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 < 0.0 OR Dot_CrsRPLRN_V2                   >        Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 < 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 >        Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_RPL_TN      =  dot3(RayPosLocal, TriNrm)    : IF (Dot_RPL_TN      < 0.0 OR Dot_RPL_TN                        > RayLen*Dtrmnt OR Dtrmnt < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
     ELSE
-        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 > 0.0 OR Dot_CrsRPLRN_V2                   < Dtrmnt       ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 > 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 < Dtrmnt       ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_RPL_TN      =  dot3(RayPosLocal, TriNrm)    : IF (Dot_RPL_TN      > 0.0 OR Dot_RPL_TN                        < RayLen*Dtrmnt) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 > 0.0 OR Dot_CrsRPLRN_V2                   <        Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 > 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 <        Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_RPL_TN      =  dot3(RayPosLocal, TriNrm)    : IF (Dot_RPL_TN      > 0.0 OR Dot_RPL_TN                        < RayLen*Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
     ENDIF
 
+    HitPos AS Vec3
     // DtrmntRcp = 1.0 / Dtrmnt
     // HitDist   = Dot_RPL_TN * DtrmntRcp
     HitPos = add3(    RayPos, mul3f( RayNrm, Dot_RPL_TN * (1.0/Dtrmnt) )    )
@@ -189,8 +188,7 @@ FUNCTION RayVsTriMesh(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, T
     // or to register all hits, then return closest hit,
     // or return all hits sorted in order?
 
-    Hits AS Vec3[]
-
+    Hits   AS Vec3[]
     HitPos AS Vec3
 
 ////  //TriVrt[0] = TriVrt[0]
@@ -234,15 +232,15 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION PointVsSphere(PntPos REF AS Vec3,
-                       SphPos REF AS Vec3, SphRad AS FLOAT)
+                       SphPos REF AS Vec3, SphRds AS FLOAT)
 
     Delta_X  AS FLOAT : Delta_X  = SphPos.x - PntPos.x
     Delta_Y  AS FLOAT : Delta_Y  = SphPos.y - PntPos.y
-    Distance AS FLOAT : Distance = SphPos.z - PntPos.z // 'Delta_Z'.
+    Distance AS FLOAT : Distance = SphPos.z - PntPos.z // "Delta_Z".
 
     Distance = sqrt(Delta_X*Delta_X + Delta_Y*Delta_Y + Distance*Distance)
 
-    IF Distance <= SphRad THEN EXITFUNCTION 1
+    IF Distance <= SphRds THEN EXITFUNCTION 1
 
 ENDFUNCTION 0
 
@@ -250,7 +248,7 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION IRayVsSphere(RayPos REF AS Vec3, RayNrm REF AS Vec3,
-                      SphPos REF AS Vec3, SphRad AS FLOAT)
+                      SphPos REF AS Vec3, SphRds AS FLOAT)
 
     HitPos AS Vec3
 
