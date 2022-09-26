@@ -63,48 +63,48 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//FUNCTION DrawCircle(CirPos REF AS Vec3, CirRot REF AS Vec3, CirRad AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA)
+//FUNCTION DrawCircle(Cir_Pos REF AS Vec3, Cir_Rot REF AS Vec3, Cir_Rds AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA)
 
 // Todo.
 // Produce draw points, then rotate them.
 
 //    ClrABGR AS INTEGER : ClrABGR = (Clr.a << 24) + (Clr.b << 16) + (Clr.g <<  8) + Clr.r
-//    aX AS FLOAT : aX = CirRad
+//    aX AS FLOAT : aX = Cir_Rds
 //    aZ AS FLOAT : aZ = 0.0
 //    bX AS FLOAT
 //    bZ AS FLOAT
 //    IF Segments > 1
 //        StepSize AS FLOAT : StepSize = PiH / Segments
 //        iSeg AS INTEGER
-//        FOR iSeg = 1 TO Segments-1 // xpos = x-CirRad TO xpos <= x+CirRad STEP 0.1
-//            bX = cosrad(StepSize * iSeg)*CirRad
-//            bZ = sinrad(StepSize * iSeg)*CirRad
-//            DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z-bZ), ClrABGR,ClrABGR)
-//            DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z-bZ), ClrABGR,ClrABGR)
-//            DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z+bZ), ClrABGR,ClrABGR)
-//            DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z+bZ), ClrABGR,ClrABGR)
+//        FOR iSeg = 1 TO Segments-1 // xpos = x-Cir_Rds TO xpos <= x+Cir_Rds STEP 0.1
+//            bX = cosrad(StepSize * iSeg)*Cir_Rds
+//            bZ = sinrad(StepSize * iSeg)*Cir_Rds
+//            DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+//            DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+//            DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
+//            DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
 //            aX = bX
 //            aZ = bZ
 //        NEXT iSeg
 //    ENDIF
 //    bX = 0.0
-//    bZ = CirRad
-//    DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z-bZ), ClrABGR,ClrABGR)
-//    DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z-bZ), ClrABGR,ClrABGR)
-//    DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z+bZ), ClrABGR,ClrABGR)
-//    DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z+bZ), ClrABGR,ClrABGR)
+//    bZ = Cir_Rds
+//    DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+//    DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+//    DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
+//    DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
 //ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION DrawCircleX(CirPos REF AS Vec3, CirRad AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA) // Circle drawn on plane that spans Z & Y.
+FUNCTION DrawCircleX(Cir_Pos REF AS Vec3, Cir_Rds AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA) // Circle drawn on plane that spans Z & Y.
     ClrABGR AS INTEGER : ClrABGR = (Clr.a << 24) + (Clr.b << 16) + (Clr.g <<  8) + Clr.r
 
     //VertX AS FLOAT[Segments] : VertX[0] =
-    //VertY AS FLOAT[Segments] : VertY[0] = CirRad
+    //VertY AS FLOAT[Segments] : VertY[0] = Cir_Rds
     //VertZ AS FLOAT[Segments] : VertZ[0] = 0.0
 
-    aY AS FLOAT : aY = CirRad
+    aY AS FLOAT : aY = Cir_Rds
     aZ AS FLOAT : aZ = 0.0
     bY AS FLOAT
     bZ AS FLOAT
@@ -112,29 +112,29 @@ FUNCTION DrawCircleX(CirPos REF AS Vec3, CirRad AS FLOAT, Segments AS INTEGER, C
         StepSize AS FLOAT : StepSize = PiH / Segments
         iSeg AS INTEGER
         FOR iSeg = 1 TO Segments-1
-            bY = cosrad(StepSize*iSeg) * CirRad
-            bZ = sinrad(StepSize*iSeg) * CirRad
-            DrawLine(GetScreenXFrom3D(CirPos.x,CirPos.y+aY,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x,CirPos.y+aY,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x,CirPos.y+bY,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x,CirPos.y+bY,-CirPos.z-bZ), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x,CirPos.y-aY,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x,CirPos.y-aY,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x,CirPos.y-bY,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x,CirPos.y-bY,-CirPos.z-bZ), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x,CirPos.y-aY,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x,CirPos.y-aY,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x,CirPos.y-bY,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x,CirPos.y-bY,-CirPos.z+bZ), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x,CirPos.y+aY,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x,CirPos.y+aY,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x,CirPos.y+bY,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x,CirPos.y+bY,-CirPos.z+bZ), ClrABGR,ClrABGR)
+            bY = cosrad(StepSize*iSeg) * Cir_Rds
+            bZ = sinrad(StepSize*iSeg) * Cir_Rds
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y+aY,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y+aY,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y+bY,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y+bY,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y-aY,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y-aY,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y-bY,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y-bY,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y-aY,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y-aY,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y-bY,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y-bY,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y+aY,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y+aY,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y+bY,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y+bY,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
             aY = bY
             aZ = bZ
         NEXT iSeg
     ENDIF
     bY = 0.0
-    bZ = CirRad
-    DrawLine(GetScreenXFrom3D(CirPos.x,CirPos.y+aY,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x,CirPos.y+aY,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x,CirPos.y+bY,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x,CirPos.y+bY,-CirPos.z-bZ), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x,CirPos.y-aY,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x,CirPos.y-aY,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x,CirPos.y-bY,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x,CirPos.y-bY,-CirPos.z-bZ), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x,CirPos.y-aY,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x,CirPos.y-aY,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x,CirPos.y-bY,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x,CirPos.y-bY,-CirPos.z+bZ), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x,CirPos.y+aY,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x,CirPos.y+aY,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x,CirPos.y+bY,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x,CirPos.y+bY,-CirPos.z+bZ), ClrABGR,ClrABGR)
+    bZ = Cir_Rds
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y+aY,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y+aY,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y+bY,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y+bY,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y-aY,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y-aY,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y-bY,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y-bY,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y-aY,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y-aY,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y-bY,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y-bY,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y+aY,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y+aY,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x,Cir_Pos.y+bY,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x,Cir_Pos.y+bY,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
 ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION DrawCircleY(CirPos REF AS Vec3, CirRad AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA) // Circle drawn on plane that spans X & Z.
+FUNCTION DrawCircleY(Cir_Pos REF AS Vec3, Cir_Rds AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA) // Circle drawn on plane that spans X & Z.
     ClrABGR AS INTEGER : ClrABGR = (Clr.a << 24) + (Clr.b << 16) + (Clr.g <<  8) + Clr.r
-    aX AS FLOAT : aX = CirRad
+    aX AS FLOAT : aX = Cir_Rds
     aZ AS FLOAT : aZ = 0.0
     bX AS FLOAT
     bZ AS FLOAT
@@ -142,29 +142,29 @@ FUNCTION DrawCircleY(CirPos REF AS Vec3, CirRad AS FLOAT, Segments AS INTEGER, C
         StepSize AS FLOAT : StepSize = PiH / Segments
         iSeg AS INTEGER
         FOR iSeg = 1 TO Segments-1
-            bX = cosrad(StepSize*iSeg) * CirRad
-            bZ = sinrad(StepSize*iSeg) * CirRad
-            DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z-bZ), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z-bZ), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z+bZ), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z+bZ), ClrABGR,ClrABGR)
+            bX = cosrad(StepSize*iSeg) * Cir_Rds
+            bZ = sinrad(StepSize*iSeg) * Cir_Rds
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
             aX = bX
             aZ = bZ
         NEXT iSeg
     ENDIF
     bX = 0.0
-    bZ = CirRad
-    DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z-bZ), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z-aZ), GetScreenYFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z-aZ), GetScreenXFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z-bZ), GetScreenYFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z-bZ), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x-aX,CirPos.y,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x-bX,CirPos.y,-CirPos.z+bZ), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z+aZ), GetScreenYFrom3D(CirPos.x+aX,CirPos.y,-CirPos.z+aZ), GetScreenXFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z+bZ), GetScreenYFrom3D(CirPos.x+bX,CirPos.y,-CirPos.z+bZ), ClrABGR,ClrABGR)
+    bZ = Cir_Rds
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z-aZ), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z-bZ), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z-bZ), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y,-Cir_Pos.z+aZ), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z+bZ), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y,-Cir_Pos.z+bZ), ClrABGR,ClrABGR)
 ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION DrawCircleZ(CirPos REF AS Vec3, CirRad AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA) // Circle drawn on plane that spans X & Y.
+FUNCTION DrawCircleZ(Cir_Pos REF AS Vec3, Cir_Rds AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA) // Circle drawn on plane that spans X & Y.
     ClrABGR AS INTEGER : ClrABGR = (Clr.a << 24) + (Clr.b << 16) + (Clr.g <<  8) + Clr.r
-    aX AS FLOAT : aX = CirRad
+    aX AS FLOAT : aX = Cir_Rds
     aY AS FLOAT : aY = 0.0
     bX AS FLOAT
     bY AS FLOAT
@@ -172,21 +172,21 @@ FUNCTION DrawCircleZ(CirPos REF AS Vec3, CirRad AS FLOAT, Segments AS INTEGER, C
         StepSize AS FLOAT : StepSize = PiH / Segments
         iSeg AS INTEGER
         FOR iSeg = 1 TO Segments-1
-            bX = cosrad(StepSize*iSeg) * CirRad
-            bY = sinrad(StepSize*iSeg) * CirRad
-            DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y-aY,-CirPos.z), GetScreenYFrom3D(CirPos.x+aX,CirPos.y-aY,-CirPos.z), GetScreenXFrom3D(CirPos.x+bX,CirPos.y-bY,-CirPos.z), GetScreenYFrom3D(CirPos.x+bX,CirPos.y-bY,-CirPos.z), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y-aY,-CirPos.z), GetScreenYFrom3D(CirPos.x-aX,CirPos.y-aY,-CirPos.z), GetScreenXFrom3D(CirPos.x-bX,CirPos.y-bY,-CirPos.z), GetScreenYFrom3D(CirPos.x-bX,CirPos.y-bY,-CirPos.z), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y+aY,-CirPos.z), GetScreenYFrom3D(CirPos.x-aX,CirPos.y+aY,-CirPos.z), GetScreenXFrom3D(CirPos.x-bX,CirPos.y+bY,-CirPos.z), GetScreenYFrom3D(CirPos.x-bX,CirPos.y+bY,-CirPos.z), ClrABGR,ClrABGR)
-            DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y+aY,-CirPos.z), GetScreenYFrom3D(CirPos.x+aX,CirPos.y+aY,-CirPos.z), GetScreenXFrom3D(CirPos.x+bX,CirPos.y+bY,-CirPos.z), GetScreenYFrom3D(CirPos.x+bX,CirPos.y+bY,-CirPos.z), ClrABGR,ClrABGR)
+            bX = cosrad(StepSize*iSeg) * Cir_Rds
+            bY = sinrad(StepSize*iSeg) * Cir_Rds
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y-aY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y-aY,-Cir_Pos.z), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y-bY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y-bY,-Cir_Pos.z), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y-aY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y-aY,-Cir_Pos.z), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y-bY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y-bY,-Cir_Pos.z), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y+aY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y+aY,-Cir_Pos.z), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y+bY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y+bY,-Cir_Pos.z), ClrABGR,ClrABGR)
+            DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y+aY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y+aY,-Cir_Pos.z), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y+bY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y+bY,-Cir_Pos.z), ClrABGR,ClrABGR)
             aX = bX
             aY = bY
         NEXT iSeg
     ENDIF
     bX = 0.0
-    bY = CirRad
-    DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y-aY,-CirPos.z), GetScreenYFrom3D(CirPos.x+aX,CirPos.y-aY,-CirPos.z), GetScreenXFrom3D(CirPos.x+bX,CirPos.y-bY,-CirPos.z), GetScreenYFrom3D(CirPos.x+bX,CirPos.y-bY,-CirPos.z), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y-aY,-CirPos.z), GetScreenYFrom3D(CirPos.x-aX,CirPos.y-aY,-CirPos.z), GetScreenXFrom3D(CirPos.x-bX,CirPos.y-bY,-CirPos.z), GetScreenYFrom3D(CirPos.x-bX,CirPos.y-bY,-CirPos.z), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x-aX,CirPos.y+aY,-CirPos.z), GetScreenYFrom3D(CirPos.x-aX,CirPos.y+aY,-CirPos.z), GetScreenXFrom3D(CirPos.x-bX,CirPos.y+bY,-CirPos.z), GetScreenYFrom3D(CirPos.x-bX,CirPos.y+bY,-CirPos.z), ClrABGR,ClrABGR)
-    DrawLine(GetScreenXFrom3D(CirPos.x+aX,CirPos.y+aY,-CirPos.z), GetScreenYFrom3D(CirPos.x+aX,CirPos.y+aY,-CirPos.z), GetScreenXFrom3D(CirPos.x+bX,CirPos.y+bY,-CirPos.z), GetScreenYFrom3D(CirPos.x+bX,CirPos.y+bY,-CirPos.z), ClrABGR,ClrABGR)
+    bY = Cir_Rds
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y-aY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y-aY,-Cir_Pos.z), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y-bY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y-bY,-Cir_Pos.z), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y-aY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y-aY,-Cir_Pos.z), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y-bY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y-bY,-Cir_Pos.z), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x-aX,Cir_Pos.y+aY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x-aX,Cir_Pos.y+aY,-Cir_Pos.z), GetScreenXFrom3D(Cir_Pos.x-bX,Cir_Pos.y+bY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x-bX,Cir_Pos.y+bY,-Cir_Pos.z), ClrABGR,ClrABGR)
+    DrawLine(GetScreenXFrom3D(Cir_Pos.x+aX,Cir_Pos.y+aY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x+aX,Cir_Pos.y+aY,-Cir_Pos.z), GetScreenXFrom3D(Cir_Pos.x+bX,Cir_Pos.y+bY,-Cir_Pos.z), GetScreenYFrom3D(Cir_Pos.x+bX,Cir_Pos.y+bY,-Cir_Pos.z), ClrABGR,ClrABGR)
 ENDFUNCTION
 
