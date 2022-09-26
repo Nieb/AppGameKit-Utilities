@@ -25,11 +25,11 @@ ENDFUNCTION 0
 //  "Point VS Circle"
 FUNCTION PointVsCircle( Pnt_Pos REF AS Vec2,
                         Cir_Pos REF AS Vec2,
-                        Cir_Rad AS FLOAT )
+                        Cir_Rds AS FLOAT )
     //==============================================================================================================================================================================
     Delta_X AS FLOAT : Delta_X = Pnt_Pos.x - Cir_Pos.x
     Delta_Y AS FLOAT : Delta_Y = Pnt_Pos.y - Cir_Pos.y
-    IF (Delta_X*Delta_X + Delta_Y*Delta_Y < Cir_Rad*Cir_Rad) THEN EXITFUNCTION 1
+    IF (Delta_X*Delta_X + Delta_Y*Delta_Y < Cir_Rds*Cir_Rds) THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
 ENDFUNCTION 0
 
@@ -37,13 +37,13 @@ ENDFUNCTION 0
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  "Circle VS Circle"
 FUNCTION CircleVsCircle( Cir1_Pos REF AS Vec2,
-                         Cir1_Rad AS FLOAT,
+                         Cir1_Rds AS FLOAT,
                          Cir2_Pos REF AS Vec2,
-                         Cir2_Rad AS FLOAT )
+                         Cir2_Rds AS FLOAT )
     //==============================================================================================================================================================================
     Delta_X AS FLOAT : Delta_X = Cir1_Pos.x - Cir2_Pos.x
     Delta_Y AS FLOAT : Delta_Y = Cir1_Pos.y - Cir2_Pos.y
-    IF (sqrt(Delta_X*Delta_X + Delta_Y*Delta_Y) < Cir1_Rad + Cir2_Rad) THEN EXITFUNCTION 1
+    IF (sqrt(Delta_X*Delta_X + Delta_Y*Delta_Y) < Cir1_Rds + Cir2_Rds) THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
 ENDFUNCTION 0
 
@@ -53,14 +53,14 @@ ENDFUNCTION 0
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  "Circle VS Axis-Aligned Rectangle"
 FUNCTION CircleVsAar( Cir_Pos REF AS Vec2,
-                      Cir_Rad AS FLOAT,
+                      Cir_Rds AS FLOAT,
                       Rct_Pos REF AS Vec2,  // TopLeft.
                       Rct_Siz REF AS Vec2 ) // Width, Height.
     //==============================================================================================================================================================================
-    Cir_Lf AS FLOAT : Cir_Lf = Cir_Pos.x - Cir_Rad // "Circle-Left"
-    Cir_Tp AS FLOAT : Cir_Tp = Cir_Pos.y - Cir_Rad // "Circle-Top"
-    Cir_Rt AS FLOAT : Cir_Rt = Cir_Pos.x + Cir_Rad // "Circle-Right"
-    Cir_Bm AS FLOAT : Cir_Bm = Cir_Pos.y + Cir_Rad // "Circle-Bottom"
+    Cir_Lf AS FLOAT : Cir_Lf = Cir_Pos.x - Cir_Rds // "Circle-Left"
+    Cir_Tp AS FLOAT : Cir_Tp = Cir_Pos.y - Cir_Rds // "Circle-Top"
+    Cir_Rt AS FLOAT : Cir_Rt = Cir_Pos.x + Cir_Rds // "Circle-Right"
+    Cir_Bm AS FLOAT : Cir_Bm = Cir_Pos.y + Cir_Rds // "Circle-Bottom"
     //==============================================================================================================================================================================
     Rct_Rt AS FLOAT : Rct_Rt = Rct_Pos.x + Rct_Siz.x // "Rectangle-Right"
     Rct_Bm AS FLOAT : Rct_Bm = Rct_Pos.y + Rct_Siz.y // "Rectangle-Bottom"
@@ -79,7 +79,7 @@ FUNCTION CircleVsAar( Cir_Pos REF AS Vec2,
     IF     (Cir_Pos.y < Rct_Pos.y) : Delta_Y = Cir_Pos.y - Rct_Pos.y
     ELSEIF (Cir_Pos.y > Rct_Bm   ) : Delta_Y = Cir_Pos.y - Rct_Bm
     ENDIF
-    IF (Delta_X*Delta_X + Delta_Y*Delta_Y <= Cir_Rad*Cir_Rad) THEN EXITFUNCTION 1
+    IF (Delta_X*Delta_X + Delta_Y*Delta_Y <= Cir_Rds*Cir_Rds) THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
 ENDFUNCTION 0
 
@@ -94,9 +94,9 @@ ENDFUNCTION 0
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  "Point VS Line"
-FUNCTION PointVsLine( Pnt_Pos  REF AS Vec2,
-                      Lin_PosA REF AS Vec2,
-                      Lin_PosB REF AS Vec2,
+FUNCTION PointVsLine( Pnt_Pos   REF AS Vec2,
+                      Lin_PosA  REF AS Vec2,
+                      Lin_PosB  REF AS Vec2,
                       Tolerance AS FLOAT )
 
     DeltaPA_X AS FLOAT : DeltaPA_X = Lin_PosA.x - Pnt_Pos.x
@@ -250,7 +250,8 @@ FUNCTION LineVsAar( LinPosA REF AS Vec2,
     ENDIF
     IF Rct_Pos.x > Lin_Rt OR Rct_Pos.y > Lin_Bm OR Rct_Rt < Lin_Lf OR Rct_Bm < Lin_Tp THEN EXITFUNCTION 0
     //==============================================================================================================================================================================
-    // Is PointB in Rectangle?                 Check PointB first, it's typically used as the destination of a movement vector.
+    // Is PointB in Rectangle?
+    // Check PointB first, it's typically used as the destination of a movement vector.
     IF (LinPosB.x < Rct_Rt AND LinPosB.x >= Rct_Pos.x AND LinPosB.y < Rct_Bm AND LinPosB.y >= Rct_Pos.y) THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
     // Is PointA in Rectangle?
@@ -266,12 +267,12 @@ FUNCTION LineVsAar( LinPosA REF AS Vec2,
     //==============================================================================================================================================================================
     n1 AS FLOAT
     n2 AS FLOAT
-    d AS FLOAT
-    r AS FLOAT
-    s AS FLOAT
+    d  AS FLOAT
+    r  AS FLOAT
+    s  AS FLOAT
     //==============================================================================================================================================================================
-    Delta_2A_2B_X = Rct_Rt - Rct_Pos.x
-    Delta_2A_2B_Y = Rct_Pos.y     - Rct_Pos.y
+    Delta_2A_2B_X = Rct_Rt    - Rct_Pos.x
+    Delta_2A_2B_Y = Rct_Pos.y - Rct_Pos.y
     Delta_1A_2A_X = LinPosA.x - Rct_Pos.x
     Delta_1A_2A_Y = LinPosA.y - Rct_Pos.y
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
@@ -281,8 +282,8 @@ FUNCTION LineVsAar( LinPosA REF AS Vec2,
     s = n2 / d
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
-    Delta_2A_2B_X = Rct_Rt  - Rct_Rt
-    Delta_2A_2B_Y = Rct_Bm - Rct_Pos.y
+    Delta_2A_2B_X = Rct_Rt    - Rct_Rt
+    Delta_2A_2B_Y = Rct_Bm    - Rct_Pos.y
     Delta_1A_2A_X = LinPosA.x - Rct_Rt
     Delta_1A_2A_Y = LinPosA.y - Rct_Pos.y
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
@@ -292,8 +293,8 @@ FUNCTION LineVsAar( LinPosA REF AS Vec2,
     s = n2 / d
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
-    Delta_2A_2B_X = Rct_Pos.x      - Rct_Rt
-    Delta_2A_2B_Y = Rct_Bm - Rct_Bm
+    Delta_2A_2B_X = Rct_Pos.x - Rct_Rt
+    Delta_2A_2B_Y = Rct_Bm    - Rct_Bm
     Delta_1A_2A_X = LinPosA.x - Rct_Rt
     Delta_1A_2A_Y = LinPosA.y - Rct_Bm
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
@@ -322,13 +323,13 @@ ENDFUNCTION 0
 //  "Line VS Circle"
 FUNCTION LineVsCircle( LinPosA AS Vec2,
                        LinPosB AS Vec2,
-                       Cir_Pos  AS Vec2,
-                       Cir_Rad  AS FLOAT )
+                       Cir_Pos AS Vec2,
+                       Cir_Rds AS FLOAT )
     //==============================================================================================================================================================================
-    Cir_Lf AS FLOAT : Cir_Lf = Cir_Pos.x - Cir_Rad
-    Cir_Tp AS FLOAT : Cir_Tp = Cir_Pos.y - Cir_Rad
-    Cir_Rt AS FLOAT : Cir_Rt = Cir_Pos.x + Cir_Rad
-    Cir_Bm AS FLOAT : Cir_Bm = Cir_Pos.y + Cir_Rad
+    Cir_Lf AS FLOAT : Cir_Lf = Cir_Pos.x - Cir_Rds
+    Cir_Tp AS FLOAT : Cir_Tp = Cir_Pos.y - Cir_Rds
+    Cir_Rt AS FLOAT : Cir_Rt = Cir_Pos.x + Cir_Rds
+    Cir_Bm AS FLOAT : Cir_Bm = Cir_Pos.y + Cir_Rds
     //==============================================================================================================================================================================
     // Is Area-of-Line over Area-of-Circle?
     Lin_Lf AS FLOAT
@@ -343,17 +344,17 @@ FUNCTION LineVsCircle( LinPosA AS Vec2,
     ENDIF
     IF (Cir_Lf > Lin_Rt OR Cir_Tp > Lin_Bm OR Cir_Rt < Lin_Lf OR Cir_Bm < Lin_Tp) THEN EXITFUNCTION 0
     //==============================================================================================================================================================================
-    CirRad_Sqrd AS FLOAT : CirRad_Sqrd = Cir_Rad*Cir_Rad
+    CirRds_Sqrd AS FLOAT : CirRds_Sqrd = Cir_Rds*Cir_Rds
     //==============================================================================================================================================================================
     // Is PointB in Circle?                 Check PointB first, it's typically used as the destination of a movement vector.
     DeltaBC_X AS FLOAT : DeltaBC_X = Cir_Pos.x - LinPosB.x
     DeltaBC_Y AS FLOAT : DeltaBC_Y = Cir_Pos.y - LinPosB.y
-    IF (DeltaBC_X*DeltaBC_X + DeltaBC_Y*DeltaBC_Y) < CirRad_Sqrd THEN EXITFUNCTION 1
+    IF (DeltaBC_X*DeltaBC_X + DeltaBC_Y*DeltaBC_Y) < CirRds_Sqrd THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
     // Is PointA in Circle?
     DeltaAC_X AS FLOAT : DeltaAC_X = Cir_Pos.x - LinPosA.x
     DeltaAC_Y AS FLOAT : DeltaAC_Y = Cir_Pos.y - LinPosA.y
-    IF (DeltaAC_X*DeltaAC_X + DeltaAC_Y*DeltaAC_Y) < CirRad_Sqrd THEN EXITFUNCTION 1
+    IF (DeltaAC_X*DeltaAC_X + DeltaAC_Y*DeltaAC_Y) < CirRds_Sqrd THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
     // PointD = Point Projected on Line from CircleCenter.
     DeltaAB_X AS FLOAT : DeltaAB_X = LinPosB.x - LinPosA.x
@@ -368,7 +369,7 @@ FUNCTION LineVsCircle( LinPosA AS Vec2,
     // Is PointD in Circle?
     DeltaDC_X AS FLOAT : DeltaDC_X = PointDX - Cir_Pos.x
     DeltaDC_Y AS FLOAT : DeltaDC_Y = PointDY - Cir_Pos.y
-    IF (DeltaDC_X*DeltaDC_X + DeltaDC_Y*DeltaDC_Y) < CirRad_Sqrd THEN EXITFUNCTION 1
+    IF (DeltaDC_X*DeltaDC_X + DeltaDC_Y*DeltaDC_Y) < CirRds_Sqrd THEN EXITFUNCTION 1
     //==============================================================================================================================================================================
 ENDFUNCTION 0
 
