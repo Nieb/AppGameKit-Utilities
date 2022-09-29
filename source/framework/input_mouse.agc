@@ -9,6 +9,7 @@ TYPE MouseType
 
     Lock AS INTEGER
 
+    //Ray AS Ray
     RayPos    AS Vec3
     RayNrm    AS Vec3
     RayNrmRcp AS Vec3 // "Reciprocal"
