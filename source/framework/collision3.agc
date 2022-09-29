@@ -15,57 +15,58 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Point vs Plane" ???
-FUNCTION WhichSideOfPlane(PntPos REF AS Vec3,
-                          PlnPos REF AS Vec3, PlnNrm REF AS Vec3)
-    IF dot3(PlnNrm, sub3(PntPos, PlnPos)) >= 0.0 THEN EXITFUNCTION 1 // 'Point' is on 'PlnNrm' side.
-ENDFUNCTION 0 // 'Point' is behind plane side.
+FUNCTION WhichSideOfPlane(Pnt_Pos REF AS Vec3,
+                          Pln_Pos REF AS Vec3, Pln_Nrm REF AS Vec3)
+    IF dot3(Pln_Nrm, sub3(Pnt_Pos, Pln_Pos)) >= 0.0 THEN EXITFUNCTION 1 // 'Point' is on 'Pln_Nrm' side.
+ENDFUNCTION 0 // 'Point' is behind plane.
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Infinite-Plane"
-FUNCTION IRayVsIPlane(RayPos REF AS Vec3, RayNrm REF AS Vec3,
-                      PlnPos REF AS Vec3, PlnNrm REF AS Vec3)
+FUNCTION IRayVsIPlane(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
+                      Pln_Pos REF AS Vec3, Pln_Nrm REF AS Vec3)
     HitPos AS Vec3
-    WhichSide AS FLOAT : WhichSide = dot3(PlnNrm, sub3(RayPos, PlnPos))
-    Dot_RayNrm_PlnNrm AS FLOAT : Dot_RayNrm_PlnNrm = -dot3(RayNrm, PlnNrm)
-    IF WhichSide >= 0.0 : IF (Dot_RayNrm_PlnNrm <  EPSILON) : HitPos.x = MISS : Print("WhichSide = 1") : EXITFUNCTION HitPos : ENDIF
-    ELSE                : IF (Dot_RayNrm_PlnNrm > -EPSILON) : HitPos.x = MISS : Print("WhichSide = 0") : EXITFUNCTION HitPos : ENDIF
+    WhichSide AS FLOAT : WhichSide = dot3(Pln_Nrm, sub3(Ray_Pos, Pln_Pos))
+    Dot_RayNrm_PlnNrm AS FLOAT : Dot_RayNrm_PlnNrm = -dot3(Ray_Nrm, Pln_Nrm)
+    IF WhichSide >= 0.0 : IF (Dot_RayNrm_PlnNrm <  EPSILON) : Print("WhichSide = 1") : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+    ELSE                : IF (Dot_RayNrm_PlnNrm > -EPSILON) : Print("WhichSide = 0") : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
     ENDIF
-    // Project Ray onto Plane from RayPos along RayNrm.
+
+    // Project Ray onto Plane from Ray_Pos along Ray_Nrm.
     Distance AS FLOAT : Distance = WhichSide / Dot_RayNrm_PlnNrm
-    HitPos = add3( RayPos, mul3f(RayNrm, Distance) )
+    HitPos = add3( Ray_Pos, mul3f(Ray_Nrm, Distance) )
 ENDFUNCTION HitPos
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Infinite-Axis-Aligned-Plane"   Plane spans Z & Y.
-FUNCTION IRayVsIAAPlaneX(RayPos REF AS Vec3, RayNrm REF AS Vec3, PlnPosX AS FLOAT)
+FUNCTION IRayVsIAAPlaneX(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, PlnPosX AS FLOAT)
     HitPos AS Vec3
-    Distance AS FLOAT : Distance = (PlnPosX - RayPos.x) / RayNrm.x
+    Distance AS FLOAT : Distance = (PlnPosX - Ray_Pos.x) / Ray_Nrm.x
     IF (Distance < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-    HitPos = add3( RayPos, mul3f(RayNrm,Distance) )
+    HitPos = add3( Ray_Pos, mul3f(Ray_Nrm,Distance) )
 ENDFUNCTION HitPos
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Infinite-Axis-Aligned-Plane"   Plane spans X & Z.
-FUNCTION IRayVsIAAPlaneY(RayPos REF AS Vec3, RayNrm REF AS Vec3, PlnPosY AS FLOAT)
+FUNCTION IRayVsIAAPlaneY(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, PlnPosY AS FLOAT)
     HitPos AS Vec3
-    Distance AS FLOAT : Distance = (PlnPosY - RayPos.y) / RayNrm.y
+    Distance AS FLOAT : Distance = (PlnPosY - Ray_Pos.y) / Ray_Nrm.y
     IF (Distance < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-    HitPos = add3( RayPos, mul3f(RayNrm,Distance) )
+    HitPos = add3( Ray_Pos, mul3f(Ray_Nrm,Distance) )
 ENDFUNCTION HitPos
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Infinite-Axis-Aligned-Plane"   Plane spans X & Y.
-FUNCTION IRayVsIAAPlaneZ(RayPos REF AS Vec3, RayNrm REF AS Vec3, PlnPosZ AS FLOAT)
+FUNCTION IRayVsIAAPlaneZ(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, PlnPosZ AS FLOAT)
     HitPos AS Vec3
-    Distance AS FLOAT : Distance = (PlnPosZ - RayPos.z) / RayNrm.z
+    Distance AS FLOAT : Distance = (PlnPosZ - Ray_Pos.z) / Ray_Nrm.z
     IF (Distance < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-    HitPos = add3( RayPos, mul3f(RayNrm,Distance) )
+    HitPos = add3( Ray_Pos, mul3f(Ray_Nrm,Distance) )
 ENDFUNCTION HitPos
 
 
@@ -79,8 +80,8 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Point vs Axis-Aligned-Box"
-FUNCTION PointVsAAB(PntPos REF AS Vec3, BoxPos REF AS Vec3, BoxSiz REF AS Vec3)
-    IF (PntPos.x >= BoxPos.x AND PntPos.x < BoxPos.x+BoxSiz.x) AND (PntPos.y >= BoxPos.y AND PntPos.y < BoxPos.y+BoxSiz.y) AND (PntPos.z >= BoxPos.z AND PntPos.z < BoxPos.z+BoxSiz.z) THEN EXITFUNCTION 1
+FUNCTION PointVsAab(Pnt_Pos REF AS Vec3, Box_Pos REF AS Vec3, Box_Siz REF AS Vec3)
+    IF (Pnt_Pos.x >= Box_Pos.x AND Pnt_Pos.x < Box_Pos.x+Box_Siz.x) AND (Pnt_Pos.y >= Box_Pos.y AND Pnt_Pos.y < Box_Pos.y+Box_Siz.y) AND (Pnt_Pos.z >= Box_Pos.z AND Pnt_Pos.z < Box_Pos.z+Box_Siz.z) THEN EXITFUNCTION 1
 ENDFUNCTION 0
 
 
@@ -88,15 +89,15 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Axis-Aligned-Box"
-FUNCTION IRayVsAAB(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayNrmRecip REF AS Vec3,
-                   BoxPos REF AS Vec3, BoxSiz REF AS Vec3)
-    // Distance to bounds Planes from RayPos, for 3 Axes Min & Max, 6 total.
-    DistMinX AS FLOAT : DistMinX = (BoxPos.x            - RayPos.x) * RayNrmRecip.x  // We can avoid div here by using (1.0 / RayNormal).
-    DistMaxX AS FLOAT : DistMaxX = (BoxPos.x + BoxSiz.x - RayPos.x) * RayNrmRecip.x
-    DistMinY AS FLOAT : DistMinY = (BoxPos.y            - RayPos.y) * RayNrmRecip.y
-    DistMaxY AS FLOAT : DistMaxY = (BoxPos.y + BoxSiz.y - RayPos.y) * RayNrmRecip.y
-    DistMinZ AS FLOAT : DistMinZ = (BoxPos.z            - RayPos.z) * RayNrmRecip.z
-    DistMaxZ AS FLOAT : DistMaxZ = (BoxPos.z + BoxSiz.z - RayPos.z) * RayNrmRecip.z
+FUNCTION IRayVsAab(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRecip REF AS Vec3,
+                   Box_Pos REF AS Vec3, Box_Siz REF AS Vec3)
+    // Distance to bounds Planes from Ray_Pos, for 3 Axes Min & Max, 6 total.
+    DistMinX AS FLOAT : DistMinX = (Box_Pos.x             - Ray_Pos.x) * Ray_NrmRecip.x  // We can avoid div here by using (1.0 / RayNormal).
+    DistMaxX AS FLOAT : DistMaxX = (Box_Pos.x + Box_Siz.x - Ray_Pos.x) * Ray_NrmRecip.x
+    DistMinY AS FLOAT : DistMinY = (Box_Pos.y             - Ray_Pos.y) * Ray_NrmRecip.y
+    DistMaxY AS FLOAT : DistMaxY = (Box_Pos.y + Box_Siz.y - Ray_Pos.y) * Ray_NrmRecip.y
+    DistMinZ AS FLOAT : DistMinZ = (Box_Pos.z             - Ray_Pos.z) * Ray_NrmRecip.z
+    DistMaxZ AS FLOAT : DistMaxZ = (Box_Pos.z + Box_Siz.z - Ray_Pos.z) * Ray_NrmRecip.z
 
     //       +Y  |      |
     //           |      |                                          +Y -Z (far)
@@ -111,7 +112,7 @@ FUNCTION IRayVsAAB(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayNrmRecip REF AS Ve
     //        DistMinX  ^
     //               DistMaxX
 
-    // Reorient Min<-->Max relative to RayPos.
+    // Reorient Min<-->Max relative to Ray_Pos.
     HoldMe AS FLOAT
     IF (DistMinX > DistMaxX) : HoldMe = DistMinX : DistMinX = DistMaxX : DistMaxX = HoldMe : ENDIF // max(DistMinX, DistMaxX)
     IF (DistMinY > DistMaxY) : HoldMe = DistMinY : DistMinY = DistMaxY : DistMaxY = HoldMe : ENDIF // max(DistMinY, DistMaxY)
@@ -135,7 +136,7 @@ FUNCTION IRayVsAAB(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayNrmRecip REF AS Ve
     HitPos AS Vec3
     IF     (DistBack  <      0.0) : HitPos.x = MISS // Box is behind us.
     ELSEIF (DistFront > DistBack) : HitPos.x = MISS // Ray does not collide.
-    ELSE                          : HitPos   = add3( RayPos, mul3f(RayNrm,DistFront) ) // Get HitPosition.
+    ELSE                          : HitPos   = add3( Ray_Pos, mul3f(Ray_Nrm,DistFront) ) // Get HitPosition.
     ENDIF
 ENDFUNCTION HitPos
 
@@ -149,16 +150,16 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION RayVsTriangle(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, TriVrt AS Vec3[], BackFaceTest AS INTEGER)
+FUNCTION RayVsTriangle(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, RayLen AS FLOAT, TriVrt AS Vec3[], BackFaceTest AS INTEGER)
   //TriVrt[0] = TriVrt[0]
     TriVrt[1] = sub3(TriVrt[1], TriVrt[0])  // TriVrt1 In TriangleSpace.
     TriVrt[2] = sub3(TriVrt[2], TriVrt[0])  // TriVrt2 In TriangleSpace.
 
     TriNrm      AS Vec3 : TriNrm      = crs3(TriVrt[1], TriVrt[2])
-    RayPosLocal AS Vec3 : RayPosLocal = sub3(TriVrt[0], RayPos)  // RayPos In TriangleSpace.
-    Crs_RPL_RN  AS Vec3 : Crs_RPL_RN  = crs3(RayPosLocal, RayNrm)
+    RayPosLocal AS Vec3 : RayPosLocal = sub3(TriVrt[0], Ray_Pos)  // Ray_Pos In TriangleSpace.
+    Crs_RPL_RN  AS Vec3 : Crs_RPL_RN  = crs3(RayPosLocal, Ray_Nrm)
 
-    Dtrmnt AS FLOAT : Dtrmnt = dot3(RayNrm, TriNrm)  // "Determinant".
+    Dtrmnt AS FLOAT : Dtrmnt = dot3(Ray_Nrm, TriNrm)  // "Determinant".
 
     Dot_CrsRPLRN_V2 AS FLOAT
     Dot_CrsRPLRN_V1 AS FLOAT
@@ -175,14 +176,14 @@ FUNCTION RayVsTriangle(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, 
     ENDIF
 
     HitPos AS Vec3
-    // DtrmntRcp = 1.0 / Dtrmnt
-    // HitDist   = Dot_RPL_TN * DtrmntRcp
-    HitPos = add3(    RayPos, mul3f( RayNrm, Dot_RPL_TN * (1.0/Dtrmnt) )    )
+  //DtrmntRcp = 1.0 / Dtrmnt
+  //HitDist   = Dot_RPL_TN * DtrmntRcp
+    HitPos = add3(    Ray_Pos, mul3f( Ray_Nrm, Dot_RPL_TN * (1.0/Dtrmnt) )    )
 ENDFUNCTION HitPos
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION RayVsTriMesh(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, TriMesh REF AS Vec3[], BackFaceTest AS INTEGER)
+FUNCTION RayVsTriMesh(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, RayLen AS FLOAT, TriMesh REF AS Vec3[], BackFaceTest AS INTEGER)
 
     // Option to stop at first Hit,
     // or to register all hits, then return closest hit,
@@ -196,10 +197,10 @@ FUNCTION RayVsTriMesh(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, T
 ////    TriVrt[2] = sub3(TriVrt[2], TriVrt[0])  // TriVrt2 In TriangleSpace.
 ////
 ////    TriNrm      AS Vec3 : TriNrm      = crs3(TriVrt[1], TriVrt[2])
-////    RayPosLocal AS Vec3 : RayPosLocal = sub3(TriVrt[0], RayPos)  // RayPos In TriangleSpace.
-////    Crs_RPL_RN  AS Vec3 : Crs_RPL_RN  = crs3(RayPosLocal, RayNrm)
+////    RayPosLocal AS Vec3 : RayPosLocal = sub3(TriVrt[0], Ray_Pos)  // Ray_Pos In TriangleSpace.
+////    Crs_RPL_RN  AS Vec3 : Crs_RPL_RN  = crs3(RayPosLocal, Ray_Nrm)
 ////
-////    Dtrmnt AS FLOAT : Dtrmnt = dot3(RayNrm, TriNrm)  // Determinant.
+////    Dtrmnt AS FLOAT : Dtrmnt = dot3(Ray_Nrm, TriNrm)  // Determinant.
 ////
 ////    Dot_CrsRPLRN_V2 AS FLOAT
 ////    Dot_CrsRPLRN_V1 AS FLOAT
@@ -217,7 +218,7 @@ FUNCTION RayVsTriMesh(RayPos REF AS Vec3, RayNrm REF AS Vec3, RayLen AS FLOAT, T
 ////
 ////    // DtrmntRcp = 1.0 / Dtrmnt
 ////    // HitDist   = Dot_RPL_TN * DtrmntRcp
-////    HitPos = add3(    RayPos, mul3f( RayNrm, Dot_RPL_TN * (1.0/Dtrmnt) )    )
+////    HitPos = add3(    Ray_Pos, mul3f( Ray_Nrm, Dot_RPL_TN * (1.0/Dtrmnt) )    )
 
 ENDFUNCTION HitPos
 
@@ -231,31 +232,31 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION PointVsSphere(PntPos REF AS Vec3,
-                       SphPos REF AS Vec3, SphRds AS FLOAT)
+FUNCTION PointVsSphere(Pnt_Pos REF AS Vec3,
+                       Sph_Pos REF AS Vec3, Sph_Rds AS FLOAT)
 
-    Delta_X  AS FLOAT : Delta_X  = SphPos.x - PntPos.x
-    Delta_Y  AS FLOAT : Delta_Y  = SphPos.y - PntPos.y
-    Distance AS FLOAT : Distance = SphPos.z - PntPos.z // "Delta_Z".
+    Delta_X  AS FLOAT : Delta_X  = Sph_Pos.x - Pnt_Pos.x
+    Delta_Y  AS FLOAT : Delta_Y  = Sph_Pos.y - Pnt_Pos.y
+    Distance AS FLOAT : Distance = Sph_Pos.z - Pnt_Pos.z // "Delta_Z".
 
     Distance = sqrt(Delta_X*Delta_X + Delta_Y*Delta_Y + Distance*Distance)
 
-    IF Distance <= SphRds THEN EXITFUNCTION 1
+    IF Distance <= Sph_Rds THEN EXITFUNCTION 1
 
 ENDFUNCTION 0
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IRayVsSphere(RayPos REF AS Vec3, RayNrm REF AS Vec3,
-                      SphPos REF AS Vec3, SphRds AS FLOAT)
+FUNCTION IRayVsSphere(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
+                      Sph_Pos REF AS Vec3, Sph_Rds AS FLOAT)
 
     HitPos AS Vec3
 
-    /// Is RayPos inside the Sphere?
-    ///     HitPos = RayPos
+    /// Is Ray_Pos inside the Sphere?
+    ///     HitPos = Ray_Pos
 
-    /// Project SphPos onto Ray-Line, is this point inside the Sphere?
+    /// Project Sph_Pos onto Ray-Line, is this point inside the Sphere?
     ///     Then, determine HitPos...
     ///         HitPos = ...
 
