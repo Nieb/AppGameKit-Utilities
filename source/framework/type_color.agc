@@ -38,7 +38,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION InitializeColor()
-    // AGK does not support default values for UserTypes.
+    // AGK does not support default values for UserTypes nor Constant UserTypes.
     //====================================================================================================
     GLOBAL CLR_Blk AS RGBA : CLR_Blk = RGBA(  0,   0,   0, 255)
     GLOBAL CLR_Gry AS RGBA : CLR_Gry = RGBA(128, 128, 128, 255)
