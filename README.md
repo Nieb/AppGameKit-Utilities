@@ -24,6 +24,17 @@ A collection of various functions.
     Deg = "Degrees"
     Rad = "Radian"
 
+    Pnt = "Point"
+    Lin = "Line"
+
+    Cir = "Circle"
+    Tri = "Triangle"
+    Rct = "Rectangle"
+
+    Sph = "Sphere"
+    Box = "Right-Angled-Quadrilateral-Hexahedron" :P
+
     Inv = "Invert"
     Cmp = "Complement"
     Rcp = "Reciprocal"
+
