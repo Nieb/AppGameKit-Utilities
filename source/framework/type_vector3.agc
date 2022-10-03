@@ -205,7 +205,7 @@ ENDFUNCTION Result
 FUNCTION dst3(VecA AS Vec3, VecB AS Vec3) // "Distance" between 'VecA' and 'VecB'.
     Delta_X AS FLOAT : Delta_X = VecB.x - VecA.x
     Delta_Y AS FLOAT : Delta_Y = VecB.y - VecA.y
-    Result AS FLOAT : Result = VecB.z - VecA.z // Delta_Z
+    Result  AS FLOAT : Result  = VecB.z - VecA.z // Delta_Z
     Result = sqrt((Delta_X*Delta_X) + (Delta_Y*Delta_Y) + (Result*Result))
 ENDFUNCTION Result
 
@@ -214,16 +214,15 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION setlen3(VecA REF AS Vec3, NewLength AS FLOAT) // 'VecA' scaled to 'NewLength'.
     Result AS Vec3
-    IF (VecA.x = 0.0 AND VecA.y = 0.0 AND VecA.z = 0.0)
+    IF (VecA.x = 0.0 AND VecA.y = 0.0 AND VecA.z = 0.0) // Avoid Divide by Zero.
         Result.x = 0.0
         Result.y = 0.0
         Result.z = 0.0
     ELSE
-        Length AS FLOAT : Length = sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z)
-        Length = NewLength / Length
-        Result.x = VecA.x * Length
-        Result.y = VecA.y * Length
-        Result.z = VecA.z * Length
+        NewLength = NewLength / sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z) // Get Vector Scaler.  LengthNew / LengthOld.
+        Result.x = VecA.x * NewLength
+        Result.y = VecA.y * NewLength
+        Result.z = VecA.z * NewLength
     ENDIF
 ENDFUNCTION Result
 
@@ -231,13 +230,12 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION nrm3(VecA REF AS Vec3) // "Normalize"  'VecA' scaled to length of 1.0.
     Result AS Vec3
-    IF (VecA.x = 0.0 AND VecA.y = 0.0 AND VecA.z = 0.0)
+    IF (VecA.x = 0.0 AND VecA.y = 0.0 AND VecA.z = 0.0) // Avoid Divide by Zero.
         Result.x = 0.0
         Result.y = 0.0
         Result.z = 0.0
     ELSE
-        Length AS FLOAT : Length = sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z)
-        Length = 1.0 / Length
+        Length AS FLOAT : Length = 1.0 / sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z) // Get Vector Scaler.  LengthNew / LengthOld.
         Result.x = VecA.x * Length
         Result.y = VecA.y * Length
         Result.z = VecA.z * Length
@@ -248,7 +246,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION flr3(VecA REF AS Vec3) // "Floor"  Each component of 'VecA' rounded down.
+FUNCTION flr3(VecA REF AS Vec3) // "Floor" each component of 'VecA', rounded down.
     Result AS Vec3
     Result.x = floor(VecA.x)
     Result.y = floor(VecA.y)
@@ -257,7 +255,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION cil3(VecA REF AS Vec3) // "Ceiling"  Each component of 'VecA' rounded up.
+FUNCTION cil3(VecA REF AS Vec3) // "Ceiling" each component of 'VecA', rounded up.
     Result AS Vec3
     Result.x = ceil(VecA.x)
     Result.y = ceil(VecA.y)
@@ -266,7 +264,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rnd3(VecA REF AS Vec3) // "Round"  Each component of 'VecA' rounded to nearest Integer.
+FUNCTION rnd3(VecA REF AS Vec3) // "Round" each component of 'VecA' to nearest Integer.
     Result AS Vec3
     Result.x = round(VecA.x)
     Result.y = round(VecA.y)
@@ -275,7 +273,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rndto3(VecA REF AS Vec3, RoundTo AS FLOAT) // "Round"  Each component of 'VecA' rounded to nearest 'RoundTo'.    ( Make this an overload of round(). )
+FUNCTION rndto3(VecA REF AS Vec3, RoundTo AS FLOAT) // "Round" each component of 'VecA' to nearest 'RoundTo'.    ( Make this an overload of round(). )
     Result AS Vec3
     Result.x = fmod(VecA.x, RoundTo)
     Result.y = fmod(VecA.y, RoundTo)
@@ -350,35 +348,38 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION prj3(Point REF AS Vec3, LinePointA REF AS Vec3, LinePointB REF AS Vec3) // "Projection"  Get ClosestPointOnLine from 'Point'.
-    Delta_AP_X AS FLOAT : Delta_AP_X = Point.x - LinePointA.x
-    Delta_AP_Y AS FLOAT : Delta_AP_Y = Point.y - LinePointA.y
-    Delta_AP_Z AS FLOAT : Delta_AP_Z = Point.z - LinePointA.z
+FUNCTION prj3(Point      REF AS Vec3,                         // "Projection"  Get ClosestPointOnLine from 'Point'.
+              LinePointA REF AS Vec3, LinePointB REF AS Vec3)
+    Delta_AP_X AS FLOAT : Delta_AP_X = Point.x - LinePointA.x  // Point.x = ...   Could reuse Pinter var here.
+    Delta_AP_Y AS FLOAT : Delta_AP_Y = Point.y - LinePointA.y  // Point.y = ...
+    Delta_AP_Z AS FLOAT : Delta_AP_Z = Point.z - LinePointA.z  // Point.z = ...
 
-    Delta_AB_X AS FLOAT : Delta_AB_X = LinePointB.x - LinePointA.x
-    Delta_AB_Y AS FLOAT : Delta_AB_Y = LinePointB.y - LinePointA.y
-    Delta_AB_Z AS FLOAT : Delta_AB_Z = LinePointB.z - LinePointA.z
+    Delta_AB_X AS FLOAT : Delta_AB_X = LinePointB.x - LinePointA.x  // LinePoint?.x = ...   Could reuse one of the LinePoint vars here.
+    Delta_AB_Y AS FLOAT : Delta_AB_Y = LinePointB.y - LinePointA.y  // LinePoint?.y = ...
+    Delta_AB_Z AS FLOAT : Delta_AB_Z = LinePointB.z - LinePointA.z  // LinePoint?.z = ...
 
-    DotAP_AB AS FLOAT : DotAP_AB = (Delta_AP_X * Delta_AB_X) + (Delta_AP_Y * Delta_AB_Y) + (Delta_AP_Z * Delta_AB_Z)
-    DotAB_AB AS FLOAT : DotAB_AB = (Delta_AB_X * Delta_AB_X) + (Delta_AB_Y * Delta_AB_Y) + (Delta_AB_Z * Delta_AB_Z) // This is almost Pythagorean.  It's the Squared Length of Delta_AB.
+    // One of these is the ProjectionNormal, the other the Scaler???
+    Dot_AP_AB            AS FLOAT : Dot_AP_AB            = (Delta_AP_X * Delta_AB_X) + (Delta_AP_Y * Delta_AB_Y) + (Delta_AP_Z * Delta_AB_Z)
+    Delta_AB_Length_Sqrd AS FLOAT : Delta_AB_Length_Sqrd = (Delta_AB_X * Delta_AB_X) + (Delta_AB_Y * Delta_AB_Y) + (Delta_AB_Z * Delta_AB_Z)
 
-    ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB AS FLOAT // lol.
-    ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB = DotAP_AB / DotAB_AB
+    // Get PointDistance from NearestPointOnLine, as multiple of Delta_AB.
+    Delta_Distance AS FLOAT : Delta_Distance = Dot_AP_AB / Delta_AB_Length_Sqrd
 
     Result AS Vec3
-    Result.x = LinePointA.x + (Delta_AB_X * ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB)
-    Result.y = LinePointA.y + (Delta_AB_Y * ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB)
-    Result.z = LinePointA.z + (Delta_AB_Z * ProjectedPoint_distance_from_LinePointA_as_multiple_of_Delta_AB)
+    Result.x = LinePointA.x + (Delta_AB_X * Delta_Distance)
+    Result.y = LinePointA.y + (Delta_AB_Y * Delta_Distance)
+    Result.z = LinePointA.z + (Delta_AB_Z * Delta_Distance)
 ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION prj3n(Point REF AS Vec3, LinePos REF AS Vec3, LineNrm REF AS Vec3) // "Projection"  Get ClosestPointOnLine from 'Point'.
-    DotAP_AB AS FLOAT : DotAP_AB = ((Point.x - LinePos.x) * LineNrm.x) + ((Point.y - LinePos.y) * LineNrm.y) + ((Point.z - LinePos.z) * LineNrm.z)
+FUNCTION prj3n(Point   REF AS Vec3,                      // "Projection"  Get ClosestPointOnLine from 'Point'.
+               LinePos REF AS Vec3, LineNrm REF AS Vec3)
+    Dot_AP_AB AS FLOAT : Dot_AP_AB = ((Point.x - LinePos.x) * LineNrm.x) + ((Point.y - LinePos.y) * LineNrm.y) + ((Point.z - LinePos.z) * LineNrm.z)
     Result AS Vec3
-    Result.x = LinePos.x + (LineNrm.x * DotAP_AB)
-    Result.y = LinePos.y + (LineNrm.y * DotAP_AB)
-    Result.z = LinePos.z + (LineNrm.z * DotAP_AB)
+    Result.x = LinePos.x + (LineNrm.x * Dot_AP_AB)
+    Result.y = LinePos.y + (LineNrm.y * Dot_AP_AB)
+    Result.z = LinePos.z + (LineNrm.z * Dot_AP_AB)
 ENDFUNCTION Result
 
 
