@@ -19,7 +19,7 @@ These rules are adhered to, unless I've overlooked something.
 
 * Naming follows hierarchal ordering. That being: ThingAttribute.<br/>
   Example: instead of "NewLength", "LengthNew" is used.<br/>
-  Note: this is the opposite of typical English grammar.
+  *Note: this is the opposite of typical English grammar.*
 
 * Naming uses Capitals for the first letter of every word, lowercase for the rest. This includes acronyms.
 
