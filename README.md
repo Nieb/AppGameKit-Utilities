@@ -28,7 +28,7 @@ These rules are adhered to, unless I've overlooked something.
   * Where the "thing" of ThingAttribute is a common thing<br/>
   * Similarly, where there would typically be a dot ".", found in UserTypes.<br/>
     Example: Pos.x -> Pos_X
-  
+  * Single-letter & overly-truncated variable/function names are avoided, unless desired for compact code.
 
 ---
 
