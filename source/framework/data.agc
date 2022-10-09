@@ -71,15 +71,15 @@ ENDFUNCTION  IntVar ||      (SetTo << iByte*8) // Set Byte.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION GetDoubleByte(IntVar AS INTEGER, iDblByte AS INTEGER)
-    IF iDblByte < 0 OR iDblByte > 1 THEN EXITFUNCTION 0
-ENDFUNCTION (IntVar >> (16*iDblByte)) && 0x0000FFFF
+FUNCTION GetShort(IntVar AS INTEGER, iShort AS INTEGER)
+    IF iShort < 0 OR iShort > 1 THEN EXITFUNCTION 0
+ENDFUNCTION (IntVar >> (16*iShort)) && 0x0000FFFF
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION SetDoubleByte(IntVar AS INTEGER, iDblByte AS INTEGER, SetTo AS INTEGER)
-    IF iDblByte < 0 OR iDblByte >          1 THEN EXITFUNCTION 0
-    IF SetTo    < 0 OR SetTo    > 0x0000FFFF THEN EXITFUNCTION 0
-    IntVar = IntVar && !(0x0000FFFF << iDblByte*16) // Zero the target bits via bitmask.
-ENDFUNCTION  IntVar ||       (SetTo << iDblByte*16) // Set Short.
+FUNCTION SetShort(IntVar AS INTEGER, iShort AS INTEGER, SetTo AS INTEGER)
+    IF iShort < 0 OR iShort >          1 THEN EXITFUNCTION 0
+    IF SetTo  < 0 OR SetTo  > 0x0000FFFF THEN EXITFUNCTION 0
+    IntVar = IntVar && !(0x0000FFFF << iShort*16) // Zero the target bits via bitmask.
+ENDFUNCTION  IntVar ||       (SetTo << iShort*16) // Set Short.
 
