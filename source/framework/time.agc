@@ -54,11 +54,11 @@ FUNCTION UnixTimeToString(TimeUnix AS INTEGER)
     TimeUnix = TimeUnix + (3600 * ClientTimeZoneOffset)
 
     TimeUnixStr AS STRING
-    TimeUnixStr =                  str(   GetYearFromUnix(TimeUnix)           )+"-"
-    TimeUnixStr = TimeUnixStr + padstr(  GetMonthFromUnix(TimeUnix), "0", 2, 0)+"-"
-    TimeUnixStr = TimeUnixStr + padstr(   GetDaysFromUnix(TimeUnix), "0", 2, 0)+" "
-    TimeUnixStr = TimeUnixStr + padstr(  GetHoursFromUnix(TimeUnix), "0", 2, 0)+":"
-    TimeUnixStr = TimeUnixStr + padstr(GetMinutesFromUnix(TimeUnix), "0", 2, 0)+":"
-    TimeUnixStr = TimeUnixStr + padstr(GetSecondsFromUnix(TimeUnix), "0", 2, 0)
+    TimeUnixStr =                      str(   GetYearFromUnix(TimeUnix)           )+"-"
+    TimeUnixStr = TimeUnixStr + padstrwith(  GetMonthFromUnix(TimeUnix), 2, 0, "0")+"-"
+    TimeUnixStr = TimeUnixStr + padstrwith(   GetDaysFromUnix(TimeUnix), 2, 0, "0")+" "
+    TimeUnixStr = TimeUnixStr + padstrwith(  GetHoursFromUnix(TimeUnix), 2, 0, "0")+":"
+    TimeUnixStr = TimeUnixStr + padstrwith(GetMinutesFromUnix(TimeUnix), 2, 0, "0")+":"
+    TimeUnixStr = TimeUnixStr + padstrwith(GetSecondsFromUnix(TimeUnix), 2, 0, "0")
 ENDFUNCTION TimeUnixStr
 
