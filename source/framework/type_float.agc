@@ -18,7 +18,7 @@ FUNCTION flt(Int AS FLOAT) : ENDFUNCTION Int  // For explicit casting.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION Print1(Label AS STRING, PrintMe AS FLOAT, PadLeft AS INTEGER, TruncRight AS INTEGER)
-    Print( Label + padstr(PrintMe, " ", PadLeft, TruncRight) )
+    Print( Label + padstr(PrintMe, PadLeft, TruncRight) )
 ENDFUNCTION
 
 
