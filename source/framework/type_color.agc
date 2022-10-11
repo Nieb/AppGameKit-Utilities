@@ -61,13 +61,13 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION PrintColor(Label AS STRING, PrintMe REF AS RGBA)
-    Print(Label + padstr(PrintMe.r, " ", 3, 0) + " " + padstr(PrintMe.g, " ", 3, 0) + " " + padstr(PrintMe.b, " ", 3, 0) + " " + padstr(PrintMe.a, " ", 3, 0))
+    Print(Label + padstr(PrintMe.r, 3, 0)+" "+padstr(PrintMe.g, 3, 0)+" "+padstr(PrintMe.b, 3, 0)+" "+padstr(PrintMe.a, 3, 0))
 ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION PrintColorf(Label AS STRING, PrintMe REF AS RGBAf, TruncRight AS INTEGER)
-    Print(Label + padstr(PrintMe.r, " ", 1, TruncRight) + " " + padstr(PrintMe.g, " ", 1, TruncRight) + " " + padstr(PrintMe.b, " ", 1, TruncRight) + " " + padstr(PrintMe.a, " ", 1, TruncRight))
+    Print(Label + padstr(PrintMe.r, 1, TruncRight)+" "+padstr(PrintMe.g, 1, TruncRight)+" "+padstr(PrintMe.b, 1, TruncRight)+" "+padstr(PrintMe.a, 1, TruncRight))
 ENDFUNCTION
 
 
