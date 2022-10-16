@@ -280,16 +280,16 @@ FUNCTION rndto3(VecA REF AS Vec3, RoundTo AS FLOAT) // "Round" each component of
     Result.z = fmod(VecA.z, RoundTo)
     Threshold AS FLOAT : Threshold = RoundTo * 0.5
     IF     (Result.x > 0.0) : IF (Result.x >  Threshold) : Result.x = VecA.x + RoundTo -     Result.x  : ELSE : Result.x = VecA.x -     Result.x  : ENDIF
-    ELSEIF (Result.x < 0.0) : IF (Result.x < -Threshold) : Result.x = VecA.x - RoundTo - abs(Result.x) : ELSE : Result.x = VecA.x + abs(Result.x) : ENDIF
-    ELSE : Result.x = VecA.x
+    ELSEIF (Result.x < 0.0) : IF (Result.x < -Threshold) : Result.x = VecA.x - RoundTo + abs(Result.x) : ELSE : Result.x = VecA.x + abs(Result.x) : ENDIF
+    ELSE                                                 : Result.x = VecA.x
     ENDIF
     IF     (Result.y > 0.0) : IF (Result.y >  Threshold) : Result.y = VecA.y + RoundTo -     Result.y  : ELSE : Result.y = VecA.y -     Result.y  : ENDIF
-    ELSEIF (Result.y < 0.0) : IF (Result.y < -Threshold) : Result.y = VecA.y - RoundTo - abs(Result.y) : ELSE : Result.y = VecA.y + abs(Result.y) : ENDIF
-    ELSE : Result.y = VecA.y
+    ELSEIF (Result.y < 0.0) : IF (Result.y < -Threshold) : Result.y = VecA.y - RoundTo + abs(Result.y) : ELSE : Result.y = VecA.y + abs(Result.y) : ENDIF
+    ELSE                                                 : Result.y = VecA.y
     ENDIF
     IF     (Result.z > 0.0) : IF (Result.z >  Threshold) : Result.z = VecA.z + RoundTo -     Result.z  : ELSE : Result.z = VecA.z -     Result.z  : ENDIF
-    ELSEIF (Result.z < 0.0) : IF (Result.z < -Threshold) : Result.z = VecA.z - RoundTo - abs(Result.z) : ELSE : Result.z = VecA.z + abs(Result.z) : ENDIF
-    ELSE : Result.z = VecA.z
+    ELSEIF (Result.z < 0.0) : IF (Result.z < -Threshold) : Result.z = VecA.z - RoundTo + abs(Result.z) : ELSE : Result.z = VecA.z + abs(Result.z) : ENDIF
+    ELSE                                                 : Result.z = VecA.z
     ENDIF
 ENDFUNCTION Result
 
