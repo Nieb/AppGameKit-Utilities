@@ -1,5 +1,5 @@
 # AppGameKit-Framework-Libraries
-A collection of various untility functions.
+A collection of various utility functions.
 
 ***This is all very much a work in progress.***
 
