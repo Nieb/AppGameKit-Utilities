@@ -26,7 +26,7 @@ FUNCTION wrap(WrapMe AS INTEGER, WrapMin AS INTEGER, WrapMax AS INTEGER)
     IF (WrapMe >= WrapMin AND WrapMe < WrapMax) THEN EXITFUNCTION WrapMe
     WrapMe  = WrapMe  - WrapMin
     WrapMax = WrapMax - WrapMin
-    IF     (WrapMe <      0.0) : WrapMe = WrapMin + WrapMax + mod( WrapMe, WrapMax)
+    IF     (WrapMe <        0) : WrapMe = WrapMin + WrapMax + mod( WrapMe, WrapMax)
     ELSEIF (WrapMe >= WrapMax) : WrapMe = WrapMin +           mod( WrapMe, WrapMax)
     ENDIF
 ENDFUNCTION WrapMe
