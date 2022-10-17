@@ -90,8 +90,8 @@ FUNCTION line2(PosA_X AS FLOAT, PosA_Y AS FLOAT,
     Result.PosB.x = PosB_X
     Result.PosB.y = PosB_Y
 
-    Result.Nrm.x = PosB_X - PosA_X : Result.Nrm.x = Result.Nrm.x * (1.0 / Result.Nrm.x)
-    Result.Nrm.y = PosB_Y - PosA_Y : Result.Nrm.y = Result.Nrm.y * (1.0 / Result.Nrm.y)
+    Result.Nrm.x = PosB_X - PosA_X  :  Result.Nrm.x = Result.Nrm.x * (1.0 / Result.Nrm.x)
+    Result.Nrm.y = PosB_Y - PosA_Y  :  Result.Nrm.y = Result.Nrm.y * (1.0 / Result.Nrm.y)
 
     Result.NrmRcp.x = 1.0 / Result.Nrm.x
     Result.NrmRcp.y = 1.0 / Result.Nrm.y
