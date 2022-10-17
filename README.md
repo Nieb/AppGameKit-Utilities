@@ -15,7 +15,7 @@ This is the vector space that I've decided to use:
 ---
 
 ## Variable & Function Naming:
-These rules are adhered to, unless I've overlooked something.
+These rules are adhered to, unless I've overlooked something. Or, the code is old and needs revisited.
 
 * Naming follows hierarchal ordering. That being: ThingAttribute.<br/>
   Example: instead of "NewLength", "LengthNew" is used.<br/>
@@ -24,11 +24,13 @@ These rules are adhered to, unless I've overlooked something.
 * Naming uses Capitals for the first letter of every word, lowercase for the rest. This includes acronyms.<br/>
   Exceptions include constants and some other rare occasions.
 
+* An attempt is made to make the nameing & usage of variable & function names read like a natural language sentence.
+
 * Underscores are typically avoided.<br/>
   There are exceptions...
 
-* Single-letter & overly-truncated variable/function names are avoided, unless desired for compact code.<br/>
-  Common Abbreviations:
+* Single-letter & overly-truncated variable/function names are avoided, unless truncation is desired for compact code.<br/>
+#### Common Abbreviations:
 ```
 Pos = "Position"
 Rot = "Rotation"
@@ -65,7 +67,7 @@ Box = "Right-Angled-Quadrilateral-Hexahedron" :P
 ```
 
 * Descriptive indexes are always used, never i, j, x, y, a, b, etc.<br/>
-  Examples:
+#### Index Examples:
 ```
 FOR iThg = 0 TO Thing.length
     Print(Thing[iThg])
@@ -81,6 +83,12 @@ FOR iY = 0 TO Thing_SizY
         Print(Thing[iY,iX])
     NEXT iX
 NEXT iY
+// And if desitinction is desired, iThgX, iThgY, etc.
+FOR iThgY = 0 TO Thing_SizY
+    FOR iThgX = 0 TO Thing_SizX
+        Print(Thing[iThgY,iThgX])
+    NEXT iX
+NEXT iY
 ```
 
-* An attempt is made to make the nameing & usage of variable & function names read like a natural language sentence.
+---
