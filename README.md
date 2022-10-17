@@ -34,7 +34,7 @@ These rules are adhered to, unless I've overlooked something.
 ---
 
 ## Common Abbreviations:
-These are often used because compact code is preferred.
+These are often used because compact code is preferred with them.
 
     Pos = "Position"
     Rot = "Rotation"
