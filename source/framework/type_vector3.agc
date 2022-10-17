@@ -196,7 +196,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION len3(VecA REF AS Vec3) // "Length" of 'VecA'.
+FUNCTION len3(VecA REF AS Vec3) // "Length" of 'VecA'. (Distance from (0,0,0))
     Result AS FLOAT : Result = sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z)
 ENDFUNCTION Result
 
@@ -205,21 +205,21 @@ ENDFUNCTION Result
 FUNCTION dst3(VecA AS Vec3, VecB AS Vec3) // "Distance" between 'VecA' and 'VecB'.
     Delta_X AS FLOAT : Delta_X = VecB.x - VecA.x
     Delta_Y AS FLOAT : Delta_Y = VecB.y - VecA.y
-    Result  AS FLOAT : Result  = VecB.z - VecA.z // Delta_Z
+    Result  AS FLOAT : Result  = VecB.z - VecA.z // "Delta_Z"
     Result = sqrt((Delta_X*Delta_X) + (Delta_Y*Delta_Y) + (Result*Result))
 ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION setlen3(VecA REF AS Vec3, NewLength AS FLOAT) // 'VecA' scaled to 'NewLength'.
+FUNCTION lenthn3(VecA REF AS Vec3, NewLength AS FLOAT) // "Lengthen"  'VecA' scaled to 'NewLength'.
     Result AS Vec3
-    IF (VecA.x = 0.0 AND VecA.y = 0.0 AND VecA.z = 0.0) // Avoid Divide by Zero.
+    IF (VecA.x = 0.0 AND VecA.y = 0.0 AND VecA.z = 0.0) // Avoid Divide-by-Zero.
         Result.x = 0.0
         Result.y = 0.0
         Result.z = 0.0
     ELSE
-        NewLength = NewLength / sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z) // Get Vector Scaler.  LengthNew / LengthOld.
+        NewLength = NewLength / sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z) // Get Vector Scaler (LengthNew / LengthOld).
         Result.x = VecA.x * NewLength
         Result.y = VecA.y * NewLength
         Result.z = VecA.z * NewLength
@@ -230,12 +230,12 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION nrm3(VecA REF AS Vec3) // "Normalize"  'VecA' scaled to length of 1.0.
     Result AS Vec3
-    IF (VecA.x = 0.0 AND VecA.y = 0.0 AND VecA.z = 0.0) // Avoid Divide by Zero.
+    IF (VecA.x = 0.0 AND VecA.y = 0.0 AND VecA.z = 0.0) // Avoid Divide-by-Zero.
         Result.x = 0.0
         Result.y = 0.0
         Result.z = 0.0
     ELSE
-        Length AS FLOAT : Length = 1.0 / sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z) // Get Vector Scaler.  LengthNew / LengthOld.
+        Length AS FLOAT : Length = 1.0 / sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z) // Get Vector Scaler (LengthNew / LengthOld).
         Result.x = VecA.x * Length
         Result.y = VecA.y * Length
         Result.z = VecA.z * Length
@@ -246,7 +246,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION flr3(VecA REF AS Vec3) // "Floor" each component of 'VecA', rounded down.
+FUNCTION flr3(VecA REF AS Vec3) // "Floor"  Each component of 'VecA' rounded down.
     Result AS Vec3
     Result.x = floor(VecA.x)
     Result.y = floor(VecA.y)
@@ -255,7 +255,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION cil3(VecA REF AS Vec3) // "Ceiling" each component of 'VecA', rounded up.
+FUNCTION cil3(VecA REF AS Vec3) // "Ceiling"  Each component of 'VecA' rounded up.
     Result AS Vec3
     Result.x = ceil(VecA.x)
     Result.y = ceil(VecA.y)
@@ -273,23 +273,23 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rndto3(VecA REF AS Vec3, RoundTo AS FLOAT) // "Round" each component of 'VecA' to nearest 'RoundTo'.    ( Make this an overload of round(). )
+FUNCTION rndto3(VecA REF AS Vec3, RoundTo AS FLOAT) // "Round" each component of 'VecA' to nearest multiple of 'RoundTo'.
     Result AS Vec3
     Result.x = fmod(VecA.x, RoundTo)
     Result.y = fmod(VecA.y, RoundTo)
     Result.z = fmod(VecA.z, RoundTo)
     Threshold AS FLOAT : Threshold = RoundTo * 0.5
-    IF     (Result.x > 0.0) : IF (Result.x >  Threshold) : Result.x = VecA.x + RoundTo -     Result.x  : ELSE : Result.x = VecA.x -     Result.x  : ENDIF
-    ELSEIF (Result.x < 0.0) : IF (Result.x < -Threshold) : Result.x = VecA.x - RoundTo + abs(Result.x) : ELSE : Result.x = VecA.x + abs(Result.x) : ENDIF
-    ELSE                                                 : Result.x = VecA.x
+    IF     (Result.x > 0.0) : IF (Result.x >=  Threshold) : Result.x = VecA.x + RoundTo -     Result.x  : ELSE : Result.x = VecA.x -     Result.x  : ENDIF
+    ELSEIF (Result.x < 0.0) : IF (Result.x <= -Threshold) : Result.x = VecA.x - RoundTo + abs(Result.x) : ELSE : Result.x = VecA.x + abs(Result.x) : ENDIF
+    ELSE                                                  : Result.x = VecA.x
     ENDIF
-    IF     (Result.y > 0.0) : IF (Result.y >  Threshold) : Result.y = VecA.y + RoundTo -     Result.y  : ELSE : Result.y = VecA.y -     Result.y  : ENDIF
-    ELSEIF (Result.y < 0.0) : IF (Result.y < -Threshold) : Result.y = VecA.y - RoundTo + abs(Result.y) : ELSE : Result.y = VecA.y + abs(Result.y) : ENDIF
-    ELSE                                                 : Result.y = VecA.y
+    IF     (Result.y > 0.0) : IF (Result.y >=  Threshold) : Result.y = VecA.y + RoundTo -     Result.y  : ELSE : Result.y = VecA.y -     Result.y  : ENDIF
+    ELSEIF (Result.y < 0.0) : IF (Result.y <= -Threshold) : Result.y = VecA.y - RoundTo + abs(Result.y) : ELSE : Result.y = VecA.y + abs(Result.y) : ENDIF
+    ELSE                                                  : Result.y = VecA.y
     ENDIF
-    IF     (Result.z > 0.0) : IF (Result.z >  Threshold) : Result.z = VecA.z + RoundTo -     Result.z  : ELSE : Result.z = VecA.z -     Result.z  : ENDIF
-    ELSEIF (Result.z < 0.0) : IF (Result.z < -Threshold) : Result.z = VecA.z - RoundTo + abs(Result.z) : ELSE : Result.z = VecA.z + abs(Result.z) : ENDIF
-    ELSE                                                 : Result.z = VecA.z
+    IF     (Result.z > 0.0) : IF (Result.z >=  Threshold) : Result.z = VecA.z + RoundTo -     Result.z  : ELSE : Result.z = VecA.z -     Result.z  : ENDIF
+    ELSEIF (Result.z < 0.0) : IF (Result.z <= -Threshold) : Result.z = VecA.z - RoundTo + abs(Result.z) : ELSE : Result.z = VecA.z + abs(Result.z) : ENDIF
+    ELSE                                                  : Result.z = VecA.z
     ENDIF
 ENDFUNCTION Result
 
@@ -297,7 +297,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION avg3_2(VecA REF AS Vec3, VecB REF AS Vec3) // Average of 2 Vectors.
+FUNCTION avg3_2(VecA REF AS Vec3, VecB REF AS Vec3) // "Average" of 2 Vectors.
     Result AS Vec3
     Result.x = (VecA.x + VecB.x) * 0.5
     Result.y = (VecA.y + VecB.y) * 0.5
@@ -306,7 +306,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION avg3_3(VecA REF AS Vec3, VecB REF AS Vec3, VecC REF AS Vec3) // Average of 3 Vectors.
+FUNCTION avg3_3(VecA REF AS Vec3, VecB REF AS Vec3, VecC REF AS Vec3) // "Average" of 3 Vectors.
     Result AS Vec3
     Result.x = (VecA.x + VecB.x + VecC.x) * OneThird
     Result.y = (VecA.y + VecB.y + VecC.y) * OneThird
@@ -315,7 +315,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION avg3_4(VecA REF AS Vec3, VecB REF AS Vec3, VecC REF AS Vec3, VecD REF AS Vec3) // Average of 4 Vectors.
+FUNCTION avg3_4(VecA REF AS Vec3, VecB REF AS Vec3, VecC REF AS Vec3, VecD REF AS Vec3) // "Average" of 4 Vectors.
     Result AS Vec3
     Result.x = (VecA.x + VecB.x + VecC.x + VecD.x) * 0.25
     Result.y = (VecA.y + VecB.y + VecC.y + VecD.y) * 0.25
@@ -326,7 +326,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION ref3(VecA REF AS Vec3, SurfaceNrm REF AS Vec3) // "Reflect"   // @fix   Add Multiplier?
+FUNCTION ref3(VecA REF AS Vec3, SurfaceNrm REF AS Vec3) // "Reflect"   //@@ fix: Add Multiplier?
     Dot AS FLOAT : Dot = (VecA.x * SurfaceNrm.x) + (VecA.y * SurfaceNrm.y) + (VecA.z * SurfaceNrm.z)
     Result AS Vec3
     Result.x = VecA.x + (SurfaceNrm.x * Dot * -2.0)
@@ -336,7 +336,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION def3(VecA REF AS Vec3, SurfaceNrm REF AS Vec3) // "Deflect"   // @fix   Add Multiplier?
+FUNCTION def3(VecA REF AS Vec3, SurfaceNrm REF AS Vec3) // "Deflect"   //@@ fix: Add Multiplier?
     Dot AS FLOAT : Dot = (VecA.x * SurfaceNrm.x) + (VecA.y * SurfaceNrm.y) + (VecA.z * SurfaceNrm.z)
     Result AS Vec3
     Result.x = (SurfaceNrm.x * Dot * 2.0) - VecA.x
@@ -350,25 +350,24 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION prj3(Point      REF AS Vec3,                         // "Projection"  Get ClosestPointOnLine from 'Point'.
               LinePointA REF AS Vec3, LinePointB REF AS Vec3)
-    Delta_AP_X AS FLOAT : Delta_AP_X = Point.x - LinePointA.x  // Point.x = ...   Could reuse Pinter var here.
+    Delta_AP_X AS FLOAT : Delta_AP_X = Point.x - LinePointA.x  // Point.x = ...  @@ Could reuse Point var here.
     Delta_AP_Y AS FLOAT : Delta_AP_Y = Point.y - LinePointA.y  // Point.y = ...
     Delta_AP_Z AS FLOAT : Delta_AP_Z = Point.z - LinePointA.z  // Point.z = ...
 
-    Delta_AB_X AS FLOAT : Delta_AB_X = LinePointB.x - LinePointA.x  // LinePoint?.x = ...   Could reuse one of the LinePoint vars here.
-    Delta_AB_Y AS FLOAT : Delta_AB_Y = LinePointB.y - LinePointA.y  // LinePoint?.y = ...
-    Delta_AB_Z AS FLOAT : Delta_AB_Z = LinePointB.z - LinePointA.z  // LinePoint?.z = ...
+    Delta_AB_X AS FLOAT : Delta_AB_X = LinePointB.x - LinePointA.x  // LinePointB.x = ...  @@ Could reuse LinePointB var here.
+    Delta_AB_Y AS FLOAT : Delta_AB_Y = LinePointB.y - LinePointA.y  // LinePointB.y = ...
+    Delta_AB_Z AS FLOAT : Delta_AB_Z = LinePointB.z - LinePointA.z  // LinePointB.z = ...
 
-    // One of these is the ProjectionNormal, the other the Scaler???
     Dot_AP_AB            AS FLOAT : Dot_AP_AB            = (Delta_AP_X * Delta_AB_X) + (Delta_AP_Y * Delta_AB_Y) + (Delta_AP_Z * Delta_AB_Z)
     Delta_AB_Length_Sqrd AS FLOAT : Delta_AB_Length_Sqrd = (Delta_AB_X * Delta_AB_X) + (Delta_AB_Y * Delta_AB_Y) + (Delta_AB_Z * Delta_AB_Z)
 
     // Get PointDistance from NearestPointOnLine, as multiple of Delta_AB.
-    Delta_Distance AS FLOAT : Delta_Distance = Dot_AP_AB / Delta_AB_Length_Sqrd
+    Delta_Scalar AS FLOAT : Delta_Scalar = Dot_AP_AB / Delta_AB_Length_Sqrd // (LengthNew / LengthOld)
 
     Result AS Vec3
-    Result.x = LinePointA.x + (Delta_AB_X * Delta_Distance)
-    Result.y = LinePointA.y + (Delta_AB_Y * Delta_Distance)
-    Result.z = LinePointA.z + (Delta_AB_Z * Delta_Distance)
+    Result.x = LinePointA.x + (Delta_AB_X * Delta_Scalar)
+    Result.y = LinePointA.y + (Delta_AB_Y * Delta_Scalar)
+    Result.z = LinePointA.z + (Delta_AB_Z * Delta_Scalar)
 ENDFUNCTION Result
 
 
@@ -395,31 +394,41 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION AngleToVec3(Theta AS FLOAT, Axis AS INTEGER)
+FUNCTION AngleToVec3_OnPlnX(Theta AS FLOAT) // Axis X, 'Result' will be on plane spanning YZ.
     Theta = -Theta // Theta is inverted.
     Result AS Vec3
-    IF     Axis = 0 // Axis X, point will be on plane spanning YZ.
-        Result.x =  0.0
-        Result.y =  sin(Theta)
-        Result.z = -cos(Theta)
-    ELSEIF Axis = 1 // Axis Y, point will be on plane spanning XZ.
-        Result.x =  cos(Theta)
-        Result.y = 0.0
-        Result.z = -sin(Theta)
-    ELSEIF Axis = 2 // Axis Z, point will be on plane spanning XY.
-        Result.x =  cos(Theta)
-        Result.y =  sin(Theta)
-        Result.z =  0.0
-    ENDIF
+    Result.x =  0.0
+    Result.y =  sin(Theta)
+    Result.z = -cos(Theta)
+ENDFUNCTION Result
+
+FUNCTION AngleToVec3_OnPlnY(Theta AS FLOAT) // Axis Y, 'Result' will be on plane spanning XZ.
+    Theta = -Theta // Theta is inverted.
+    Result AS Vec3
+    Result.x =  cos(Theta)
+    Result.y = 0.0
+    Result.z = -sin(Theta)
+ENDFUNCTION Result
+
+FUNCTION AngleToVec3_OnPlnZ(Theta AS FLOAT) // Axis Z, 'Result' will be on plane spanning XY.
+    Theta = -Theta // Theta is inverted.
+    Result AS Vec3
+    Result.x = cos(Theta)
+    Result.y = sin(Theta)
+    Result.z = 0.0
 ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION PitchYawToVec3(Pch AS FLOAT, Yaw AS FLOAT)
     Result AS Vec3
-    Result.y =             cos( Pch ) // Length of XZ.
+    //  Theta & Z are inverted.
+    //      (Pch= 0,Yaw= 0) = ( 0, 0,-1)
+    //      (Pch=90,Yaw= 0) = ( 0,-1, 0)
+    //      (Pch= 0,Yaw=90) = ( 1, 0, 0)
+    Result.y =             cos( Pch )
     Result.x =  Result.y * sin( Yaw )
-    Result.z = -Result.y * cos( Yaw ) // Z is inverted.
+    Result.z = -Result.y * cos( Yaw )
     Result.y =            -sin( Pch ) // Actual Y value.
 ENDFUNCTION Result
 
@@ -616,7 +625,7 @@ FUNCTION rot3m(Point REF AS Vec3, ThetaVec REF AS Vec3) // "Rotate" 'Point' arou
         Axis.y = ThetaVec.y * ThetaRcp
         Axis.z = ThetaVec.z * ThetaRcp
 
-        iCosT AS FLOAT : iCosT = 1.0-cos(Theta) // "Inverse Cosine Theta".
+        iCosT AS FLOAT : iCosT = 1.0-cos(Theta) // "Complimentary-Inverse Cosine-Theta".
          CosT AS FLOAT :  CosT =     cos(Theta)
          SinT AS FLOAT :  SinT =     sin(Theta)
 
