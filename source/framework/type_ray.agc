@@ -57,9 +57,9 @@ FUNCTION ray2(PosA_X AS FLOAT, PosA_Y AS FLOAT, PosA_Z AS FLOAT,
     Result.PosB.y = PosB_Y
     Result.PosB.z = PosB_Z
 
-    Result.Nrm.x = PosB_X - PosA_X : Result.Nrm.x = Result.Nrm.x * (1.0 / Result.Nrm.x)
-    Result.Nrm.y = PosB_Y - PosA_Y : Result.Nrm.y = Result.Nrm.y * (1.0 / Result.Nrm.y)
-    Result.Nrm.z = PosB_Z - PosA_Z : Result.Nrm.z = Result.Nrm.z * (1.0 / Result.Nrm.z)
+    Result.Nrm.x = PosB_X - PosA_X  :  Result.Nrm.x = Result.Nrm.x * (1.0 / Result.Nrm.x)
+    Result.Nrm.y = PosB_Y - PosA_Y  :  Result.Nrm.y = Result.Nrm.y * (1.0 / Result.Nrm.y)
+    Result.Nrm.z = PosB_Z - PosA_Z  :  Result.Nrm.z = Result.Nrm.z * (1.0 / Result.Nrm.z)
 
     Result.NrmRcp.x = 1.0 / Result.Nrm.x
     Result.NrmRcp.y = 1.0 / Result.Nrm.y
