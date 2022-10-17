@@ -75,7 +75,7 @@ NEXT iThg
 
 FOR iPlyr = 0 TO Player.length
     Player[iPlyr].Pos.x = 5.0 + iPlyr
-NEXT iThg
+NEXT iPlyr
 
 // In the case that coordinate indexes are used, iX,iY,iZ, iU,iV, etc are used.
 FOR iY = 0 TO Thing_SizY
