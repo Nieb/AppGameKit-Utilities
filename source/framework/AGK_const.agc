@@ -38,7 +38,7 @@
 //  PlaySprite( SprID, Fps, LOOP )
 //  PlayObjectAnimation( ObjID, AnimNameString, StartTime, EndTime, LOOP, TweenTime )
 //  PlaySound( SndID, Volume, LOOP )
-//  PlayMusic( MscID, LOOP )
+//  PlayMusic( MusID, LOOP )
 #Constant NOLOOP = 0
 #Constant LOOPIT = 1
 
