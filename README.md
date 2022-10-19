@@ -35,16 +35,16 @@ These rules are adhered to, unless I've overlooked something. Or, the code is ol
 Pos = "Position"
 Vel = "Velocity"
 Rot = "Rotation"
-Lok = "Look"      The normalize-vector direction something is facing.
 Siz = "Size"
 Scl = "Scale"
 Bnd = "Bounds"
 Nrm = "Normal"
 Rds = "Radius"
 Dir = "Direction" or "Directory"
+Lok = "Look"  - - - - - - - - - - The normalize-vector direction something is facing.
 Clr = "Color"
 
-Trgt = "Target"    Used for interpolating things like Position, Velocity, Rotation, etc.  (*.VelTrgt, *.RotTrgt)
+Trgt = "Target" - - - - - - - - - Used for interpolating things like Position, Velocity, Rotation, etc.  (*.VelTrgt, *.RotTrgt)
 
 Dlt = "Delta"
 
