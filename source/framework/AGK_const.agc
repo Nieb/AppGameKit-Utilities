@@ -42,3 +42,11 @@
 #Constant NOLOOP = 0
 #Constant LOOPIT = 1
 
+
+
+
+//#Constant ChrNL = 10 // "NewLine"
+
+//#Constant BR = chr(10) // Line "Break"
+
+
