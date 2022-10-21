@@ -81,9 +81,3 @@ FUNCTION PadCommaDelimit(StringMe AS INTEGER, PadLeft AS INTEGER)
     Result = Spaces(PadLeft - ResultLength) + Result
 ENDFUNCTION Result
 
-
-
-
-
-
-
