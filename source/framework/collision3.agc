@@ -253,12 +253,12 @@ FUNCTION IRayVsSphere(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
 
     HitPos AS Vec3
 
-    /// Is Ray_Pos inside the Sphere?
-    ///     HitPos = Ray_Pos
+    //  Is Ray_Pos inside the Sphere?
+    //      HitPos = Ray_Pos
 
-    /// Project Sph_Pos onto Ray-Line, is this point inside the Sphere?
-    ///     Then, determine HitPos...
-    ///         HitPos = ...
+    //  Project Sph_Pos onto Ray-Line, is this point inside the Sphere?
+    //      Then, determine HitPos...
+    //          HitPos = ...
 
 ENDFUNCTION HitPos
 
