@@ -94,7 +94,7 @@ FUNCTION DumpObjectShader(ObjID AS INTEGER)
     FileName = "shaderdump__obj" + str(ObjID) + "__" + GetCurrentDate() + "_" + GetCurrentTime() + ".glsl"
     FileName = ReplaceString( FileName , chr(58) , chr(46) , -1 ) // Replace ":" with ".", ":" is not allowed in file names.
     FileID AS INTEGER
-    FileID = OpenToWrite(FileName, 0)  // FileID, FileNameString, Replace OR Append
+    FileID = OpenToWrite(FileName, 0)  // FileID = ( FileNameString, Replace OR Append )
     WriteLine(FileID, "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
     WriteLine(FileID, "//BEGIN_VERT///////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
     WriteLine(FileID, "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
@@ -118,7 +118,7 @@ FUNCTION DumpObjectShaderMulti(ObjID AS INTEGER)
         FileName = "shaderdump__obj" + str(ObjID) + "_mesh" + str(iMesh) + "__" + GetCurrentDate() + "_" + GetCurrentTime() + ".glsl"
         FileName = ReplaceString( FileName , chr(58) , chr(46) , -1 ) // Replace ":" with ".", ":" is not allowed in file names.
         FileID AS INTEGER
-        FileID = OpenToWrite(FileName, 0)  // FileID, FileNameString, Replace OR Append
+        FileID = OpenToWrite(FileName, 0)  // FileID = ( FileNameString, Replace OR Append )
         WriteLine(FileID, "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
         WriteLine(FileID, "//BEGIN_VERT///////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
         WriteLine(FileID, "///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
