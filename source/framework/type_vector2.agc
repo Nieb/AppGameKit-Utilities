@@ -188,7 +188,7 @@ ENDFUNCTION Result
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION setlen2(VecA REF AS Vec2, NewLength AS FLOAT) // "Set Length"  'VecA' scaled to 'NewLength'.      lnn2() "Lengthen"  lng() "Length"   ( Make overload of len()?  1arg=getlength, 2args=setlength )
+FUNCTION lenthn2(VecA REF AS Vec2, NewLength AS FLOAT) // "Lengthen"  'VecA' scaled to 'NewLength'.      lnn2() "Lengthen"  lng() "Length"   ( Make overload of len()?  1arg=getlength, 2args=setlength )
     Result AS Vec2
     IF VecA.x = 0.0 AND VecA.y = 0.0
         Result.x = 0.0
