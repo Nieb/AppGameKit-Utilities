@@ -2,43 +2,47 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION DrawPoint(Pnt_Pos REF AS Vec2, Size AS FLOAT, ClrABGR AS INTEGER)
-    DrawEllipse( Pnt_Pos.x, Pnt_Pos.y, Size, Size, ClrABGR, ClrABGR, 1 )
+    DrawEllipse( Pnt_Pos.x,Pnt_Pos.y,  Size,Size,  ClrABGR,ClrABGR, 1 )
 ENDFUNCTION
-
+FUNCTION DrawPointV(Pnt_Pos REF AS Vec2, Size AS FLOAT, ClrABGR AS INTEGER) // Works with SetViewOffset(X, Y).
+    DrawEllipse( WorldToScreenX(Pnt_Pos.x),WorldToScreenY(Pnt_Pos.y),  Size,Size,  ClrABGR,ClrABGR, 1 )
+ENDFUNCTION
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION DrawPixel(Pnt_Pos REF AS Vec2, ClrABGR AS INTEGER)
-    DrawBox( floor(Pnt_Pos.x), floor(Pnt_Pos.y), floor(Pnt_Pos.x)+0.99, floor(Pnt_Pos.y)+0.99, ClrABGR, ClrABGR, ClrABGR, ClrABGR, 1 )
+    DrawBox( floor(Pnt_Pos.x),floor(Pnt_Pos.y),  floor(Pnt_Pos.x)+0.99,floor(Pnt_Pos.y)+0.99,  ClrABGR,ClrABGR,ClrABGR,ClrABGR, 1 )
 ENDFUNCTION
 FUNCTION DrawPixel2(Pnt_Pos REF AS Vec2, ClrABGR AS INTEGER)
-    DrawEllipse( floor(Pnt_Pos.x)+0.5, floor(Pnt_Pos.y)+0.5, 0.4, 0.4, ClrABGR, ClrABGR, 1 )
+    DrawEllipse( floor(Pnt_Pos.x)+0.5,floor(Pnt_Pos.y)+0.5,  0.4,0.4,  ClrABGR,ClrABGR, 1 )
 ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION DrawLine_(PntA_Pos AS Vec2,
-                   PntB_Pos AS Vec2,
-                   ClrABGR  AS INTEGER)
+FUNCTION DrawLine_(PntA_Pos REF AS Vec2,
+                   PntB_Pos REF AS Vec2,
+                   ClrABGR  AS INTEGER )
     DrawLine( PntA_Pos.x,PntA_Pos.y,  PntB_Pos.x,PntB_Pos.y,  ClrABGR,ClrABGR )
 ENDFUNCTION
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION DrawLineC(PntA_Pos AS Vec2,
-                   PntB_Pos AS Vec2,
-                   Clr REF AS RGBA)
+FUNCTION DrawLineV(PntA_Pos REF AS Vec2, // Works with SetViewOffset(X, Y).
+                   PntB_Pos REF AS Vec2,
+                   ClrABGR  AS INTEGER )
+    DrawLine( WorldToScreenX(PntA_Pos.x),WorldToScreenY(PntA_Pos.y),  WorldToScreenX(PntB_Pos.x),WorldToScreenY(PntB_Pos.y),  ClrABGR,ClrABGR )
+ENDFUNCTION
+FUNCTION DrawLineC(PntA_Pos REF AS Vec2,
+                   PntB_Pos REF AS Vec2,
+                   Clr      REF AS RGBA )
     ClrABGR AS INTEGER : ClrABGR = (Clr.a << 24) + (Clr.b << 16) + (Clr.g <<  8) + Clr.r
     DrawLine( PntA_Pos.x,PntA_Pos.y,  PntB_Pos.x,PntB_Pos.y,  ClrABGR,ClrABGR )
 ENDFUNCTION
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//FUNCTION DrawCircle(Cir_Pos REF AS Vec2, Color REF AS RGBA, Cir_Rds AS FLOAT, Fill AS INTEGER)
-//    ColorABGR AS INTEGER : ColorABGR = (Color.a << 24) + (Color.b << 16) + (Color.g <<  8) + Color.r
-//    DrawEllipse( WorldToScreenX( Cir_Pos.x ), WorldToScreenY( -Cir_Pos.y ), Cir_Rds, Cir_Rds, ColorABGR, ColorABGR, Fill )
-//ENDFUNCTION
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+FUNCTION DrawCircleV(Cir_Pos REF AS Vec2, Cir_Rds AS FLOAT,
+                     Fill     AS INTEGER, ClrABGR AS INTEGER )
+    DrawEllipse( WorldToScreenX(Cir_Pos.x), WorldToScreenY(-Cir_Pos.y),  Cir_Rds,Cir_Rds,  ClrABGR,ClrABGR,  Fill )
+ENDFUNCTION
 
