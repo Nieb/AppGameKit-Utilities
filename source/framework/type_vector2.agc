@@ -140,7 +140,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION crs2(VecA REF AS Vec2, VecB REF AS Vec2) // 'VecA' "cross" 'VecB'
     Result AS FLOAT
-    Result = VecA.x * VecB.y - VecA.y * VecB.x // This is Z of a 3D CrossProduct. X & Y would be Zero.
+    Result = VecA.x * VecB.y - VecA.y * VecB.x // This is Z of a 3D CrossProduct, X & Y would be Zero.
 ENDFUNCTION Result
 
 
