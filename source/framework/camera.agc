@@ -3,20 +3,16 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 TYPE CameraType
     Pos AS Vec3
-    Rot AS Vec3
 
+    Rot AS Vec3
     Pch AS FLOAT
     Yaw AS FLOAT
     Look AS Vec3 // Axis -Z     Z is inverted.
 
-
-    PlaneNearPos AS Vec3
-    PlaneFarPos  AS Vec3
-
-
     NearDepth AS FLOAT
     FarDepth  AS FLOAT
-
+    PlaneNearPos AS Vec3
+    PlaneFarPos  AS Vec3
 
     Fov        AS FLOAT
     OrthoWidth AS FLOAT
