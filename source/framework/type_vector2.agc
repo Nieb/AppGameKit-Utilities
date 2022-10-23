@@ -268,8 +268,8 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION avg2_3(VecA REF AS Vec2, VecB REF AS Vec2, VecC REF AS Vec2) // Average of 3 Vectors
     Result AS Vec2
-    Result.x = (VecA.x + VecB.x + VecC.x) * 0.33333333333333333333333333333333333333333333333333
-    Result.y = (VecA.y + VecB.y + VecC.y) * 0.33333333333333333333333333333333333333333333333333
+    Result.x = (VecA.x + VecB.x + VecC.x) * OneThird
+    Result.y = (VecA.y + VecB.y + VecC.y) * OneThird
 ENDFUNCTION Result
 
 
