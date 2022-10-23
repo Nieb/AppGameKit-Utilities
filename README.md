@@ -6,9 +6,9 @@ A collection of various utility functions.
 ---
 
 ## A note about Vectors & Thetas:
-Upon dealing with the incoherent mess of 3D vector spaces in ComputerGraphics, Mathematics, Aviation, etc.<br/>
-And then learning that "there is no 'correct' vector space", they are arbitrary.<br/>
-This is the vector space that I've decided to use:
+Upon dealing with the incoherent mess of 3D coordinate spaces in ComputerGraphics, Mathematics, Aviation, etc.<br/>
+And then learning that "there is no 'correct' coordinate space", they are arbitrary.<br/>
+This is the coordinate space that I've settled upon use:
 
 ![Coordinate System](README_Coordinate_System.png)
 
