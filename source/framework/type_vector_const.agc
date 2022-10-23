@@ -8,5 +8,6 @@
 
 #Constant u = x
 #Constant v = y
-//#Constant w = z
 
+//#Constant min = x
+//#Constant max = y
