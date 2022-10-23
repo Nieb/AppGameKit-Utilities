@@ -98,7 +98,6 @@ FUNCTION PointVsLine( Pnt_Pos   REF AS Vec2,
                       Lin_PosA  REF AS Vec2,
                       Lin_PosB  REF AS Vec2,
                       Tolerance AS FLOAT )
-
     DeltaPA_X AS FLOAT : DeltaPA_X = Lin_PosA.x - Pnt_Pos.x
     DeltaPA_Y AS FLOAT : DeltaPA_Y = Lin_PosA.y - Pnt_Pos.y
     DeltaPB_X AS FLOAT : DeltaPB_X = Lin_PosB.x - Pnt_Pos.x
@@ -110,14 +109,13 @@ FUNCTION PointVsLine( Pnt_Pos   REF AS Vec2,
     Lin_Len   AS FLOAT : Lin_Len   = sqrt(DeltaAB_X*DeltaAB_X + DeltaAB_Y*DeltaAB_Y)
 
     IF (Pnt_Len < Lin_Len + Tolerance AND Pnt_Len > Lin_Len - Tolerance) THEN EXITFUNCTION 1
-
 ENDFUNCTION 0
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  "Line VS Line"
-FUNCTION LineVsLine( Lin1_PosA REF AS Vec2,  // Overlapping parallel Lines will not test positive as a collision.
+FUNCTION LineVsLine( Lin1_PosA REF AS Vec2,  // Parallel overlapping Lines will not test positive as a collision.
                      Lin1_PosB REF AS Vec2,
                      Lin2_PosA REF AS Vec2,
                      Lin2_PosB REF AS Vec2 )
@@ -460,7 +458,7 @@ ENDFUNCTION 0
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION PointVsTriangle(Pnt_Pos AS Vec2,
+FUNCTION PointVsTriangle(Pnt_Pos  AS Vec2,
                          Tri0_Pos AS Vec2,
                          Tri1_Pos AS Vec2,
                          Tri2_Pos AS Vec2 )
@@ -483,15 +481,14 @@ FUNCTION PointVsTriangle(Pnt_Pos AS Vec2,
     Dot12 AS FLOAT : Dot12 = L1_X * L2_X + L1_Y * L2_Y
 
     // Compute barycentric coordinates.
-    DotDotRcp AS FLOAT : DotDotRcp = 1.0 / (dot00 * dot11 - dot01 * dot01)
-    u AS FLOAT : u = (dot11 * dot02 - dot01 * dot12) * DotDotRcp
-    v AS FLOAT : v = (dot00 * dot12 - dot01 * dot02) * DotDotRcp
+    CrsDotsRcp AS FLOAT : CrsDotsRcp = 1.0 / (dot00 * dot11 - dot01 * dot01)
+    u AS FLOAT : u = (dot11 * dot02 - dot01 * dot12) * CrsDotsRcp
+    v AS FLOAT : v = (dot00 * dot12 - dot01 * dot02) * CrsDotsRcp
 
     Print("    U = "+str(u))
     Print("    V = "+str(v))
     Print("  U+V = "+str(u + v))
     Print("")
-
 
     // Check if point is in triangle.
     IF (u >= 0) AND (v >= 0) AND (u + v < 1) THEN EXITFUNCTION 1
