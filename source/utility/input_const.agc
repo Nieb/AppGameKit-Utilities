@@ -16,12 +16,15 @@
 #Constant KEY_PageDown           =  34
 #Constant KEY_End                =  35
 #Constant KEY_Home               =  36
+
 #Constant KEY_Arrow_Left         =  37
 #Constant KEY_Arrow_Up           =  38
 #Constant KEY_Arrow_Right        =  39
 #Constant KEY_Arrow_Down         =  40
+
 #Constant KEY_Insert             =  45
 #Constant KEY_Delete             =  46
+
 #Constant KEY_0                  =  48
 #Constant KEY_1                  =  49
 #Constant KEY_2                  =  50
@@ -32,6 +35,7 @@
 #Constant KEY_7                  =  55
 #Constant KEY_8                  =  56
 #Constant KEY_9                  =  57
+
 #Constant KEY_A                  =  65
 #Constant KEY_B                  =  66
 #Constant KEY_C                  =  67
@@ -58,8 +62,10 @@
 #Constant KEY_X                  =  88
 #Constant KEY_Y                  =  89
 #Constant KEY_Z                  =  90
+
 #Constant KEY_WIN_LEFT           =  91
 #Constant KEY_WIN_RIGHT          =  92
+
 #Constant KEY_NumPad_0           =  96
 #Constant KEY_NumPad_1           =  97
 #Constant KEY_NumPad_2           =  98
@@ -75,6 +81,7 @@
 #Constant KEY_NumPad_Subtract    = 109
 #Constant KEY_NumPad_Decimal     = 110
 #Constant KEY_NumPad_Divide      = 111
+
 #Constant KEY_F1                 = 112
 #Constant KEY_F2                 = 113
 #Constant KEY_F3                 = 114
@@ -87,8 +94,10 @@
 #Constant KEY_F10                = 121
 #Constant KEY_F11                = 122
 #Constant KEY_F12                = 123
+
 #Constant KEY_NumLock            = 144
 #Constant KEY_ScrollLock         = 145
+
 #Constant KEY_VOLUME_MUTE        = 173
 #Constant KEY_VOLUME_DOWN        = 174
 #Constant KEY_VOLUME_UP          = 175
@@ -96,6 +105,7 @@
 #Constant KEY_MEDIA_PREV         = 177
 #Constant KEY_MEDIA_STOP         = 178
 #Constant KEY_MEDIA_PLAY         = 179
+
 #Constant KEY_Semicolon          = 186 // ;
 #Constant KEY_Equals             = 187 // =
 #Constant KEY_Comma              = 188 // ,
@@ -108,12 +118,14 @@
 #Constant KEY_SquareBracketRight = 221 // ]
 #Constant KEY_Hash               = 222 // #   Not on US-keyboards.
 #Constant KEY_Grave              = 223 // `
+
 #Constant KEY_Shift_Left         = 257
 #Constant KEY_Shift_Right        = 258
 #Constant KEY_Ctrl_Left          = 259
 #Constant KEY_Ctrl_Right         = 260
 #Constant KEY_Alt_Left           = 261
 #Constant KEY_Alt_Right          = 262
+
 #Constant KEY_NumRow_0           = 263
 #Constant KEY_NumRow_1           = 264
 #Constant KEY_NumRow_2           = 265
