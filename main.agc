@@ -5,7 +5,7 @@
 SetErrorMode(2)
 SetFolder("")
 
-SetWindowTitle("Framework Libraries Build Test")
+SetWindowTitle("Utility Build Test")
 SetWindowAllowResize(0)
 
        SetWindowSize(1024, 768, 0)
@@ -21,13 +21,6 @@ SetPrintColor(240, 240, 240)
 //  Garbage in, garbage out.
 //      There are no safety checks and no validity checks.
 //      Use this library at your own peril.
-
-//  Name?
-//      Module
-//      Library
-//      Utility
-//      Framework
-//      ...
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
