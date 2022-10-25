@@ -1,18 +1,17 @@
-# AppGameKit-Framework-Libraries
+# AppGameKit Utilities
 A collection of various utility functions.
 
-***This is all very much a work in progress.***
-
----
+### ***This is all very much a work in progress.***
+<br/>
 
 ## A note about Vectors & Thetas:
 Upon dealing with the incoherent mess of 3D coordinate spaces in ComputerGraphics, Mathematics, Aviation, etc.<br/>
 And then learning that "there is no 'correct' coordinate space", they are arbitrary.<br/>
-This is the coordinate space that I've settled upon use:
+This is the coordinate space that I've settled upon using:
 
 ![Coordinate System](README_Coordinate_System.png)
 
----
+<br/>
 
 ## Variable & Function Naming:
 These rules are adhered to, unless I've overlooked something. Or, the code is old and needs revisited.
@@ -41,10 +40,13 @@ Bnd = "Bounds"
 Nrm = "Normal"
 Rds = "Radius"
 Dir = "Direction" or "Directory"
-Lok = "Look"  - - - - - - - - - - The normalize-vector direction something is facing.
+Lok = "Look"
+          The normalize-vector direction something is facing.
 Clr = "Color"
 
-Trgt = "Target" - - - - - - - - - Used for interpolating things like Position, Velocity, Rotation, etc.  (*.VelTrgt, *.RotTrgt)
+Trgt = "Target"
+          Used for interpolating things like Position, Velocity, Rotation, etc.  
+          Example: Thing.VelTrgt, Thing.RotTrgt
 
 Dlt = "Delta"
 
@@ -83,7 +85,7 @@ FOR iThg = 0 TO Thing.length
 NEXT iThg
 
 FOR iPlyr = 0 TO Player.length
-    Player[iPlyr].Pos.x = 5.0 + iPlyr
+    Player[iPlyr].Pos.x = Player[iPlyr].Pos.x + 5.0
 NEXT iPlyr
 
 // In the case that coordinate indexes are used, iX,iY,iZ, iU,iV, etc are used.
