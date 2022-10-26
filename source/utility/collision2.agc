@@ -384,15 +384,12 @@ ENDFUNCTION 0
 FUNCTION WhichSideOfLine(PntPos  REF AS Vec2,
                          LinPosA REF AS Vec2,
                          LinPosB REF AS Vec2 )
-
     Dtrmnt AS FLOAT : Dtrmnt = (PntPos.x-LinPosA.x)*(LinPosB.y-LinPosA.y)-(PntPos.y-LinPosA.y)*(LinPosB.x-LinPosA.x)
-
-    //         I
+    //                                           I
     //
-    //  A------J------B
+    //                                    A------J------B
     //
-    //         K
-
+    //                                           K
     IF     Dtrmnt > 0.0 : EXITFUNCTION  1  // Example I
     ELSEIF Dtrmnt < 0.0 : EXITFUNCTION -1  // Example K
     ELSE                                   // Example J     Point is on Line.
