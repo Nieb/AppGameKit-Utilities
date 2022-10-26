@@ -41,12 +41,12 @@ Nrm = "Normal"
 Rds = "Radius"
 Dir = "Direction" or "Directory"
 Lok = "Look"
-          The normalize-vector direction something is facing.
-Clr = "Color"
-
+          The normalized-vector direction something is facing.
 Trgt = "Target"
           Used for interpolating things like Position, Velocity, Rotation, etc.  
-          Example: Thing.VelTrgt, Thing.RotTrgt
+            Example:  Thing.VelTrgt  Thing.RotTrgt
+
+Clr = "Color"
 
 Dlt = "Delta"
 
