@@ -6,7 +6,7 @@ A collection of various utility functions.
 
 ## A note about Vectors & Thetas:
 Upon dealing with the incoherent mess of 3D coordinate spaces in ComputerGraphics, Mathematics, Aviation, etc.<br/>
-And then learning that "there is no 'correct' coordinate space", they are arbitrary.<br/>
+Then, learning that "there is no 'correct' coordinate space", they are arbitrary.<br/>
 This is the coordinate space that I've settled upon using:
 
 ![Coordinate System](README_Coordinate_System.png)
@@ -85,7 +85,7 @@ FOR iThg = 0 TO Thing.length
 NEXT iThg
 
 FOR iPlyr = 0 TO Player.length
-    Player[iPlyr].Pos.x = Player[iPlyr].Pos.x + 5.0
+    Player[iPlyr].Pos.x = Player[iPlyr].Pos.x + Player[iPlyr].Vel.x
 NEXT iPlyr
 
 // In the case that coordinate indexes are used, iX,iY,iZ, iU,iV, etc are used.
