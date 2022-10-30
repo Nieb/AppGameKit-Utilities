@@ -41,8 +41,10 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION DrawCircleV(Cir_Pos REF AS Vec2, Cir_Rds AS FLOAT,
-                     Fill     AS INTEGER, ClrABGR AS INTEGER )
-    DrawEllipse( WorldToScreenX(Cir_Pos.x), WorldToScreenY(-Cir_Pos.y),  Cir_Rds,Cir_Rds,  ClrABGR,ClrABGR,  Fill )
+FUNCTION DrawCircle(Cir_Pos REF AS Vec2, Cir_Rds AS FLOAT, ClrABGR AS INTEGER )
+    DrawEllipse( Cir_Pos.x, Cir_Pos.y,  Cir_Rds,Cir_Rds,  ClrABGR,ClrABGR,  0 )
+ENDFUNCTION
+FUNCTION DrawCircleV(Cir_Pos REF AS Vec2, Cir_Rds AS FLOAT, ClrABGR AS INTEGER )
+    DrawEllipse( WorldToScreenX(Cir_Pos.x), WorldToScreenY(Cir_Pos.y),  Cir_Rds,Cir_Rds,  ClrABGR,ClrABGR,  0 )
 ENDFUNCTION
 
