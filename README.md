@@ -101,5 +101,3 @@ FOR iThgY = 0 TO Thing_SizY
     NEXT iX
 NEXT iY
 ```
-
----
