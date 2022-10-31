@@ -114,88 +114,6 @@ ENDFUNCTION (r >= 0.0 && r <= 1.0) && (s >= 0.0 && s <= 1.0)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION LineVsAas( LinA    AS Vec2, LinB    AS Vec2,
-                    Sqr_Pos AS Vec2, Sqr_Siz AS FLOAT ) // BottomLeft, Width & Height        "Axis-Aligned Square"
-//  //=====================================================================================================================================
-//  SqrRadius AS FLOAT : SqrRadius = Sqr_Diameter * 0.5
-//  Sqr_X_Lft AS FLOAT : Sqr_X_Lft = Sqr_X - SqrRadius
-//  Sqr_X_Rit AS FLOAT : Sqr_X_Rit = Sqr_X + SqrRadius
-//  Sqr_Y_Top AS FLOAT : Sqr_Y_Top = Sqr_Y - SqrRadius
-//  Sqr_Y_Btm AS FLOAT : Sqr_Y_Btm = Sqr_Y + SqrRadius
-//  //=====================================================================================================================================
-//  // Is Area of line over Area of Square?
-//  Lin_X_Lft AS FLOAT
-//  Lin_X_Rit AS FLOAT
-//  Lin_Y_Top AS FLOAT
-//  Lin_Y_Btm AS FLOAT
-//  IF LinA.x <= LinB.x : Lin_X_Lft = LinA.x : Lin_X_Rit = LinB.x
-//  ELSE                : Lin_X_Lft = LinB.x : Lin_X_Rit = LinA.x
-//  ENDIF
-//  IF LinA.y <= LinB.y : Lin_Y_Top = LinA.y : Lin_Y_Btm = LinB.y
-//  ELSE                : Lin_Y_Top = LinB.y : Lin_Y_Btm = LinA.y
-//  ENDIF
-//  IF (Sqr_X_Lft > Lin_X_Rit OR Sqr_Y_Top > Lin_Y_Btm OR Sqr_X_Rit < Lin_X_Lft OR Sqr_Y_Btm < Lin_Y_Top) THEN EXITFUNCTION 0  //@fix      Test >= Start, Test < End
-//  //=====================================================================================================================================
-//  // Is PointB in Square?                 Check PointB first, it's typically used as the destination of a movement vector.
-//  IF LinB.x < Sqr_X_Rit AND LinB.x >= Sqr_X_Lft AND LinB.y < Sqr_Y_Btm AND LinB.y >= Sqr_Y_Top THEN EXITFUNCTION 101
-//  //=====================================================================================================================================
-//  // Is PointA in Square?
-//  IF LinA.x < Sqr_X_Rit AND LinA.x >= Sqr_X_Lft AND LinA.y < Sqr_Y_Btm AND LinA.y >= Sqr_Y_Top THEN EXITFUNCTION 102
-//  //=====================================================================================================================================
-//  // Are any of the 4 Square lines colliding?
-//  Delta_LineA_LineB_X AS FLOAT : Delta_LineA_LineB_X = LinB.x - LinA.x
-//  Delta_LineA_LineB_Y AS FLOAT : Delta_LineA_LineB_Y = LinB.y - LinA.y
-//  Delta_LineA_SqrA_X AS FLOAT
-//  Delta_LineA_SqrA_Y AS FLOAT
-//  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//  n1 AS FLOAT
-//  n2 AS FLOAT
-//  d AS FLOAT
-//  r AS FLOAT
-//  s AS FLOAT
-//  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//  Delta_LineA_SqrA_X = LinA.x - Sqr_X_Lft
-//  Delta_LineA_SqrA_Y = LinA.y - Sqr_Y_Top
-//  n1 = (Delta_LineA_SqrA_Y * Delta_LineA_LineB_X) - (Delta_LineA_SqrA_X * Delta_LineA_LineB_Y)
-//  n2 = (Delta_LineA_SqrA_Y * Sqr_Diameter)
-//  d  = -(Delta_LineA_LineB_Y * Sqr_Diameter)
-//  r = n1 / d
-//  s = n2 / d
-//  IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 201
-//  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//  Delta_LineA_SqrA_X = LinA.x - Sqr_X_Rit
-//  Delta_LineA_SqrA_Y = LinA.y - Sqr_Y_Top
-//  n1 = (Delta_LineA_SqrA_Y * Delta_LineA_LineB_X) - (Delta_LineA_SqrA_X * Delta_LineA_LineB_Y)
-//  n2 = -(Delta_LineA_SqrA_X * Sqr_Diameter)
-//  d  = (Delta_LineA_LineB_X * Sqr_Diameter)
-//  r = n1 / d
-//  s = n2 / d
-//  IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 202
-//  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//  Delta_LineA_SqrA_X = LinA.x - Sqr_X_Rit
-//  Delta_LineA_SqrA_Y = LinA.y - Sqr_Y_Btm
-//  n1 = (Delta_LineA_SqrA_Y * Delta_LineA_LineB_X) - (Delta_LineA_SqrA_X * Delta_LineA_LineB_Y)
-//  n2 = (Delta_LineA_SqrA_Y * -Sqr_Diameter)
-//  d  = -(Delta_LineA_LineB_Y * -Sqr_Diameter)
-//  r = n1 / d
-//  s = n2 / d
-//  IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 203
-//  //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//  // The function will never make it here.
-//  Delta_LineA_SqrA_X = LinA.x - Sqr_X_Lft
-//  Delta_LineA_SqrA_Y = LinA.y - Sqr_Y_Btm
-//  n1 = (Delta_LineA_SqrA_Y * Delta_LineA_LineB_X) - (Delta_LineA_SqrA_X * Delta_LineA_LineB_Y)
-//  n2 = -(Delta_LineA_SqrA_X * -Sqr_Diameter)
-//  d  = (Delta_LineA_LineB_X * -Sqr_Diameter)
-//  r = n1 / d
-//  s = n2 / d
-//  IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 204
-//  //=====================================================================================================================================
-ENDFUNCTION 0
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION LineVsAar( LinA    REF AS Vec2, LinB    REF AS Vec2,
                     Rct_Pos REF AS Vec2, Rct_Siz REF AS Vec2 )  // Pos = BottomLeft     Siz = (Width, Height)
     //=====================================================================================================================================
@@ -213,7 +131,7 @@ FUNCTION LineVsAar( LinA    REF AS Vec2, LinB    REF AS Vec2,
     IF     (LinA.y <= LinB.y) : Lin_Bm = LinB.y : Lin_Tp = LinA.y
     ELSEIF (LinA.y >  LinB.y) : Lin_Bm = LinA.y : Lin_Tp = LinB.y
     ENDIF
-    IF Rct_Pos.x > Lin_Rt OR Rct_Pos.y > Lin_Bm OR Rct_Rt < Lin_Lf OR Rct_Bm < Lin_Tp THEN EXITFUNCTION 0
+    IF Rct_Pos.x >= Lin_Rt OR Rct_Pos.y >= Lin_Bm OR Rct_Rt < Lin_Lf OR Rct_Bm < Lin_Tp THEN EXITFUNCTION 0
     //=====================================================================================================================================
     // Is PointB in Rectangle?
     // Check PointB first, it's typically used as the destination of a movement vector.
@@ -222,7 +140,7 @@ FUNCTION LineVsAar( LinA    REF AS Vec2, LinB    REF AS Vec2,
     // Is PointA in Rectangle?
     IF (LinA.x < Rct_Rt AND LinA.x >= Rct_Pos.x AND LinA.y < Rct_Bm AND LinA.y >= Rct_Pos.y) THEN EXITFUNCTION 1
     //=====================================================================================================================================
-    // Are any of the 4 Rectangle lines colliding?
+    // Are any of the 4 Rectangle-Lines colliding with the Line?
     Delta_1A_1B_X AS FLOAT : Delta_1A_1B_X = LinB.x - LinA.x
     Delta_1A_1B_Y AS FLOAT : Delta_1A_1B_Y = LinB.y - LinA.y
     Delta_2A_2B_X AS FLOAT
@@ -238,13 +156,13 @@ FUNCTION LineVsAar( LinA    REF AS Vec2, LinB    REF AS Vec2,
     //=====================================================================================================================================
     Delta_2A_2B_X = Rct_Rt    - Rct_Pos.x
     Delta_2A_2B_Y = Rct_Pos.y - Rct_Pos.y
-    Delta_1A_2A_X = LinA.x - Rct_Pos.x
-    Delta_1A_2A_Y = LinA.y - Rct_Pos.y
+    Delta_1A_2A_X = LinA.x    - Rct_Pos.x
+    Delta_1A_2A_Y = LinA.y    - Rct_Pos.y
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
     n2 = (Delta_1A_2A_Y * Delta_2A_2B_X) - (Delta_1A_2A_X * Delta_2A_2B_Y)
     d  = (Delta_1A_1B_X * Delta_2A_2B_Y) - (Delta_1A_1B_Y * Delta_2A_2B_X)
-    r = n1 / d
-    s = n2 / d
+    r  = n1 / d
+    s  = n2 / d
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //=====================================================================================================================================
     Delta_2A_2B_X = Rct_Rt - Rct_Rt
@@ -254,8 +172,8 @@ FUNCTION LineVsAar( LinA    REF AS Vec2, LinB    REF AS Vec2,
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
     n2 = (Delta_1A_2A_Y * Delta_2A_2B_X) - (Delta_1A_2A_X * Delta_2A_2B_Y)
     d  = (Delta_1A_1B_X * Delta_2A_2B_Y) - (Delta_1A_1B_Y * Delta_2A_2B_X)
-    r = n1 / d
-    s = n2 / d
+    r  = n1 / d
+    s  = n2 / d
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //=====================================================================================================================================
     Delta_2A_2B_X = Rct_Pos.x - Rct_Rt
@@ -265,10 +183,11 @@ FUNCTION LineVsAar( LinA    REF AS Vec2, LinB    REF AS Vec2,
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
     n2 = (Delta_1A_2A_Y * Delta_2A_2B_X) - (Delta_1A_2A_X * Delta_2A_2B_Y)
     d  = (Delta_1A_1B_X * Delta_2A_2B_Y) - (Delta_1A_1B_Y * Delta_2A_2B_X)
-    r = n1 / d
-    s = n2 / d
+    r  = n1 / d
+    s  = n2 / d
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //=====================================================================================================================================
+    // The function will never make it here.
     Delta_2A_2B_X = Rct_Pos.x - Rct_Pos.x
     Delta_2A_2B_Y = Rct_Pos.y - Rct_Bm
     Delta_1A_2A_X = LinA.x    - Rct_Pos.x
@@ -276,8 +195,8 @@ FUNCTION LineVsAar( LinA    REF AS Vec2, LinB    REF AS Vec2,
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
     n2 = (Delta_1A_2A_Y * Delta_2A_2B_X) - (Delta_1A_2A_X * Delta_2A_2B_Y)
     d  = (Delta_1A_1B_X * Delta_2A_2B_Y) - (Delta_1A_1B_Y * Delta_2A_2B_X)
-    r = n1 / d
-    s = n2 / d
+    r  = n1 / d
+    s  = n2 / d
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //=====================================================================================================================================
 ENDFUNCTION 0
