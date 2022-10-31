@@ -3,9 +3,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  Convert to STRING, then pad left with Spaces.
 FUNCTION PadStr(StringMe AS FLOAT, PadLeft AS INTEGER, TruncRight AS INTEGER)
-    Result       AS STRING  : Result       = str(StringMe, TruncRight) //  Fun fact:  TruncRight = -1  will show all digits.
-    StringLength AS INTEGER : StringLength = len(str(StringMe,0)) //len(str(floor(StringMe)))   len(left(Result,FindString(Result,".")-1))
-    IF (StringLength >= PadLeft) THEN EXITFUNCTION Result //  Prevent spaces() crash.
+    Result       AS STRING  : Result       = str(StringMe, TruncRight)  //  Fun fact:  TruncRight = -1  will show all digits.
+    StringLength AS INTEGER : StringLength = len(str(StringMe,0))       //  Length of integer part of float.
+    IF (StringLength >= PadLeft) THEN EXITFUNCTION Result               //  Prevent spaces() crash.
     Result = Spaces(PadLeft - StringLength) + Result
 ENDFUNCTION Result
 
@@ -13,9 +13,9 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  Convert to STRING, then pad left with 'PadWith'.
 FUNCTION PadStrWith(StringMe AS FLOAT, PadLeft AS INTEGER, TruncRight AS INTEGER, PadWith AS STRING)
-    Result       AS STRING  : Result       = str(StringMe, TruncRight) //  Fun fact:  TruncRight = -1  will show all digits.
-    StringLength AS INTEGER : StringLength = len(str(StringMe,0)) //len(str(floor(StringMe)))   len(left(Result,FindString(Result,".")-1))
-    IF (StringLength >= PadLeft) THEN EXITFUNCTION Result //  Prevent spaces() crash.
+    Result       AS STRING  : Result       = str(StringMe, TruncRight)  //  Fun fact:  TruncRight = -1  will show all digits.
+    StringLength AS INTEGER : StringLength = len(str(StringMe,0))       //  Length of integer part of float.
+    IF (StringLength >= PadLeft) THEN EXITFUNCTION Result               //  Prevent spaces() crash.
     PadWith = Right(PadWith,1)
     Result = ReplaceString(Spaces(PadLeft - StringLength), " ", PadWith, -1) + Result
 ENDFUNCTION Result
