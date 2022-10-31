@@ -52,7 +52,8 @@ ENDFUNCTION HitPos
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Infinite-Axis-Aligned-Plane"   Plane spans XZ.
-FUNCTION IRayVsIAAP_Y(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, PlnPosY AS FLOAT)
+FUNCTION IRayVsIAAP_Y(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
+                      PlnPosY AS FLOAT)
     HitPos AS Vec3
     Distance AS FLOAT : Distance = (PlnPosY - Ray_Pos.y) / Ray_Nrm.y
     IF (Distance < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
@@ -62,7 +63,8 @@ ENDFUNCTION HitPos
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Infinite-Axis-Aligned-Plane"   Plane spans XY.
-FUNCTION IRayVsIAAP_Z(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, PlnPosZ AS FLOAT)
+FUNCTION IRayVsIAAP_Z(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
+                      PlnPosZ AS FLOAT)
     HitPos AS Vec3
     Distance AS FLOAT : Distance = (PlnPosZ - Ray_Pos.z) / Ray_Nrm.z
     IF (Distance < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
@@ -80,7 +82,8 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Point vs Axis-Aligned-Box"
-FUNCTION PointVsAab(Pnt_Pos REF AS Vec3, Box_Pos REF AS Vec3, Box_Siz REF AS Vec3)
+FUNCTION PointVsAab(Pnt_Pos REF AS Vec3,
+                    Box_Pos REF AS Vec3, Box_Siz REF AS Vec3)
     IF (Pnt_Pos.x >= Box_Pos.x AND Pnt_Pos.x < Box_Pos.x+Box_Siz.x) AND (Pnt_Pos.y >= Box_Pos.y AND Pnt_Pos.y < Box_Pos.y+Box_Siz.y) AND (Pnt_Pos.z >= Box_Pos.z AND Pnt_Pos.z < Box_Pos.z+Box_Siz.z) THEN EXITFUNCTION 1
 ENDFUNCTION 0
 
@@ -99,20 +102,20 @@ FUNCTION IRayVsAab(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRecip REF AS
     DistMinZ AS FLOAT : DistMinZ = (Box_Pos.z             - Ray_Pos.z) * Ray_NrmRecip.z
     DistMaxZ AS FLOAT : DistMaxZ = (Box_Pos.z + Box_Siz.z - Ray_Pos.z) * Ray_NrmRecip.z
 
-    //       +Y  |      |
-    //           |      |                                          +Y -Z (far)
-    //       ----+------+---- <-- DistMaxY                          | /
-    //           |      |                                           |/
-    //           |      |                           DistMinZ -->    +---- +X
-    //           |      |                                          /
-    //       ----+------+---- <-- DistMinY                        /
-    //           |      |                                        /
-    //       0   |      |  +X                   DistMaxZ -->   +Z (near)
-    //           ^
-    //        DistMinX  ^
+    //       +Y  │      │
+    //           │      │                                          +Y -Z (far)
+    //       ────┼──────┼──── ◀── DistMaxY                          │ /
+    //           │      │                                           │/
+    //           │      │                           DistMinZ ──▶    +──── +X
+    //           │      │                                          /
+    //       ────┼──────┼──── ◀── DistMinY                        /
+    //           │      │                                        /
+    //       0   │      │  +X                   DistMaxZ ──▶   +Z (near)
+    //           🡅
+    //        DistMinX  🡅
     //               DistMaxX
 
-    //  Reorient Min<-->Max relative to Ray_Pos.
+    //  Reorient Min<──>Max relative to Ray_Pos.
     HoldMe AS FLOAT
     IF (DistMinX > DistMaxX) : HoldMe = DistMinX : DistMinX = DistMaxX : DistMaxX = HoldMe : ENDIF // max(DistMinX, DistMaxX)
     IF (DistMinY > DistMaxY) : HoldMe = DistMinY : DistMinY = DistMaxY : DistMaxY = HoldMe : ENDIF // max(DistMinY, DistMaxY)
@@ -161,7 +164,7 @@ FUNCTION RayVsTriangle(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_Len AS FLOA
 
     RayPosLocal AS Vec3 : RayPosLocal = sub3(TriVrt[0], Ray_Pos)  // Ray_Pos In TriVrt0 LocalSpace.
 
-    // Is Ray pointing towards Tri (normal) FrontFace, or (with normal) away from FrontFace.
+    // Is Ray pointing towards Triangle-Normal (FrontFace), or with Triangle-Normal (away from FrontFace).
     Dtrmnt AS FLOAT : Dtrmnt = dot3(Ray_Nrm, Tri_Nrm)  // "Determinant".
 
     // ???
@@ -170,17 +173,16 @@ FUNCTION RayVsTriangle(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_Len AS FLOA
     Dot_CrsRPLRN_V2 AS FLOAT
     Dot_CrsRPLRN_V1 AS FLOAT
     Dot_RPL_TN  AS FLOAT
-    IF Dtrmnt >= 0.0 // Ray is pointing same direction as Triangle Normal.
+    IF Dtrmnt >= 0.0 // Ray is pointing same direction as Triangle-Normal.
         IF NOT BackFaceTest : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 < 0.0 OR Dot_CrsRPLRN_V2                   >        Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 < 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 >        Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 < 0.0 OR Dot_CrsRPLRN_V2                   >         Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 < 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 >         Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
         Dot_RPL_TN      =  dot3(RayPosLocal, Tri_Nrm)   : IF (Dot_RPL_TN      < 0.0 OR Dot_RPL_TN                        > Ray_Len*Dtrmnt OR Dtrmnt < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-    ELSE // Ray is pointing opposite of Triangle Normal.
-        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 > 0.0 OR Dot_CrsRPLRN_V2                   <        Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 > 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 <        Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+    ELSE // Ray is pointing opposite of Triangle-Normal.
+        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 > 0.0 OR Dot_CrsRPLRN_V2                   <         Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 > 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 <         Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
         Dot_RPL_TN      =  dot3(RayPosLocal, Tri_Nrm)   : IF (Dot_RPL_TN      > 0.0 OR Dot_RPL_TN                        < Ray_Len*Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
     ENDIF
-
 
   //DtrmntRcp = 1.0 / Dtrmnt
   //HitDist   = Dot_RPL_TN * DtrmntRcp
@@ -218,14 +220,11 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION PointVsSphere(Pnt_Pos REF AS Vec3,
                        Sph_Pos REF AS Vec3, Sph_Rds AS FLOAT)
-    Delta_X  AS FLOAT : Delta_X  = Sph_Pos.x - Pnt_Pos.x
-    Delta_Y  AS FLOAT : Delta_Y  = Sph_Pos.y - Pnt_Pos.y
-    Distance AS FLOAT : Distance = Sph_Pos.z - Pnt_Pos.z // "Delta_Z".
-
-    Distance = sqrt(Delta_X*Delta_X + Delta_Y*Delta_Y + Distance*Distance)
-
-    IF Distance <= Sph_Rds THEN EXITFUNCTION 1
-ENDFUNCTION 0
+    Dlt_X AS FLOAT : Dlt_X = Sph_Pos.x - Pnt_Pos.x
+    Dlt_Y AS FLOAT : Dlt_Y = Sph_Pos.y - Pnt_Pos.y
+    Dlt_Z AS FLOAT : Dlt_Z = Sph_Pos.z - Pnt_Pos.z
+    Dlt_Z = Dlt_X*Dlt_X + Dlt_Y*Dlt_Y + Dlt_Z*Dlt_Z
+ENDFUNCTION (Dlt_Z <= Sph_Rds*Sph_Rds)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
