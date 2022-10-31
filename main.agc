@@ -19,7 +19,7 @@ SetPrintSize(24)
 SetPrintColor(240, 240, 240)
 
 //  Garbage in, garbage out.
-//      There are no safety checks and no validity checks.
+//      There are typically no safety or validity checks.
 //      Use this library at your own peril.
 
 
@@ -56,7 +56,7 @@ END
 #Include "source/utility/collision1.agc"
 #Include "source/utility/collision2.agc"
 #Include "source/utility/collision3.agc"
-#Include "source/utility/color_gamma.agc"
+#Include "source/utility/color.agc"
 #Include "source/utility/data.agc"
 #Include "source/utility/draw2.agc"
 #Include "source/utility/draw3.agc"
