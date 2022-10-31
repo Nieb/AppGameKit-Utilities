@@ -22,8 +22,8 @@ TYPE Line
 ENDTYPE
 
 TYPE Line2
-    PosA   AS Vec3
-    PosB   AS Vec3
+    PosA   AS Vec2
+    PosB   AS Vec2
     Nrm    AS Vec2
     NrmRcp AS Vec2 // "Reciprocal"
 ENDTYPE
