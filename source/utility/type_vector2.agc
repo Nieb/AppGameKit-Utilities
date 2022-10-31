@@ -66,10 +66,10 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION add2f(VecA REF AS Vec2, FloatValue AS FLOAT) // 'VecA' + 'Float'
+FUNCTION add2f(VecA REF AS Vec2, FltA AS FLOAT) // 'VecA' + 'Float'
     Result AS Vec2
-    Result.x = VecA.x + FloatValue
-    Result.y = VecA.y + FloatValue
+    Result.x = VecA.x + FltA
+    Result.y = VecA.y + FltA
 ENDFUNCTION Result
 
 
@@ -84,10 +84,10 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION sub2f(VecA REF AS Vec2, FloatValue AS FLOAT) // 'VecA' - 'Float'
+FUNCTION sub2f(VecA REF AS Vec2, FltA AS FLOAT) // 'VecA' - 'Float'
     Result AS Vec2
-    Result.x = VecA.x - FloatValue
-    Result.y = VecA.y - FloatValue
+    Result.x = VecA.x - FltA
+    Result.y = VecA.y - FltA
 ENDFUNCTION Result
 
 
@@ -102,10 +102,10 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION mul2f(VecA REF AS Vec2, FloatValue AS FLOAT) // 'VecA' * 'Float'
+FUNCTION mul2f(VecA REF AS Vec2, FltA AS FLOAT) // 'VecA' * 'Float'
     Result AS Vec2
-    Result.x = VecA.x * FloatValue
-    Result.y = VecA.y * FloatValue
+    Result.x = VecA.x * FltA
+    Result.y = VecA.y * FltA
 ENDFUNCTION Result
 
 
@@ -120,10 +120,10 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION div2f(VecA REF AS Vec2, FloatValue AS FLOAT) // 'VecA' / 'Float'
+FUNCTION div2f(VecA REF AS Vec2, FltA AS FLOAT) // 'VecA' / 'Float'
     Result AS Vec2
-    Result.x = VecA.x / FloatValue
-    Result.y = VecA.y / FloatValue
+    Result.x = VecA.x / FltA
+    Result.y = VecA.y / FltA
 ENDFUNCTION Result
 
 
