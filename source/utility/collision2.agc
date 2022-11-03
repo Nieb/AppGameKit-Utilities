@@ -84,11 +84,67 @@ FUNCTION PointVsLine( Pnt   REF AS Vec2,
     DltPA_Y AS FLOAT : DltPA_Y = LinA.y - Pnt.y
     DltPB_X AS FLOAT : DltPB_X = LinB.x - Pnt.x
     DltPB_Y AS FLOAT : DltPB_Y = LinB.y - Pnt.y
-    APB_Len AS FLOAT : APB_Len = sqrt(DltPA_X*DltPA_X + DltPA_Y*DltPA_Y) + sqrt(DltPB_X*DltPB_X + DltPB_Y*DltPB_Y)
+    APB_Len AS FLOAT : APB_Len = sqrt(DltPA_X*DltPA_X + DltPA_Y*DltPA_Y) + sqrt(DltPB_X*DltPB_X + DltPB_Y*DltPB_Y)   //@@ ""
     DltAB_X AS FLOAT : DltAB_X = LinB.x - LinA.x
     DltAB_Y AS FLOAT : DltAB_Y = LinB.y - LinA.y
-    AB_Len  AS FLOAT : AB_Len  = sqrt(DltAB_X*DltAB_X + DltAB_Y*DltAB_Y)
+    AB_Len  AS FLOAT : AB_Len  = sqrt(DltAB_X*DltAB_X + DltAB_Y*DltAB_Y)    //@@ These SQRTs can likely be optimized out.
 ENDFUNCTION (APB_Len < AB_Len + Tolerance) && (APB_Len > AB_Len - Tolerance)
+
+
+FUNCTION PointVsLine2(Pnt  AS Vec2,
+                      LinA AS Vec2, LinB AS Vec2,
+                      Tolerance AS FLOAT)
+    DltAB_X AS FLOAT : DltAB_X = LinB.x - LinA.x
+    DltAB_Y AS FLOAT : DltAB_Y = LinB.y - LinA.y
+    LenAB AS FLOAT : LenAB = DltAB_X*DltAB_X + DltAB_Y*DltAB_Y
+
+    DltPA_X AS FLOAT : DltPA_X = LinA.x - Pnt.x
+    DltPA_Y AS FLOAT : DltPA_Y = LinA.y - Pnt.y
+    LenPA AS FLOAT : LenPA = DltPA_X*DltPA_X + DltPA_Y*DltPA_Y
+    IF LenPA > LenAB THEN EXITFUNCTION 0
+
+    DltPB_X AS FLOAT : DltPB_X = LinB.x - Pnt.x
+    DltPB_Y AS FLOAT : DltPB_Y = LinB.y - Pnt.y
+    LenPB AS FLOAT : LenPB = DltPB_X*DltPB_X + DltPB_Y*DltPB_Y
+    IF LenPB > LenAB THEN EXITFUNCTION 0
+
+    LenAB = 1.0 / sqrt(LenAB)   //@@ These SQRTs can likely be optimized out.
+
+    Dtrmnt AS FLOAT
+    Dtrmnt = DltPB_X*DltPA_Y - DltPA_X*DltPB_Y
+    Dtrmnt = Dtrmnt*LenAB
+ENDFUNCTION (Dtrmnt > -Tolerance) && (Dtrmnt < Tolerance)
+
+
+FUNCTION PointVsLine3(Pnt  AS Vec2,
+                      LinA AS Vec2, LinB AS Vec2,
+                      Tolerance AS FLOAT)
+    //IF Pnt.x = LinA.x AND Pnt.y = LinA.y THEN EXITFUNCTION 1  The occurrence of these is so rare that it is not worth checking for.
+    //IF Pnt.x = LinB.x AND Pnt.y = LinB.y THEN EXITFUNCTION 1
+
+    DltAP_X AS FLOAT : DltAP_X = Pnt.x  - LinA.x
+    DltAP_Y AS FLOAT : DltAP_Y = Pnt.y  - LinA.y
+    DltAB_X AS FLOAT : DltAB_X = LinB.x - LinA.x
+    DltAB_Y AS FLOAT : DltAB_Y = LinB.y - LinA.y
+
+    DotAP_AB AS FLOAT : DotAP_AB = (DltAP_X * DltAB_X) + (DltAP_Y * DltAB_Y)
+    DotAB_AB AS FLOAT : DotAB_AB = (DltAB_X * DltAB_X) + (DltAB_Y * DltAB_Y)
+
+    // Get distance, from LinA as multiple of DltAB, to NearestPointOnLine:
+    DltAB_Scalar AS FLOAT
+    DltAB_Scalar = DotAP_AB / DotAB_AB
+
+    IF DltAB_Scalar < 0.0 OR DltAB_Scalar >= 1.0 THEN EXITFUNCTION 0 // -1
+
+    // Project 'Pnt' onto Line:
+    PrjPnt_X AS FLOAT : PrjPnt_X = DltAB_X * DltAB_Scalar
+    PrjPnt_Y AS FLOAT : PrjPnt_Y = DltAB_Y * DltAB_Scalar
+
+    // Distance between 'Pnt' and 'PrjPnt':
+    DltPPP_X AS FLOAT : DltPPP_X = DltAP_X - PrjPnt_X
+    DltPPP_Y AS FLOAT : DltPPP_Y = DltAP_Y - PrjPnt_Y
+
+ENDFUNCTION (DltPPP_X*DltPPP_X + DltPPP_Y*DltPPP_Y < Tolerance*Tolerance)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -275,7 +331,7 @@ FUNCTION WhichSideOfLine(Pnt  REF AS Vec2,
     //                                      N
     IF     Dtrmt > 0.0 : EXITFUNCTION  1  // Example P
     ELSEIF Dtrmt < 0.0 : EXITFUNCTION -1  // Example N
-    ENDIF                          //  0     Example O     Point is on Line.
+    ENDIF  //                          0     Example O     Point is on Line.
 ENDFUNCTION 0
 
 
@@ -291,7 +347,7 @@ FUNCTION PointVsTriangle(Pnt  AS Vec2,
     DltPB_Y AS FLOAT : DltPB_Y = TriB.y - Pnt.y
     DltPC_X AS FLOAT : DltPC_X = TriC.x - Pnt.x
     DltPC_Y AS FLOAT : DltPC_Y = TriC.y - Pnt.y
-ENDFUNCTION (DltPA_X*DltPC_Y >= DltPC_X*DltPA_Y) && (DltPB_X*DltPA_Y >= DltPA_X*DltPB_Y) && (DltPC_X*DltPB_Y >= DltPB_X*DltPC_Y)
+ENDFUNCTION (DltPA_X*DltPC_Y <= DltPC_X*DltPA_Y) && (DltPB_X*DltPA_Y <= DltPA_X*DltPB_Y) && (DltPC_X*DltPB_Y <= DltPB_X*DltPC_Y)
 
 
 ////FUNCTION PointVsTriangle(Pnt_Pos  AS Vec2,
