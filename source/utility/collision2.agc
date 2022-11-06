@@ -20,6 +20,12 @@ ENDFUNCTION (Rct1_Pos.x < Rct2_Pos.x+Rct2_Siz.x AND Rct1_Pos.x+Rct1_Siz.x >= Rct
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION PointVsCircle( Pnt     AS Vec2,
                         Cir_Pos AS Vec2, Cir_Rds AS FLOAT )
     Dlt_X AS FLOAT : Dlt_X = Pnt.x - Cir_Pos.x
@@ -32,8 +38,7 @@ FUNCTION CircleVsCircle( Cir1_Pos AS Vec2, Cir1_Rds AS FLOAT,
                          Cir2_Pos AS Vec2, Cir2_Rds AS FLOAT )
     Dlt_X AS FLOAT : Dlt_X = Cir1_Pos.x - Cir2_Pos.x
     Dlt_Y AS FLOAT : Dlt_Y = Cir1_Pos.y - Cir2_Pos.y
-    IF (sqrt(Dlt_X*Dlt_X + Dlt_Y*Dlt_Y) < Cir1_Rds+Cir2_Rds) THEN EXITFUNCTION 1
-ENDFUNCTION 0
+ENDFUNCTION ((Dlt_X*Dlt_X + Dlt_Y*Dlt_Y) < Cir1_Rds*Cir1_Rds+Cir2_Rds*Cir2_Rds)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,8 +82,57 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION PointVsLine( Pnt   REF AS Vec2,
-                      LinA  REF AS Vec2, LinB  REF AS Vec2,
+FUNCTION WhichSideOfLine(Pnt  REF AS Vec2,
+                         LinA REF AS Vec2,
+                         LinB REF AS Vec2 )
+    Dtrmt AS FLOAT : Dtrmt = (Pnt.x-LinA.x)*(LinB.y-LinA.y) - (Pnt.y-LinA.y)*(LinB.x-LinA.x) // "Determinant"
+    //                                      P
+    //
+    //                               A──────O──────B
+    //
+    //                                      N
+    IF     Dtrmt > 0.0 : EXITFUNCTION  1  // Example P
+    ELSEIF Dtrmt < 0.0 : EXITFUNCTION -1  // Example N
+    ENDIF  //                          0     Example O     Point is on Line.
+ENDFUNCTION 0
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+FUNCTION PointVsLine(Pnt  AS Vec2,
+                     LinA AS Vec2, LinB AS Vec2,
+                     Tolerance AS FLOAT )
+    //IF Pnt.x = LinA.x AND Pnt.y = LinA.y THEN EXITFUNCTION 1  The occurrence of these is so rare that it is not worth checking for.
+    //IF Pnt.x = LinB.x AND Pnt.y = LinB.y THEN EXITFUNCTION 1
+
+    DltAP_X AS FLOAT : DltAP_X = Pnt.x  - LinA.x
+    DltAP_Y AS FLOAT : DltAP_Y = Pnt.y  - LinA.y
+    DltAB_X AS FLOAT : DltAB_X = LinB.x - LinA.x
+    DltAB_Y AS FLOAT : DltAB_Y = LinB.y - LinA.y
+
+    DotAP_AB AS FLOAT : DotAP_AB = (DltAP_X * DltAB_X) + (DltAP_Y * DltAB_Y)
+    DotAB_AB AS FLOAT : DotAB_AB = (DltAB_X * DltAB_X) + (DltAB_Y * DltAB_Y)
+
+    // Get distance, from LinA as multiple of DltAB, to NearestPointOnLine:
+    DltAB_Scalar AS FLOAT
+    DltAB_Scalar = DotAP_AB / DotAB_AB
+
+    IF DltAB_Scalar < 0.0 OR DltAB_Scalar >= 1.0 THEN EXITFUNCTION 0 // -1
+
+    // Project 'Pnt' onto Line:
+    PrjPnt_X AS FLOAT : PrjPnt_X = DltAB_X * DltAB_Scalar
+    PrjPnt_Y AS FLOAT : PrjPnt_Y = DltAB_Y * DltAB_Scalar
+
+    // Distance between 'Pnt' and 'PrjPnt':
+    DltPPP_X AS FLOAT : DltPPP_X = DltAP_X - PrjPnt_X
+    DltPPP_Y AS FLOAT : DltPPP_Y = DltAP_Y - PrjPnt_Y
+
+ENDFUNCTION (DltPPP_X*DltPPP_X + DltPPP_Y*DltPPP_Y < Tolerance*Tolerance)
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+FUNCTION PointVsLine1(Pnt  REF AS Vec2,
+                      LinA REF AS Vec2, LinB REF AS Vec2,
                       Tolerance AS FLOAT )
     DltPA_X AS FLOAT : DltPA_X = LinA.x - Pnt.x
     DltPA_Y AS FLOAT : DltPA_Y = LinA.y - Pnt.y
@@ -114,37 +168,6 @@ FUNCTION PointVsLine2(Pnt  AS Vec2,
     Dtrmnt = DltPB_X*DltPA_Y - DltPA_X*DltPB_Y
     Dtrmnt = Dtrmnt*LenAB
 ENDFUNCTION (Dtrmnt > -Tolerance) && (Dtrmnt < Tolerance)
-
-
-FUNCTION PointVsLine3(Pnt  AS Vec2,
-                      LinA AS Vec2, LinB AS Vec2,
-                      Tolerance AS FLOAT)
-    //IF Pnt.x = LinA.x AND Pnt.y = LinA.y THEN EXITFUNCTION 1  The occurrence of these is so rare that it is not worth checking for.
-    //IF Pnt.x = LinB.x AND Pnt.y = LinB.y THEN EXITFUNCTION 1
-
-    DltAP_X AS FLOAT : DltAP_X = Pnt.x  - LinA.x
-    DltAP_Y AS FLOAT : DltAP_Y = Pnt.y  - LinA.y
-    DltAB_X AS FLOAT : DltAB_X = LinB.x - LinA.x
-    DltAB_Y AS FLOAT : DltAB_Y = LinB.y - LinA.y
-
-    DotAP_AB AS FLOAT : DotAP_AB = (DltAP_X * DltAB_X) + (DltAP_Y * DltAB_Y)
-    DotAB_AB AS FLOAT : DotAB_AB = (DltAB_X * DltAB_X) + (DltAB_Y * DltAB_Y)
-
-    // Get distance, from LinA as multiple of DltAB, to NearestPointOnLine:
-    DltAB_Scalar AS FLOAT
-    DltAB_Scalar = DotAP_AB / DotAB_AB
-
-    IF DltAB_Scalar < 0.0 OR DltAB_Scalar >= 1.0 THEN EXITFUNCTION 0 // -1
-
-    // Project 'Pnt' onto Line:
-    PrjPnt_X AS FLOAT : PrjPnt_X = DltAB_X * DltAB_Scalar
-    PrjPnt_Y AS FLOAT : PrjPnt_Y = DltAB_Y * DltAB_Scalar
-
-    // Distance between 'Pnt' and 'PrjPnt':
-    DltPPP_X AS FLOAT : DltPPP_X = DltAP_X - PrjPnt_X
-    DltPPP_Y AS FLOAT : DltPPP_Y = DltAP_Y - PrjPnt_Y
-
-ENDFUNCTION (DltPPP_X*DltPPP_X + DltPPP_Y*DltPPP_Y < Tolerance*Tolerance)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -320,23 +343,6 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION WhichSideOfLine(Pnt  REF AS Vec2,
-                         LinA REF AS Vec2,
-                         LinB REF AS Vec2 )
-    Dtrmt AS FLOAT : Dtrmt = (Pnt.x-LinA.x)*(LinB.y-LinA.y) - (Pnt.y-LinA.y)*(LinB.x-LinA.x) // "Determinant"
-    //                                      P
-    //
-    //                               A──────O──────B
-    //
-    //                                      N
-    IF     Dtrmt > 0.0 : EXITFUNCTION  1  // Example P
-    ELSEIF Dtrmt < 0.0 : EXITFUNCTION -1  // Example N
-    ENDIF  //                          0     Example O     Point is on Line.
-ENDFUNCTION 0
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION PointVsTriangle(Pnt  AS Vec2,
                          TriA AS Vec2,  //  Triangle winding is Anti-Clockwise.
                          TriB AS Vec2,
@@ -348,107 +354,4 @@ FUNCTION PointVsTriangle(Pnt  AS Vec2,
     DltPC_X AS FLOAT : DltPC_X = TriC.x - Pnt.x
     DltPC_Y AS FLOAT : DltPC_Y = TriC.y - Pnt.y
 ENDFUNCTION (DltPA_X*DltPC_Y <= DltPC_X*DltPA_Y) && (DltPB_X*DltPA_Y <= DltPA_X*DltPB_Y) && (DltPC_X*DltPB_Y <= DltPB_X*DltPC_Y)
-
-
-////FUNCTION PointVsTriangle(Pnt_Pos  AS Vec2,
-////                         Tri0_Pos AS Vec2,  //  Triangle winding is Anti-Clockwise.
-////                         Tri1_Pos AS Vec2,
-////                         Tri2_Pos AS Vec2 )
-////
-////    // Translate Points to LocalSpace.
-////    L0_X AS FLOAT : L0_X = Tri2_Pos.x - Tri0_Pos.x
-////    L0_Y AS FLOAT : L0_Y = Tri2_Pos.y - Tri0_Pos.y
-////
-////    L1_X AS FLOAT : L1_X = Tri1_Pos.x - Tri0_Pos.x
-////    L1_Y AS FLOAT : L1_Y = Tri1_Pos.y - Tri0_Pos.y
-////
-////    L2_X AS FLOAT : L2_X =  Pnt_Pos.x - Tri0_Pos.x
-////    L2_Y AS FLOAT : L2_Y =  Pnt_Pos.y - Tri0_Pos.y
-////
-////    // Dots...
-////    Dot00 AS FLOAT : Dot00 = L0_X * L0_X + L0_Y * L0_Y
-////    Dot01 AS FLOAT : Dot01 = L0_X * L1_X + L0_Y * L1_Y
-////    Dot02 AS FLOAT : Dot02 = L0_X * L2_X + L0_Y * L2_Y
-////    Dot11 AS FLOAT : Dot11 = L1_X * L1_X + L1_Y * L1_Y
-////    Dot12 AS FLOAT : Dot12 = L1_X * L2_X + L1_Y * L2_Y
-////
-////    // Compute barycentric coordinates.
-////    CrsDotsRcp AS FLOAT : CrsDotsRcp = 1.0 / (dot00 * dot11 - dot01 * dot01)
-////    u AS FLOAT : u = (dot11 * dot02 - dot01 * dot12) * CrsDotsRcp
-////    v AS FLOAT : v = (dot00 * dot12 - dot01 * dot02) * CrsDotsRcp
-////
-////    //Print("===================")
-////    //Print("    U = "+str(u))
-////    //Print("    V = "+str(v))
-////    //Print("  U+V = "+str(u + v))
-////    //Print("===================")
-////
-////    // Check if point is in triangle.
-////    IF (u >= 0) AND (v >= 0) AND (u + v < 1) THEN EXITFUNCTION 1
-////
-////ENDFUNCTION 0
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  "Point VS Axis-Aligned Right-Triangle"
-////FUNCTION PointVsAart( RiseOrFall      AS INTEGER,  // Triangulation Direction
-////                      Point_X         AS INTEGER,
-////                      Point_Y         AS INTEGER,
-////                      Triangle_X      AS INTEGER,  // X,Y = TopLeft
-////                      Triangle_Y      AS INTEGER,  // X,Y = TopLeft
-////                      Triangle_Width  AS INTEGER,  // Triangle Width
-////                      Triangle_Height AS INTEGER ) // Triangle Height
-////    //=====================================================================================================================================
-////    // First check if Point is in Rectangle with PointvsAar() before using this function, it will not work properly otherwise.
-////
-////    // do this internally ???
-////    //      Might make sense to keep it external for this one.
-////
-////    // make which triangle you are testing for an argument?
-////    // along with RiseOrFall ?
-////
-////    //=====================================================================================================================================
-////    Point_X = Point_X - TriangleX // convert Point to local space
-////    Point_Y = Point_Y - TriangleY // convert Point to local space
-////    IF RiseOrFall = 0 // Rise
-////        // ******
-////        // *1  **
-////        // *  * *
-////        // * *  *
-////        // **  2*
-////        // ******
-////        //Print( tWidth * Point_Y + tHeight * Point_X - tWidth * tHeight )
-////        IF tWidth * Point_Y + tHeight * Point_X - tWidth * tHeight < 0
-////            EXITFUNCTION 1
-////        ELSE
-////            EXITFUNCTION 2
-////        ENDIF
-////    ELSEIF RiseOrFall = 1 // Fall
-////        // ******
-////        // **  1*
-////        // * *  *
-////        // *  * *
-////        // *2  **
-////        // ******
-////        //Print( tHeight * Point_X - tWidth * Point_Y )
-////        IF tHeight * Point_X - tWidth * Point_Y > 0
-////            EXITFUNCTION 1
-////        ELSE
-////            EXITFUNCTION 2
-////        ENDIF
-////    ENDIF
-////ENDFUNCTION 0
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//FUNCTION GetTri___(VecPos AS Vec2, Which AS INTEGER)
-//    // https://www.desmos.com/calculator/mjptaodmua
-//ENDFUNCTION
 
