@@ -309,7 +309,7 @@ FUNCTION prj2(Pnt  REF AS Vec2,                   // "Projection"  Get ClosestPo
     DotAP_AB AS FLOAT : DotAP_AB = (DltAP_X * DltAB_X) + (DltAP_Y * DltAB_Y)
     DotAB_AB AS FLOAT : DotAB_AB = (DltAB_X * DltAB_X) + (DltAB_Y * DltAB_Y) //  Squared length of DltAB.
 
-    // Get distance from NearestPointOnLine, as multiple of DltAB.
+    // Get distance, from LinA as multiple of DltAB, to NearestPointOnLine:
     DltScalar AS FLOAT
     DltScalar = DotAP_AB / DotAB_AB
 
