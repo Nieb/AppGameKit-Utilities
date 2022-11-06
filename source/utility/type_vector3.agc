@@ -149,15 +149,15 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION dot3(VecA REF AS Vec3, VecB REF AS Vec3) // 'VecA' dot 'VecB'
-ENDFUNCTION (VecA.x * VecB.x) + (VecA.y * VecB.y) + (VecA.z * VecB.z)  //  How much does B overlap with A, relative to A, as a vector1.
+ENDFUNCTION (VecA.x*VecB.x + VecA.y*VecB.y + VecA.z*VecB.z)  //  How much does B overlap with A, relative to A, as a vector1.
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION crs3(VecA REF AS Vec3, VecB REF AS Vec3) // 'VecA' cross 'VecB'
-    Result AS Vec3                                                     //  How much does B 'cross' with A, relative to A, as a perpendicular vector3.
-    Result.x = (VecA.y * VecB.z) - (VecA.z * VecB.y)                   //    crs(+X, +Y) = +Z
-    Result.y = (VecA.z * VecB.x) - (VecA.x * VecB.z)                   //    crs(+Y, +Z) = +X
-    Result.z = (VecA.x * VecB.y) - (VecA.y * VecB.x)                   //    crs(+Z, +X) = +Y
+FUNCTION crs3(VecA REF AS Vec3, VecB REF AS Vec3) //  'VecA' cross 'VecB'
+    Result AS Vec3                                //      How much does B 'cross' with A, relative to A, as a perpendicular vector3.
+    Result.x = (VecA.y*VecB.z - VecA.z*VecB.y)    //          crs(+X, +Y) = +Z
+    Result.y = (VecA.z*VecB.x - VecA.x*VecB.z)    //          crs(+Y, +Z) = +X
+    Result.z = (VecA.x*VecB.y - VecA.y*VecB.x)    //          crs(+Z, +X) = +Y
 ENDFUNCTION Result
 
 
@@ -200,7 +200,7 @@ FUNCTION dst3(VecA AS Vec3, VecB AS Vec3) // "Distance" between 'VecA' and 'VecB
     VecA.x = VecB.x - VecA.x // "Delta_X"
     VecA.y = VecB.y - VecA.y // "Delta_Y"
     VecA.z = VecB.z - VecA.z // "Delta_Z"
-    VecA.x = sqrt((VecA.x*VecA.x) + (VecA.y*VecA.y) + (VecA.z*VecA.z)) // "Result"
+    VecA.x = sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z) // "Result"
 ENDFUNCTION VecA.x
 
 
@@ -342,7 +342,7 @@ FUNCTION prj3(Pnt  REF AS Vec3,                         // "Projection"  Get Clo
     Dot_AP_AB            AS FLOAT : Dot_AP_AB            = (Delta_AP_X * Delta_AB_X) + (Delta_AP_Y * Delta_AB_Y) + (Delta_AP_Z * Delta_AB_Z)
     Delta_AB_Length_Sqrd AS FLOAT : Delta_AB_Length_Sqrd = (Delta_AB_X * Delta_AB_X) + (Delta_AB_Y * Delta_AB_Y) + (Delta_AB_Z * Delta_AB_Z)
 
-    // Get distance from NearestPointOnLine, as multiple of Delta_AB.
+    // Get distance, from LinA as multiple of DltAB, to NearestPointOnLine:
     Delta_Scalar AS FLOAT : Delta_Scalar = Dot_AP_AB / Delta_AB_Length_Sqrd // (LengthNew / LengthOld)
 
     Result AS Vec3
@@ -402,7 +402,7 @@ ENDFUNCTION Result
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION PitchYawToVec3(Pch AS FLOAT, Yaw AS FLOAT)
-    //  Theta & Z are inverted.
+    //  Thetas & Z are inverted.
     //      PitchYawToVec3( 0,  0) = ( 0, 0,-1)
     //      PitchYawToVec3(90,  0) = ( 0,-1, 0)
     //      PitchYawToVec3( 0, 90) = ( 1, 0, 0)
