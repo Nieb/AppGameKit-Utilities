@@ -92,54 +92,57 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // "Infinite-Ray vs Axis-Aligned-Box"
-FUNCTION IRayVsAab(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRecip REF AS Vec3,  //  Does not Hit=True if Ray_Pos is inside Box.
+FUNCTION IRayVsAab(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRcp REF AS Vec3,  //  Does not Hit=True if Ray_Pos is inside Box.
                    Box_Pos REF AS Vec3, Box_Siz REF AS Vec3)
     //  Distance to bounds Planes from Ray_Pos, for 3 Axes Min & Max, 6 total.
-    DistMinX AS FLOAT : DistMinX = (Box_Pos.x             - Ray_Pos.x) * Ray_NrmRecip.x  // We can avoid div here by using (1.0 / RayNormal).
-    DistMaxX AS FLOAT : DistMaxX = (Box_Pos.x + Box_Siz.x - Ray_Pos.x) * Ray_NrmRecip.x
-    DistMinY AS FLOAT : DistMinY = (Box_Pos.y             - Ray_Pos.y) * Ray_NrmRecip.y
-    DistMaxY AS FLOAT : DistMaxY = (Box_Pos.y + Box_Siz.y - Ray_Pos.y) * Ray_NrmRecip.y
-    DistMinZ AS FLOAT : DistMinZ = (Box_Pos.z             - Ray_Pos.z) * Ray_NrmRecip.z
-    DistMaxZ AS FLOAT : DistMaxZ = (Box_Pos.z + Box_Siz.z - Ray_Pos.z) * Ray_NrmRecip.z
+    DstMinX AS FLOAT : DstMinX = (Box_Pos.x             - Ray_Pos.x) * Ray_NrmRcp.x  // We can avoid div here by using (1.0 / RayNormal).
+    DstMaxX AS FLOAT : DstMaxX = (Box_Pos.x + Box_Siz.x - Ray_Pos.x) * Ray_NrmRcp.x
+    DstMinY AS FLOAT : DstMinY = (Box_Pos.y             - Ray_Pos.y) * Ray_NrmRcp.y
+    DstMaxY AS FLOAT : DstMaxY = (Box_Pos.y + Box_Siz.y - Ray_Pos.y) * Ray_NrmRcp.y
+    DstMinZ AS FLOAT : DstMinZ = (Box_Pos.z             - Ray_Pos.z) * Ray_NrmRcp.z
+    DstMaxZ AS FLOAT : DstMaxZ = (Box_Pos.z + Box_Siz.z - Ray_Pos.z) * Ray_NrmRcp.z
 
     //       +Y  │      │
     //           │      │                                          +Y -Z (far)
-    //       ────┼──────┼──── ◀── DistMaxY                          │ /
+    //       ────┼──────┼──── ◀── DstMaxY                           │ /
     //           │      │                                           │/
-    //           │      │                           DistMinZ ──▶    +──── +X
+    //           │      │                            DstMinZ ──▶    +──── +X
     //           │      │                                          /
-    //       ────┼──────┼──── ◀── DistMinY                        /
+    //       ────┼──────┼──── ◀── DstMinY                         /
     //           │      │                                        /
-    //       0   │      │  +X                   DistMaxZ ──▶   +Z (near)
+    //       0   │      │  +X                    DstMaxZ ──▶   +Z (near)
     //           🡅
-    //        DistMinX  🡅
-    //               DistMaxX
+    //        DstMinX  🡅
+    //               DstMaxX
 
     //  Reorient Min<──>Max relative to Ray_Pos.
     HoldMe AS FLOAT
-    IF (DistMinX > DistMaxX) : HoldMe = DistMinX : DistMinX = DistMaxX : DistMaxX = HoldMe : ENDIF // max(DistMinX, DistMaxX)
-    IF (DistMinY > DistMaxY) : HoldMe = DistMinY : DistMinY = DistMaxY : DistMaxY = HoldMe : ENDIF // max(DistMinY, DistMaxY)
-    IF (DistMinZ > DistMaxZ) : HoldMe = DistMinZ : DistMinZ = DistMaxZ : DistMaxZ = HoldMe : ENDIF // max(DistMinZ, DistMaxZ)
+    IF (DstMinX > DstMaxX) : HoldMe = DstMinX : DstMinX = DstMaxX : DstMaxX = HoldMe : ENDIF // max(DstMinX, DstMaxX)
+    IF (DstMinY > DstMaxY) : HoldMe = DstMinY : DstMinY = DstMaxY : DstMaxY = HoldMe : ENDIF // max(DstMinY, DstMaxY)
+    IF (DstMinZ > DstMaxZ) : HoldMe = DstMinZ : DstMinZ = DstMaxZ : DstMaxZ = HoldMe : ENDIF // max(DstMinZ, DstMaxZ)
 
     //  Select PlaneHits in Quadrant/Octant of Box.
     DistFront AS FLOAT
-    IF DistMinX > DistMinY // max(DistMinX, DistMinY)
-        IF (DistMinX > DistMinZ) : DistFront = DistMinX : ELSE : DistFront = DistMinZ : ENDIF // max(DistMinX, DistMinZ)
+    IF DstMinX > DstMinY // max(DstMinX, DstMinY)
+        IF (DstMinX > DstMinZ) : DistFront = DstMinX : ELSE : DistFront = DstMinZ : ENDIF // max(DstMinX, DstMinZ)
     ELSE
-        IF (DistMinY > DistMinZ) : DistFront = DistMinY : ELSE : DistFront = DistMinZ : ENDIF // max(DistMinY, DistMinZ)
+        IF (DstMinY > DstMinZ) : DistFront = DstMinY : ELSE : DistFront = DstMinZ : ENDIF // max(DstMinY, DstMinZ)
     ENDIF
     DistBack AS FLOAT
-    IF DistMaxX < DistMaxY // min(DistMaxX, DistMaxY)
-        IF (DistMaxX < DistMaxZ) : DistBack = DistMaxX : ELSE : DistBack = DistMaxZ : ENDIF // min(DistMaxX, DistMaxZ)
+    IF DstMaxX < DstMaxY // min(DstMaxX, DstMaxY)
+        IF (DstMaxX < DstMaxZ) : DistBack = DstMaxX : ELSE : DistBack = DstMaxZ : ENDIF // min(DstMaxX, DstMaxZ)
     ELSE
-        IF (DistMaxY < DistMaxZ) : DistBack = DistMaxY : ELSE : DistBack = DistMaxZ : ENDIF // min(DistMaxY, DistMaxZ)
+        IF (DstMaxY < DstMaxZ) : DistBack = DstMaxY : ELSE : DistBack = DstMaxZ : ENDIF // min(DstMaxY, DstMaxZ)
     ENDIF
 
     //  Did we hit it?
     HitPos AS Vec3
     IF     (DistBack  <      0.0) : HitPos.x = MISS //  Box is behind us.
     ELSEIF (DistFront > DistBack) : HitPos.x = MISS //  Ray does not collide.
-    ELSE                          : HitPos   = add3( Ray_Pos, mul3f(Ray_Nrm,DistFront) ) //  Get HitPosition.
+    ELSE                        //: HitPos   = add3( Ray_Pos, mul3f(Ray_Nrm,DistFront) ) //  Get HitPosition.
+        HitPos.x = Ray_Pos.x + Ray_Nrm.x*DistFront
+        HitPos.y = Ray_Pos.y + Ray_Nrm.y*DistFront
+        HitPos.z = Ray_Pos.z + Ray_Nrm.z*DistFront
     ENDIF
 ENDFUNCTION HitPos
 
