@@ -18,7 +18,7 @@ FUNCTION DrawVertZ(Vrt    AS Vec3, Siz    AS FLOAT, ClrABGR AS INTEGER,
                    CamPos AS Vec3, CamLok AS Vec3 )
 
     //  Push CamPos slightly forward:
-    CamPos = add3(vec3(GetCameraX(1), GetCameraY(1), -GetCameraZ(1)), mul3f(CamLok, 0.0625+0.001)) // (CamNearDist + Offset)     @@ Compute all of this once then pass to function.
+    CamPos = add3(CamPos, mul3f(CamLok, 0.0625+0.001)) // (CamNearDist + Offset)     @@ Compute all of this once then pass to function.
 
     //  Prevent GetScreenPosFrom3D() from barfing because of positions behind Camera_NearPlane:
     IF dot3(CamLok, sub3(Vrt, CamPos)) <= 0.0 THEN EXITFUNCTION // Is Vertex behind Camera?
@@ -49,7 +49,7 @@ ENDFUNCTION
 FUNCTION DrawEdgeZ(EdgA   AS Vec3, EdgB   AS Vec3, ClrABGR AS INTEGER,
                    CamPos AS Vec3, CamLok AS Vec3 )
     //  Push CamPos slightly forward:
-    CamPos = add3(vec3(GetCameraX(1),GetCameraY(1),-GetCameraZ(1)), mul3f(CamLok, 0.0625+0.001)) // (CamNearDist + Offset)     @@ Compute all of this once then pass to function.
+    CamPos = add3(CamPos, mul3f(CamLok, 0.0625+0.001)) // (CamNearDist + Offset)     @@ Compute all of this once then pass to function.
 
     VertA_IsBehindCamera AS INTEGER = 0
     VertB_IsBehindCamera AS INTEGER = 0
@@ -71,15 +71,89 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+FUNCTION DrawCircle12(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, ClrABGR AS INTEGER,    Pch AS FLOAT, Yaw AS FLOAT )
+    A AS Vec3
+    B AS Vec3
+
+    A.x = Cir_Pos.x + ( 0.0       * Cir_Rds)
+    A.y = Cir_Pos.y + ( 0.0       * Cir_Rds)
+    A.z = Cir_Pos.z + (-1.0       * Cir_Rds)
+
+    B.x = Cir_Pos.x + ( 0.5       * Cir_Rds)
+    B.y = Cir_Pos.y + ( 0.0       * Cir_Rds)
+    B.z = Cir_Pos.z + (-0.8660254 * Cir_Rds)
+    IF (Pch <> 0.0) : A = pch3(A, Pch) : B = pch3(B, Pch) : ENDIF
+    IF (Yaw <> 0.0) : A = yaw3(A, Yaw) : B = yaw3(B, Yaw) : ENDIF
+    GOSUB DrawTheCircleLine
+
+    A = B
+    B.x = Cir_Pos.x + ( 0.8660254 * Cir_Rds)
+    B.y = Cir_Pos.y + ( 0.0       * Cir_Rds)
+    B.z = Cir_Pos.z + (-0.5       * Cir_Rds)
+    IF (Pch <> 0.0) THEN B = pch3(B, Pch)
+    IF (Yaw <> 0.0) THEN B = yaw3(B, Yaw)
+    GOSUB DrawTheCircleLine
+
+    A = B
+    B.x = Cir_Pos.x + ( 1.0       * Cir_Rds)
+    B.y = Cir_Pos.y + ( 0.0       * Cir_Rds)
+    B.z = Cir_Pos.z + ( 0.0       * Cir_Rds)
+    IF (Pch <> 0.0) THEN B = pch3(B, Pch)
+    IF (Yaw <> 0.0) THEN B = yaw3(B, Yaw)
+    GOSUB DrawTheCircleLine
+
+    EXITFUNCTION
+DrawTheCircleLine:
+    DrawLine(GetScreenXFrom3D( A.x, A.y,- A.z), GetScreenYFrom3D( A.x, A.y,- A.z), GetScreenXFrom3D( B.x, B.y,- B.z), GetScreenYFrom3D( B.x, B.y,- B.z), ClrABGR,ClrABGR-0x00CCCC00)
+    DrawLine(GetScreenXFrom3D( A.x,-A.y,--A.z), GetScreenYFrom3D( A.x,-A.y,--A.z), GetScreenXFrom3D( B.x,-B.y,--B.z), GetScreenYFrom3D( B.x,-B.y,--B.z), ClrABGR,ClrABGR-0x00FF00FF)
+    DrawLine(GetScreenXFrom3D(-A.x,-A.y,--A.z), GetScreenYFrom3D(-A.x,-A.y,--A.z), GetScreenXFrom3D(-B.x,-B.y,--B.z), GetScreenYFrom3D(-B.x,-B.y,--B.z), ClrABGR,ClrABGR-0x0000CCFF)
+    DrawLine(GetScreenXFrom3D(-A.x, A.y,- A.z), GetScreenYFrom3D(-A.x, A.y,- A.z), GetScreenXFrom3D(-B.x, B.y,- B.z), GetScreenYFrom3D(-B.x, B.y,- B.z), ClrABGR,ClrABGR-0x0000FF00)
+RETURN
+////DrawLine(GetScreenXFrom3D( A.x, A.y,- A.z), GetScreenYFrom3D( A.x, A.y,- A.z), GetScreenXFrom3D( B.x, B.y,- B.z), GetScreenYFrom3D( B.x, B.y,- B.z), ClrABGR,ClrABGR)
+////DrawLine(GetScreenXFrom3D( A.x,-A.y,--A.z), GetScreenYFrom3D( A.x,-A.y,--A.z), GetScreenXFrom3D( B.x,-B.y,--B.z), GetScreenYFrom3D( B.x,-B.y,--B.z), ClrABGR,ClrABGR)
+////DrawLine(GetScreenXFrom3D(-A.x,-A.y,--A.z), GetScreenYFrom3D(-A.x,-A.y,--A.z), GetScreenXFrom3D(-B.x,-B.y,--B.z), GetScreenYFrom3D(-B.x,-B.y,--B.z), ClrABGR,ClrABGR)
+////DrawLine(GetScreenXFrom3D(-A.x, A.y,- A.z), GetScreenYFrom3D(-A.x, A.y,- A.z), GetScreenXFrom3D(-B.x, B.y,- B.z), GetScreenYFrom3D(-B.x, B.y,- B.z), ClrABGR,ClrABGR)
+ENDFUNCTION
+
+FUNCTION DrawCircle16(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, Cir_Clr AS INTEGER,    Pch AS FLOAT, Yaw AS FLOAT )
+    //...
+
+
+//DrawTheCircleLine:
+//    DrawLine(GetScreenXFrom3D( A.x, A.y,- A.z), GetScreenYFrom3D( A.x, A.y,- A.z), GetScreenXFrom3D( B.x, B.y,- B.z), GetScreenYFrom3D( B.x, B.y,- B.z), ClrABGR,ClrABGR-0x00CCCC00)
+//    DrawLine(GetScreenXFrom3D( A.x,-A.y,--A.z), GetScreenYFrom3D( A.x,-A.y,--A.z), GetScreenXFrom3D( B.x,-B.y,--B.z), GetScreenYFrom3D( B.x,-B.y,--B.z), ClrABGR,ClrABGR-0x00FF00FF)
+//    DrawLine(GetScreenXFrom3D(-A.x,-A.y,--A.z), GetScreenYFrom3D(-A.x,-A.y,--A.z), GetScreenXFrom3D(-B.x,-B.y,--B.z), GetScreenYFrom3D(-B.x,-B.y,--B.z), ClrABGR,ClrABGR-0x0000CCFF)
+//    DrawLine(GetScreenXFrom3D(-A.x, A.y,- A.z), GetScreenYFrom3D(-A.x, A.y,- A.z), GetScreenXFrom3D(-B.x, B.y,- B.z), GetScreenYFrom3D(-B.x, B.y,- B.z), ClrABGR,ClrABGR-0x0000FF00)
+//RETURN
+ENDFUNCTION
+
+FUNCTION DrawCircle24(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, Cir_Clr AS INTEGER,    Pch AS FLOAT, Yaw AS FLOAT )
+    //...
+ENDFUNCTION
+
+FUNCTION DrawCircle32(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, Cir_Clr AS INTEGER,    Pch AS FLOAT, Yaw AS FLOAT )
+    //...
+ENDFUNCTION
+
+FUNCTION DrawCircle48(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, Cir_Clr AS INTEGER,    Pch AS FLOAT, Yaw AS FLOAT )
+    //...
+ENDFUNCTION
+
+FUNCTION DrawCircle64(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, Cir_Clr AS INTEGER,    Pch AS FLOAT, Yaw AS FLOAT )
+    //...
+ENDFUNCTION
+
+
 //FUNCTION DrawCircle(Cir_Pos REF AS Vec3, Cir_Rot REF AS Vec3    CirPch AS FLOAT, CirYaw AS FLOAT,    , Cir_Rds AS FLOAT, Segments AS INTEGER, Clr REF AS RGBA)
 
 //@@  Todo.
 //      Produce draw-points, then rotate them.    Cache them?
-//FUNCTION CreateWireMesh()
-//ENDFUNCTION
-//FUNCTION DrawWireMesh()
-//ENDFUNCTION
 
+//FUNCTION CreateWireMesh()
+//    Mesh AS Vec3[]
+//ENDFUNCTION Mesh
+//FUNCTION DrawWireMesh(Pos AS Vec3, Mesh REF AS Vec3[])
+//ENDFUNCTION
 
 //    ClrABGR AS INTEGER : ClrABGR = (Clr.a << 24) + (Clr.b << 16) + (Clr.g <<  8) + Clr.r
 //    aX AS FLOAT : aX = Cir_Rds
