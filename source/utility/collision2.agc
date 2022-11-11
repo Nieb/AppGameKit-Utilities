@@ -38,7 +38,7 @@ FUNCTION CircleVsCircle( Cir1_Pos AS Vec2, Cir1_Rds AS FLOAT,
                          Cir2_Pos AS Vec2, Cir2_Rds AS FLOAT )
     Dlt_X AS FLOAT : Dlt_X = Cir1_Pos.x - Cir2_Pos.x
     Dlt_Y AS FLOAT : Dlt_Y = Cir1_Pos.y - Cir2_Pos.y
-ENDFUNCTION ((Dlt_X*Dlt_X + Dlt_Y*Dlt_Y) < Cir1_Rds*Cir1_Rds+Cir2_Rds*Cir2_Rds)
+ENDFUNCTION ((Dlt_X*Dlt_X + Dlt_Y*Dlt_Y) < (Cir1_Rds*Cir1_Rds + Cir2_Rds*Cir2_Rds))
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,9 +114,9 @@ FUNCTION PointVsLine(Pnt  AS Vec2,
     DotAB_AB AS FLOAT : DotAB_AB = (DltAB_X * DltAB_X) + (DltAB_Y * DltAB_Y)
 
     // Get distance, from LinA as multiple of DltAB, to NearestPointOnLine:
-    DltAB_Scalar AS FLOAT
-    DltAB_Scalar = DotAP_AB / DotAB_AB
+    DltAB_Scalar AS FLOAT : DltAB_Scalar = DotAP_AB / DotAB_AB
 
+    // Is ProjectedPoint between A and B:
     IF DltAB_Scalar < 0.0 OR DltAB_Scalar >= 1.0 THEN EXITFUNCTION 0 // -1
 
     // Project 'Pnt' onto Line:
