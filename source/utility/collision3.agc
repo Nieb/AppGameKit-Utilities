@@ -1,6 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  IRay    =  "Infinite-Ray"
+//  IPlane  =  "Infinite-Plane"
+//  IAAP    =  "Infinite-Axis-Aligned-Plane"
+//  Aab     =  "Axis-Aligned-Box"
+
 #Constant MISS    = 0x7fffffff    // Equal to NaN.
 #Constant EPSILON = 0.000001
 
@@ -22,7 +27,6 @@ ENDFUNCTION 0 // 'Point' is behind plane.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// "Infinite-Ray vs Infinite-Plane"
 FUNCTION IRayVsIPlane(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
                       Pln_Pos REF AS Vec3, Pln_Nrm REF AS Vec3)
     HitPos AS Vec3
@@ -40,8 +44,7 @@ ENDFUNCTION HitPos
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// "Infinite-Ray vs Infinite-Axis-Aligned-Plane"   Plane spans YZ.
-FUNCTION IRayVsIAAP_X(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
+FUNCTION IRayVsIAAP_X(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans YZ.
                       PlnPosX AS FLOAT)
     HitPos AS Vec3
     Distance AS FLOAT : Distance = (PlnPosX - Ray_Pos.x) / Ray_Nrm.x
@@ -51,8 +54,7 @@ ENDFUNCTION HitPos
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// "Infinite-Ray vs Infinite-Axis-Aligned-Plane"   Plane spans XZ.
-FUNCTION IRayVsIAAP_Y(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
+FUNCTION IRayVsIAAP_Y(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans XZ.
                       PlnPosY AS FLOAT)
     HitPos AS Vec3
     Distance AS FLOAT : Distance = (PlnPosY - Ray_Pos.y) / Ray_Nrm.y
@@ -62,8 +64,7 @@ ENDFUNCTION HitPos
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// "Infinite-Ray vs Infinite-Axis-Aligned-Plane"   Plane spans XY.
-FUNCTION IRayVsIAAP_Z(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,
+FUNCTION IRayVsIAAP_Z(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans XY.
                       PlnPosZ AS FLOAT)
     HitPos AS Vec3
     Distance AS FLOAT : Distance = (PlnPosZ - Ray_Pos.z) / Ray_Nrm.z
@@ -81,7 +82,6 @@ ENDFUNCTION HitPos
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// "Point vs Axis-Aligned-Box"
 FUNCTION PointVsAab(Pnt_Pos REF AS Vec3,
                     Box_Pos REF AS Vec3, Box_Siz REF AS Vec3)
     IF (Pnt_Pos.x >= Box_Pos.x AND Pnt_Pos.x < Box_Pos.x+Box_Siz.x) AND (Pnt_Pos.y >= Box_Pos.y AND Pnt_Pos.y < Box_Pos.y+Box_Siz.y) AND (Pnt_Pos.z >= Box_Pos.z AND Pnt_Pos.z < Box_Pos.z+Box_Siz.z) THEN EXITFUNCTION 1
@@ -91,7 +91,6 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// "Infinite-Ray vs Axis-Aligned-Box"
 FUNCTION IRayVsAab(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRcp REF AS Vec3,  //  Does not Hit=True if Ray_Pos is inside Box.
                    Box_Pos REF AS Vec3, Box_Siz REF AS Vec3)
     //  Distance to bounds Planes from Ray_Pos, for 3 Axes Min & Max, 6 total.
@@ -139,9 +138,9 @@ FUNCTION IRayVsAab(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRcp REF AS V
     HitPos AS Vec3
     IF     (DistBack  <      0.0) : HitPos.x = MISS //  Box is behind us.
     ELSEIF (DistFront > DistBack) : HitPos.x = MISS //  Ray does not collide.
-    ELSE                        //: HitPos   = add3( Ray_Pos, mul3f(Ray_Nrm,DistFront) ) //  Get HitPosition.
-        HitPos.x = Ray_Pos.x + Ray_Nrm.x*DistFront
-        HitPos.y = Ray_Pos.y + Ray_Nrm.y*DistFront
+    ELSE
+        HitPos.x = Ray_Pos.x + Ray_Nrm.x*DistFront  //  Get HitPosition.
+        HitPos.y = Ray_Pos.y + Ray_Nrm.y*DistFront  //: HitPos   = add3( Ray_Pos, mul3f(Ray_Nrm,DistFront) )
         HitPos.z = Ray_Pos.z + Ray_Nrm.z*DistFront
     ENDIF
 ENDFUNCTION HitPos
@@ -163,7 +162,7 @@ FUNCTION RayVsTriangle(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_Len AS FLOA
   //TriVrt[0] = TriVrt[0]
     TriVrt[1] = sub3(TriVrt[1], TriVrt[0])  // TriVrt1 In TriVrt0 LocalSpace.
     TriVrt[2] = sub3(TriVrt[2], TriVrt[0])  // TriVrt2 In TriVrt0 LocalSpace.
-    Tri_Nrm AS Vec3 : Tri_Nrm = crs3(TriVrt[1], TriVrt[2])
+    Tri_Nrm AS Vec3 : Tri_Nrm = crs3(TriVrt[1], TriVrt[2])  //  Tri_Dir, not normalized...
 
     RayPosLocal AS Vec3 : RayPosLocal = sub3(TriVrt[0], Ray_Pos)  // Ray_Pos In TriVrt0 LocalSpace.
 
@@ -198,7 +197,7 @@ FUNCTION RayVsTriMesh(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_Len AS FLOAT
                       TriMesh REF AS Vec3[], BackFaceTest AS INTEGER)
 
     // Option to stop at first Hit,
-    // or to register all hits, then return hits sorted in order?
+    // or to register all hits, then return hits sorted in distance order?
 
     HitPos AS Vec3[]
 
@@ -226,8 +225,7 @@ FUNCTION PointVsSphere(Pnt_Pos REF AS Vec3,
     Dlt_X AS FLOAT : Dlt_X = Sph_Pos.x - Pnt_Pos.x
     Dlt_Y AS FLOAT : Dlt_Y = Sph_Pos.y - Pnt_Pos.y
     Dlt_Z AS FLOAT : Dlt_Z = Sph_Pos.z - Pnt_Pos.z
-    Dlt_Z = Dlt_X*Dlt_X + Dlt_Y*Dlt_Y + Dlt_Z*Dlt_Z
-ENDFUNCTION (Dlt_Z <= Sph_Rds*Sph_Rds)
+ENDFUNCTION (Dlt_X*Dlt_X + Dlt_Y*Dlt_Y + Dlt_Z*Dlt_Z <= Sph_Rds*Sph_Rds)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
