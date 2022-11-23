@@ -5,7 +5,7 @@
 //#Constant f32 = FLOAT
 //#Constant str = STRING
 
-//  Superficial type labeling for AGK_Thing indexes:
+//  Superficial type labeling for AGK_Thing Indexes:
 #Constant AGK_Sound    = INTEGER    //  .iSND
 #Constant AGK_Image    = INTEGER    //  .iIMG
 #Constant AGK_Sprite   = INTEGER    //  .iSPR
@@ -17,21 +17,21 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  SetObjectDepthReadMode( ObjID, MODE )
-#Constant ODRM_NeverPass          = 0
-#Constant ODRM_LessThan           = 1
-#Constant ODRM_Equal              = 2
-#Constant ODRM_LessThanOrEqual    = 3
-#Constant ODRM_GreaterThan        = 4
-#Constant ODRM_NotEqual           = 5
-#Constant ODRM_GreaterThanOrEqual = 6
-#Constant ODRM_AlwaysPass         = 7
+#Constant ODRM_NeverPass          = 0   //  NeverPass
+#Constant ODRM_LessThan           = 1   //  LessThan
+#Constant ODRM_Equal              = 2   //  Equal
+#Constant ODRM_LessThanOrEqual    = 3   //  LessThanOrEqual
+#Constant ODRM_GreaterThan        = 4   //  GreaterThan
+#Constant ODRM_NotEqual           = 5   //  NotEqual
+#Constant ODRM_GreaterThanOrEqual = 6   //  GreaterThanOrEqual
+#Constant ODRM_AlwaysPass         = 7   //  AlwaysPass
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  SetSpriteTransparency( SprID, BLENDMODE )
 //  SetObjectTransparency( ObjID, BLENDMODE )
-#Constant BLENDMODE_Off      = 0 // Default for OBJECT.
-#Constant BLENDMODE_Alpha    = 1 // Default for SPRITE.
+#Constant BLENDMODE_Off      = 0    //  Default for OBJECT.
+#Constant BLENDMODE_Alpha    = 1    //  Default for SPRITE.
 #Constant BLENDMODE_Additive = 2
 
 //  Transparency without blending.
