@@ -6,7 +6,7 @@
 //  IAAP    =  "Infinite-Axis-Aligned-Plane"
 //  Aab     =  "Axis-Aligned-Box"
 
-#Constant MISS    = 0x7fffffff    // Equal to NaN.
+#Constant MISS    = 0x7fffffff    // Equal to NaN.         @@  Not actually, floats cannot be set bitwise.  The hex value is treated as an Int then cast to Float.
 #Constant EPSILON = 0.000001
 
 
@@ -91,8 +91,11 @@ ENDFUNCTION 0
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IRayVsAab(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRcp REF AS Vec3,  //  Does not Hit=True if Ray_Pos is inside Box.
+FUNCTION IRayVsAab(Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRcp REF AS Vec3,
                    Box_Pos REF AS Vec3, Box_Siz REF AS Vec3)
+    //  Does not Hit=True if Ray_Pos is inside Box.
+    //@@    Do we want it to do so?
+
     //  Distance to bounds Planes from Ray_Pos, for 3 Axes Min & Max, 6 total.
     DstMinX AS FLOAT : DstMinX = (Box_Pos.x             - Ray_Pos.x) * Ray_NrmRcp.x  // We can avoid div here by using (1.0 / RayNormal).
     DstMaxX AS FLOAT : DstMaxX = (Box_Pos.x + Box_Siz.x - Ray_Pos.x) * Ray_NrmRcp.x
