@@ -2,21 +2,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 TYPE TYPE_ImGui
-    //TXT AS INTEGER[PRINTA_MAX]
-
     Zone_PosX AS FLOAT[IMGUI_ZONE_MAX]
     Zone_PosY AS FLOAT[IMGUI_ZONE_MAX]
     Zone_SizX AS FLOAT[IMGUI_ZONE_MAX]
     Zone_SizY AS FLOAT[IMGUI_ZONE_MAX]
 
-
-    Text_TXT AS INTEGER[IMGUI_TEXT_MAX]
+    Text_TXT AS AGK_Text[IMGUI_TEXT_MAX]
     Text_Str AS STRING[IMGUI_TEXT_MAX]
 
-    Bttn_TXT AS INTEGER[IMGUI_BUTTON_MAX]
+    Bttn_TXT AS AGK_Text[IMGUI_BUTTON_MAX]
     Bttn_Str AS STRING[IMGUI_BUTTON_MAX]
 
-
+    //TXT AS AGK_Text[PRINTA_MAX]
     //Q_Strg AS STRING[-1]
     //Q_Algn AS INTEGER[-1]
     //Q_PosX AS FLOAT[-1]
