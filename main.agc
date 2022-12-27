@@ -45,6 +45,8 @@ DO
     Print("")
     Print("            It works!")
 
+    //Print(GetRawLastKey())
+
     //DrawPrintA()
     Sync()
 LOOP
