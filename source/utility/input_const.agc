@@ -5,15 +5,20 @@
 #Constant KEY_Backspace          =   8
 #Constant KEY_Tab                =   9
 #Constant KEY_Enter              =  13
+
 #Constant KEY_Shift              =  16
 #Constant KEY_Ctrl               =  17
 #Constant KEY_Alt                =  18
+
 #Constant KEY_Pause              =  19
 #Constant KEY_CapsLock           =  20
+
 #Constant KEY_Escape             =  27
 #Constant KEY_Space              =  32
+
 #Constant KEY_PageUp             =  33
 #Constant KEY_PageDown           =  34
+
 #Constant KEY_End                =  35
 #Constant KEY_Home               =  36
 
@@ -63,8 +68,8 @@
 #Constant KEY_Y                  =  89
 #Constant KEY_Z                  =  90
 
-#Constant KEY_WIN_LEFT           =  91
-#Constant KEY_WIN_RIGHT          =  92
+#Constant KEY_WinLeft            =  91
+#Constant KEY_WinRight           =  92
 
 #Constant KEY_NumPad_0           =  96
 #Constant KEY_NumPad_1           =  97
@@ -76,6 +81,7 @@
 #Constant KEY_NumPad_7           = 103
 #Constant KEY_NumPad_8           = 104
 #Constant KEY_NumPad_9           = 105
+
 #Constant KEY_NumPad_Asterisk    = 106
 #Constant KEY_NumPad_Plus        = 107
 #Constant KEY_NumPad_Subtract    = 109
@@ -112,12 +118,11 @@
 #Constant KEY_Hyphen             = 189 // -
 #Constant KEY_Period             = 190 // .
 #Constant KEY_Slash              = 191 // /
-#Constant KEY_Apostrophe         = 192 // '
+#Constant KEY_Grave              = 192 // `    ~ "Tilde"
 #Constant KEY_SquareBracketLeft  = 219 // [
 #Constant KEY_Backslash          = 220 // \
 #Constant KEY_SquareBracketRight = 221 // ]
-#Constant KEY_Hash               = 222 // #   Not on US-keyboards.
-#Constant KEY_Grave              = 223 // `
+#Constant KEY_Apostrophe         = 222 // '
 
 #Constant KEY_Shift_Left         = 257
 #Constant KEY_Shift_Right        = 258
