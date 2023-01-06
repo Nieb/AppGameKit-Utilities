@@ -13,8 +13,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION SD_Circle(Pnt_Pos REF AS Vec2,
                    Cir_Pos REF AS Vec2, Cir_Rds AS FLOAT)
-    DeltaX AS FLOAT : DeltaX = Cir_Pos.x - Pnt_Pos.x
-    DeltaY AS FLOAT : DeltaY = Cir_Pos.y - Pnt_Pos.y
+    DeltaX   AS FLOAT : DeltaX   = Cir_Pos.x - Pnt_Pos.x
+    DeltaY   AS FLOAT : DeltaY   = Cir_Pos.y - Pnt_Pos.y
     Distance AS FLOAT : Distance = sqrt((DeltaX*DeltaX) + (DeltaY*DeltaY)) - Cir_Rds
 ENDFUNCTION Distance
 
