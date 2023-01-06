@@ -53,6 +53,7 @@ FUNCTION ray2(PosA_X AS FLOAT, PosA_Y AS FLOAT, PosA_Z AS FLOAT,
     Result.PosA.x = PosA_X
     Result.PosA.y = PosA_Y
     Result.PosA.z = PosA_Z
+
     Result.PosB.x = PosB_X
     Result.PosB.y = PosB_Y
     Result.PosB.z = PosB_Z
