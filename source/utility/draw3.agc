@@ -16,7 +16,6 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION DrawVertZ(Vrt    AS Vec3, Siz    AS FLOAT, ClrABGR AS INTEGER,
                    CamPos AS Vec3, CamLok AS Vec3 )
-
     //  Push CamPos slightly forward:
     CamPos = add3(CamPos, mul3f(CamLok, 0.0625+0.001)) // (CamNearDist + Offset)     @@ Compute all of this once then pass to function.
 
