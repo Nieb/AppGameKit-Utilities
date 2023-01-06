@@ -38,8 +38,8 @@ ENDFUNCTION WrapMe
 //FUNCTION CountTowards( CountFrom AS INTEGER, CountTo AS INTEGER)
 //    IF CountFrom = CountTo THEN EXITFUNCTION CountTo
 //    CountNew AS INTEGER
-//    IF CountFrom < CountTo : CountNew = CountFrom +  ceil((CountTo - CountFrom) * (0.07 * Time.Multiplier)) // Count Up
-//    ELSE                   : CountNew = CountFrom + floor((CountTo - CountFrom) * (0.07 * Time.Multiplier)) // Count Down
+//    IF CountFrom < CountTo : CountNew = CountFrom +  ceil((CountTo - CountFrom) * (0.07 * Time.Multiplier)) // Count Up.
+//    ELSE                   : CountNew = CountFrom + floor((CountTo - CountFrom) * (0.07 * Time.Multiplier)) // Count Down.
 //    ENDIF
 //ENDFUNCTION CountNew
 
