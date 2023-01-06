@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  IRay    =  "Infinite-Ray"
 //  IPlane  =  "Infinite-Plane"
-//  IAAP    =  "Infinite-Axis-Aligned-Plane"
+//  IAap    =  "Infinite-Axis-Aligned-Plane"
 //  Aab     =  "Axis-Aligned-Box"
 
 #Constant MISS    = 0x7fffffff    // Equal to NaN.         @@  Not actually, Floats cannot be set bit/hex-wise.  The hex value is treated as an Integer then cast to Float.
@@ -48,7 +48,7 @@ ENDFUNCTION HitPos
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IRayVsIAAP_X( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans YZ.
+FUNCTION IRayVsIAap_X( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans YZ.
                        PlnPosX AS FLOAT )
     HitPos AS Vec3
     Distance AS FLOAT : Distance = (PlnPosX - Ray_Pos.x) / Ray_Nrm.x         //@@  ... * Ray_NrmRcp.x
@@ -58,7 +58,7 @@ ENDFUNCTION HitPos
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IRayVsIAAP_Y( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans XZ.
+FUNCTION IRayVsIAap_Y( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans XZ.
                        PlnPosY AS FLOAT )
     HitPos AS Vec3
     Distance AS FLOAT : Distance = (PlnPosY - Ray_Pos.y) / Ray_Nrm.y         //@@  ... * Ray_NrmRcp.y
@@ -68,7 +68,7 @@ ENDFUNCTION HitPos
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IRayVsIAAP_Z( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans XY.
+FUNCTION IRayVsIAap_Z( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans XY.
                        PlnPosZ AS FLOAT )
     HitPos AS Vec3
     Distance AS FLOAT : Distance = (PlnPosZ - Ray_Pos.z) / Ray_Nrm.z         //@@  ... * Ray_NrmRcp.z
