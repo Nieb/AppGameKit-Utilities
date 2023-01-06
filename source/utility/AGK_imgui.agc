@@ -56,9 +56,7 @@ FUNCTION IG_Zone(PosX AS FLOAT,
                  PosY AS FLOAT,
                  SizX AS FLOAT,
                  SizY AS FLOAT )
-
-    //DrawBox( floor(Pnt_Pos.x), floor(Pnt_Pos.y), floor(Pnt_Pos.x)+0.99, floor(Pnt_Pos.y)+0.99, ClrABGR, ClrABGR, ClrABGR, ClrABGR, 1 )
-
+    // ...
 ENDFUNCTION
 
 
@@ -83,9 +81,7 @@ FUNCTION IG_Button(Lbl       AS STRING,     //  "Label"
                    Btn_SizX  AS FLOAT,
                    Btn_SizY  AS FLOAT,
                    ClrABGR   AS INTEGER )
-
-    //DrawBox( Btn_PosX,Btn_PosY,  Btn_PosX+Btn_SizX,Btn_PosY+Btn_SizY, ClrABGR, ClrABGR, ClrABGR, ClrABGR, 1 )
-
+    // ...
 ENDFUNCTION
 
 
@@ -98,6 +94,7 @@ FUNCTION IG_Image(iImg AS INTEGER,
     // ...
 ENDFUNCTION
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,9 +103,15 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION DrawImGui()
 
-    // Draw stuffs in order.
+    //  Draw stuffs in order.
 
-    // Flush DrawQueue.
+    //  IG_Zone:
+    //DrawBox( floor(Pnt_Pos.x), floor(Pnt_Pos.y), floor(Pnt_Pos.x)+0.99, floor(Pnt_Pos.y)+0.99, ClrABGR, ClrABGR, ClrABGR, ClrABGR, 1 )
+
+    //  IG_Button:
+    //DrawBox( Btn_PosX,Btn_PosY,  Btn_PosX+Btn_SizX,Btn_PosY+Btn_SizY, ClrABGR, ClrABGR, ClrABGR, ClrABGR, 1 )
+
+    //  Flush DrawQueue.
 
 ENDFUNCTION
 
