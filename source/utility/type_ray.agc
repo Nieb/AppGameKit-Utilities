@@ -30,6 +30,15 @@ ENDTYPE
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Constructors:
+//FUNCTION iray(PosX AS FLOAT, PosY AS FLOAT, PosZ AS FLOAT,
+//              NrmX AS FLOAT, NrmY AS FLOAT, NrmZ AS FLOAT )
+//ENDFUNCTION
+//FUNCTION ray(PosX AS FLOAT, PosY AS FLOAT, PosZ AS FLOAT,
+//             NrmX AS FLOAT, NrmY AS FLOAT, NrmZ AS FLOAT, Lngth AS FLOAT )
+//ENDFUNCTION
+
+
 FUNCTION ray(PosX AS FLOAT, PosY AS FLOAT, PosZ AS FLOAT,
              NrmX AS FLOAT, NrmY AS FLOAT, NrmZ AS FLOAT )
     Result AS Ray
@@ -110,6 +119,9 @@ ENDFUNCTION Result
 //ENDFUNCTION Result
 
 // MyRay.Pos = vec3(NewX,NewY,NewZ)
+// MyRay.Pos.x = 1.0
+// MyRay.Pos.y = 2.0
+// MyRay.Pos.z = 3.0
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
