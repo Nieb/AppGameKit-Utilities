@@ -52,45 +52,38 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IG_Zone(PosX AS FLOAT,
-                 PosY AS FLOAT,
-                 SizX AS FLOAT,
-                 SizY AS FLOAT )
+FUNCTION IG_Zone(PosX AS FLOAT, PosY AS FLOAT,
+                 SizX AS FLOAT, SizY AS FLOAT )
     // ...
 ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IG_Text(Label AS STRING,
-                 Align AS INTEGER,
-                 PosX AS FLOAT,
-                 PosY AS FLOAT,
-                 SizX AS FLOAT,
-                 SizY AS FLOAT )
+FUNCTION IG_Text(Txt_PosX AS FLOAT, Txt_PosY AS FLOAT,
+                 Txt_SizX AS FLOAT, Txt_SizY AS FLOAT,
+                 Txt_Label AS STRING,
+                 Txt_Align AS INTEGER )
     // ...
 ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IG_Button(Lbl       AS STRING,     //  "Label"
-                   Lbl_Size  AS INTEGER,    //  Size is also used to pad text when Align = Left or Right.
-                   Lbl_Align AS INTEGER,
-                   Lbl_Font  AS INTEGER,
-                   Btn_PosX  AS FLOAT,      //  "Button"
-                   Btn_PosY  AS FLOAT,
-                   Btn_SizX  AS FLOAT,
-                   Btn_SizY  AS FLOAT,
-                   ClrABGR   AS INTEGER )
+FUNCTION IG_Button(Btn_PosX    AS FLOAT, Btn_PosY AS FLOAT, //  "Button"
+                   Btn_SizX    AS FLOAT, Btn_SizY AS FLOAT,
+                   Btn_ClrABGR AS INTEGER,
+                   Lbl_String  AS STRING,  //  "Label"
+                   Lbl_Size    AS INTEGER, //  Size is also used to pad text when Align = Left or Right.
+                   Lbl_Align   AS INTEGER,
+                   Lbl_Font    AS INTEGER,
+                   Lbl_ClrABGR AS INTEGER )
     // ...
 ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION IG_Image(iImg AS INTEGER,
-                  PosX AS FLOAT,
-                  PosY AS FLOAT,
-                  SizX AS FLOAT,
-                  SizY AS FLOAT )
+FUNCTION IG_Image(PosX AS FLOAT, PosY AS FLOAT,   // "Sprite" ???
+                  SizX AS FLOAT, SizY AS FLOAT,
+                  iImg AS INTEGER )
     // ...
 ENDFUNCTION
 
@@ -106,7 +99,12 @@ FUNCTION DrawImGui()
     //  Draw stuffs in order.
 
     //  IG_Zone:
-    //DrawBox( floor(Pnt_Pos.x), floor(Pnt_Pos.y), floor(Pnt_Pos.x)+0.99, floor(Pnt_Pos.y)+0.99, ClrABGR, ClrABGR, ClrABGR, ClrABGR, 1 )
+    //DrawBox( ImGui.Zone_PosX, ImGui.Zone_PosY,   ImGui.Zone_PosX+ImGui.Zone_SizX, ImGui.Zone_PosY+ImGui.Zone_SizY,   ClrABGR, ClrABGR, ClrABGR, ClrABGR, 1 )
+
+
+
+    //  IG_Text:
+    //DrawText()
 
     //  IG_Button:
     //DrawBox( Btn_PosX,Btn_PosY,  Btn_PosX+Btn_SizX,Btn_PosY+Btn_SizY, ClrABGR, ClrABGR, ClrABGR, ClrABGR, 1 )
