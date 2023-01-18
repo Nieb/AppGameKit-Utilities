@@ -7,12 +7,13 @@ TYPE Canvas
 
     StpY AS INTEGER //  Memblock byte step size.
 
-    MEM AS INTEGER
-    IMG AS INTEGER
-    SPR AS INTEGER
+    iMEM AS AGK_MemBlock
+    iIMG AS AGK_Image
+    iSPR AS AGK_Sprite
 ENDTYPE
 #Constant MEM_IMG_HEADER_SIZE = 12
 
+//  MyCanvas AS Canvas : MyCanvas = CreateCanvas(0,0,256,256)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  Constructors:
@@ -22,15 +23,15 @@ FUNCTION CreateCanvas(PosX AS INTEGER, PosY AS INTEGER,
     _Cnvs_.SizX = SizX
     _Cnvs_.SizY = SizY
     _Cnvs_.StpY = SizX*4
-    _Cnvs_.MEM = CreateMemblock(MEM_IMG_HEADER_SIZE+(SizX*SizY*4))
+    _Cnvs_.iMEM = CreateMemblock(MEM_IMG_HEADER_SIZE+(SizX*SizY*4))
         // HEADER
-        SetMemblockInt( _Cnvs_.MEM, 0, SizX ) // SizeX.
-        SetMemblockInt( _Cnvs_.MEM, 4, SizY ) // SizeY.
-        SetMemblockInt( _Cnvs_.MEM, 8,   32 ) // BitDepth.
-    _Cnvs_.IMG = CreateImageFromMemblock(_Cnvs_.MEM)
-    _Cnvs_.SPR = CreateSprite(_Cnvs_.IMG)
-        SetSpritePosition(_Cnvs_.SPR, PosX, PosY)
-        SetSpriteSize(_Cnvs_.SPR, SizX, SizY)
+        SetMemblockInt( _Cnvs_.iMEM, 0, SizX ) // SizeX.
+        SetMemblockInt( _Cnvs_.iMEM, 4, SizY ) // SizeY.
+        SetMemblockInt( _Cnvs_.iMEM, 8,   32 ) // BitDepth.
+    _Cnvs_.iIMG = CreateImageFromMemblock(_Cnvs_.iMEM)
+    _Cnvs_.iSPR = CreateSprite(_Cnvs_.iIMG)
+        SetSpritePosition(_Cnvs_.iSPR, PosX, PosY)
+        SetSpriteSize(_Cnvs_.iSPR, SizX, SizY)
 ENDFUNCTION _Cnvs_
 
 
@@ -38,9 +39,10 @@ ENDFUNCTION _Cnvs_
 FUNCTION DestroyCanvas(_Cnvs_ REF AS Canvas)
     _Cnvs_.SizX = 0
     _Cnvs_.SizY = 0
-    DeleteMemblock(_Cnvs_.MEM) : _Cnvs_.MEM = 0
-    DeleteSprite(_Cnvs_.SPR)   : _Cnvs_.SPR = 0
-    DeleteImage(_Cnvs_.IMG)    : _Cnvs_.IMG = 0
+    _Cnvs_.StpY = 0
+    DeleteMemblock(_Cnvs_.iMEM) : _Cnvs_.iMEM = 0
+    DeleteSprite(_Cnvs_.iSPR)   : _Cnvs_.iSPR = 0
+    DeleteImage(_Cnvs_.iIMG)    : _Cnvs_.iIMG = 0
 ENDFUNCTION
 
 
@@ -50,7 +52,7 @@ ENDFUNCTION
 FUNCTION SetCanvasPixel(_Cnvs_ REF AS Canvas,
                         iX      AS INTEGER, iY AS INTEGER,
                         ClrABGR AS INTEGER)
-    SetMemblockInt(_Cnvs_.MEM, MEM_IMG_HEADER_SIZE + (iY*_Cnvs_.StpY) + (iX*4), ClrABGR)
+    SetMemblockInt(_Cnvs_.iMEM, MEM_IMG_HEADER_SIZE + (iY*_Cnvs_.StpY) + (iX*4), ClrABGR)
 ENDFUNCTION
 
 
@@ -58,15 +60,15 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION CommitCanvasChanges(_Cnvs_ REF AS Canvas)
-    DeleteImage(_Cnvs_.IMG)
-    _Cnvs_.IMG = CreateImageFromMemblock(_Cnvs_.MEM)
-    SetSpriteImage(_Cnvs_.SPR, _Cnvs_.IMG)
+    DeleteImage(_Cnvs_.iIMG)
+    _Cnvs_.iIMG = CreateImageFromMemblock(_Cnvs_.iMEM)
+    SetSpriteImage(_Cnvs_.iSPR, _Cnvs_.iIMG)
 ENDFUNCTION
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION RevertCanvasChanges(_Cnvs_ REF AS Canvas)
-    DeleteMemblock(_Cnvs_.MEM)
-    _Cnvs_.MEM = CreateMemblockFromImage(_Cnvs_.IMG)
+    DeleteMemblock(_Cnvs_.iMEM)
+    _Cnvs_.iMEM = CreateMemblockFromImage(_Cnvs_.iIMG)
 ENDFUNCTION
 
 
@@ -74,6 +76,6 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION SaveCanvas(_Cnvs_ REF AS Canvas, FileName AS STRING)
-    SaveImage(_Cnvs_.IMG, FileName)
+    SaveImage(_Cnvs_.iIMG, FileName)
 ENDFUNCTION
 
