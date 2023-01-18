@@ -57,7 +57,12 @@ END
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #Include "source/utility/AGK_const.agc"
+#Include "source/utility/AGK_imgui.agc"
 #Include "source/utility/AGK_print_anywhere.agc"
+#Include "source/utility/camera.agc"
+#Include "source/utility/camera_firstperson.agc"
+#Include "source/utility/camera_pivot.agc"
+#Include "source/utility/canvas.agc"
 #Include "source/utility/collision1.agc"
 #Include "source/utility/collision2.agc"
 #Include "source/utility/collision3.agc"
@@ -76,6 +81,7 @@ END
 #Include "source/utility/time.agc"
 #Include "source/utility/type_array.agc"
 #Include "source/utility/type_color.agc"
+#Include "source/utility/type_fixed.agc"
 #Include "source/utility/type_float.agc"
 #Include "source/utility/type_integer.agc"
 #Include "source/utility/type_ray.agc"
