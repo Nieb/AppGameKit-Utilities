@@ -8,11 +8,10 @@
 //  Superficial type labeling for AGK_Thing indexes:
 #Constant AGK_Sound    = INTEGER    //  .iSND
 #Constant AGK_Image    = INTEGER    //  .iIMG
+#Constant AGK_Object   = INTEGER    //  .iOBJ
 
 #Constant AGK_Sprite   = INTEGER    //  .iSPR
 #Constant AGK_Text     = INTEGER    //  .iTXT
-
-#Constant AGK_Object   = INTEGER    //  .iOBJ
 
 #Constant AGK_MemBlock = INTEGER    //  .iMEM
 
