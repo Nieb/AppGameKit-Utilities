@@ -117,7 +117,7 @@ FUNCTION PointVsLine( Pnt_Pos  AS Vec2,
     DotAP_AB AS FLOAT : DotAP_AB = (DltAP_X * DltAB_X) + (DltAP_Y * DltAB_Y)
     DotAB_AB AS FLOAT : DotAB_AB = (DltAB_X * DltAB_X) + (DltAB_Y * DltAB_Y)
 
-    // Get distance, from Lin_PosA as multiple of DltAB, to NearestPointOnLine:
+    // Get distance to NearestPointOnLine, from Lin_PosA as multiple of DltAB:
     DltAB_Scalar AS FLOAT : DltAB_Scalar = DotAP_AB / DotAB_AB
 
     // Is ProjectedPoint between A and B:
