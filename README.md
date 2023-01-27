@@ -98,6 +98,6 @@ NEXT iY
 FOR iThgY = 0 TO Thing_SizY
     FOR iThgX = 0 TO Thing_SizX
         Print(Thing[iThgY,iThgX])
-    NEXT iX
-NEXT iY
+    NEXT iThgX
+NEXT iThgY
 ```
