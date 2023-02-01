@@ -27,6 +27,7 @@ SetPrintColor(240, 240, 240)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 InitializeColor()
+InitializeFloat()
 InitializeVector2()
 InitializeVector3()
 InitializePrintA() : SetPrintAFont(1)
@@ -44,8 +45,15 @@ DO
     Print("")
     Print("")
     Print("            It works!")
+    Print("")
+    Print("")
 
     //Print(GetRawLastKey())
+
+    //print(FLT_NaN    )
+    //print(FLT_Inf    )
+    //print(FLT_InfNeg )
+    //print(FLT_ZeroNeg)
 
     //DrawPrintA()
     Sync()
@@ -86,7 +94,6 @@ END
 #Include "source/utility/type_integer.agc"
 #Include "source/utility/type_ray.agc"
 #Include "source/utility/type_string.agc"
-#Include "source/utility/type_vector1.agc"
 #Include "source/utility/type_vector2.agc"
 #Include "source/utility/type_vector3.agc"
 #Include "source/utility/type_vector4.agc"
