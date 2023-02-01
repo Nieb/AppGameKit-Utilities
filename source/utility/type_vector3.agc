@@ -149,6 +149,17 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FUNCTION dlt3(VecA REF AS Vec3, VecB REF AS Vec3) // "Delta"    Vector from 'VecA' to 'VecB'
+//    Result AS Vec3
+//    Result.x = VecB.x - VecA.x
+//    Result.y = VecB.y - VecA.y
+//    Result.z = VecB.z - VecA.z
+//ENDFUNCTION Result
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION dot3(VecA REF AS Vec3, VecB REF AS Vec3) // 'VecA' dot 'VecB'
 ENDFUNCTION (VecA.x*VecB.x + VecA.y*VecB.y + VecA.z*VecB.z)  //  How much does B overlap with A, relative to A, as a vector1.
 
@@ -165,7 +176,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION inv3(VecA AS Vec3) // "Invert"      (Additive Inverse) of 'VecA'.
+FUNCTION inv3(VecA AS Vec3) // "Invert"         Additive Inverse of 'VecA'.
     VecA.x = -VecA.x
     VecA.y = -VecA.y
     VecA.z = -VecA.z
@@ -173,7 +184,7 @@ ENDFUNCTION VecA
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION cmp3(VecA AS Vec3) // "Complement"  (Complimentary Inverse) of 'VecA'.
+FUNCTION cmp3(VecA AS Vec3) // "Complement"     Complimentary Inverse of 'VecA'.
     VecA.x = 1.0 - VecA.x
     VecA.y = 1.0 - VecA.y
     VecA.z = 1.0 - VecA.z
@@ -181,7 +192,7 @@ ENDFUNCTION VecA
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rcp3(VecA AS Vec3) // "Reciprocal"  (Multiplicative Inverse) of 'VecA'.
+FUNCTION rcp3(VecA AS Vec3) // "Reciprocal"     Multiplicative Inverse of 'VecA'.
     VecA.x = 1.0 / VecA.x
     VecA.y = 1.0 / VecA.y
     VecA.z = 1.0 / VecA.z
@@ -191,7 +202,7 @@ ENDFUNCTION VecA
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION len3(VecA AS Vec3) // "Length" of 'VecA'. (Distance from (0,0,0))
+FUNCTION len3(VecA AS Vec3) // "Length" of 'VecA'. ( Distance from (0,0,0). )
     VecA.x = sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z)
 ENDFUNCTION VecA.x
 
@@ -459,7 +470,7 @@ FUNCTION pch3p(Pnt REF AS Vec3, Pivot REF AS Vec3, Theta AS FLOAT) // "Rotate" '
         SinT AS FLOAT : SinT = sin(Theta)
 
         Result AS Vec3
-        Result.x = Pivot.x  +       DltX                 // Pivot.x  +  1.0*DltX +  0.0*DltY +   0.0*DltZ
+        Result.x = Pivot.x  +       DltX                 // Pivot.x  +  1.0*DltX +  0.0*DltY +   0.0*DltZ               @@ Don't need this?
         Result.y = Pivot.y  +  CosT*DltY + -SinT*DltZ    // Pivot.y  +  0.0*DltX + CosT*DltY + -SinT*DltZ
         Result.z = Pivot.z  +  SinT*DltY +  CosT*DltZ    // Pivot.z  +  0.0*DltX + SinT*DltY +  CosT*DltZ
     ENDIF
@@ -501,7 +512,7 @@ FUNCTION yaw3p(Pnt REF AS Vec3, Pivot REF AS Vec3, Theta AS FLOAT) // "Rotate" '
 
         Result AS Vec3
         Result.x = Pivot.x  +   CosT*DltX + SinT*DltZ    // Pivot.x  +   CosT*DltX + 0.0*DltY + SinT*DltZ
-        Result.y = Pivot.y  +        DltY                // Pivot.y  +    0.0*DltX + 1.0*DltY +  0.0*DltZ
+        Result.y = Pivot.y  +        DltY                // Pivot.y  +    0.0*DltX + 1.0*DltY +  0.0*DltZ               @@ Don't need this?
         Result.z = Pivot.z  +  -SinT*DltX + CosT*DltZ    // Pivot.z  +  -SinT*DltX + 0.0*DltY + CosT*DltZ
     ENDIF
 ENDFUNCTION Result
@@ -543,7 +554,7 @@ FUNCTION rol3p(Pnt REF AS Vec3, Pivot REF AS Vec3, Theta AS FLOAT) // "Rotate" '
         Result AS Vec3
         Result.x = Pivot.x  +  CosT*DltX + -SinT*DltY    // Pivot.x  +  CosT*DltX + -SinT*DltY + 0.0*DltZ
         Result.y = Pivot.y  +  SinT*DltX +  CosT*DltY    // Pivot.y  +  SinT*DltX +  CosT*DltY + 0.0*DltZ
-        Result.z = Pivot.z  +       DltZ                 // Pivot.z  +   0.0*DltX +   0.0*DltY + 1.0*DltZ
+        Result.z = Pivot.z  +       DltZ                 // Pivot.z  +   0.0*DltX +   0.0*DltY + 1.0*DltZ               @@ Don't need this?
     ENDIF
 ENDFUNCTION Result
 
