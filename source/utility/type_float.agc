@@ -4,12 +4,8 @@
 //  Float 32 bit  --  IEEE-754 Floating Point
 //  https://www.h-schmidt.net/FloatConverter/IEEE754.html
 //  https://www.ibm.com/docs/en/xcafbg/9.0.0?topic=SS3KZ4_9.0.0/com.ibm.xlf111.bg.doc/xlfopg/fpieee.htm
-GLOBAL FLT_NaN     AS FLOAT //#Constant FLT_NaN     = 0x7fffffff
-GLOBAL FLT_Inf     AS FLOAT //#Constant FLT_Inf     = 0x7f800000
-GLOBAL FLT_InfNeg  AS FLOAT //#Constant FLT_InfNeg  = 0xff800000
-GLOBAL FLT_ZeroNeg AS FLOAT //#Constant FLT_ZeroNeg = 0x80000000
-
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  For explicit casting:
 FUNCTION flt(Int AS FLOAT) : ENDFUNCTION Int
@@ -25,10 +21,10 @@ FUNCTION InitializeFloat()
     SetMemblockInt(TempBlock, 8, 0xff800000)
     SetMemblockInt(TempBlock,12, 0x80000000)
 
-    FLT_NaN     = GetMemblockFloat(TempBlock,  0)
-    FLT_Inf     = GetMemblockFloat(TempBlock,  4)
-    FLT_InfNeg  = GetMemblockFloat(TempBlock,  8)
-    FLT_ZeroNeg = GetMemblockFloat(TempBlock, 12)
+    GLOBAL FLT_NaN     AS FLOAT : FLT_NaN     = GetMemblockFloat(TempBlock,  0)  //#Constant FLT_NaN     = 0x7fffffff
+    GLOBAL FLT_Inf     AS FLOAT : FLT_Inf     = GetMemblockFloat(TempBlock,  4)  //#Constant FLT_Inf     = 0x7f800000
+    GLOBAL FLT_InfNeg  AS FLOAT : FLT_InfNeg  = GetMemblockFloat(TempBlock,  8)  //#Constant FLT_InfNeg  = 0xff800000
+    GLOBAL FLT_ZeroNeg AS FLOAT : FLT_ZeroNeg = GetMemblockFloat(TempBlock, 12)  //#Constant FLT_ZeroNeg = 0x80000000
 
     DeleteMemblock(TempBlock)
 ENDFUNCTION
