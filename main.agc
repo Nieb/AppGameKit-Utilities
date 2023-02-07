@@ -54,6 +54,8 @@ DO
 
     //Print(GetRawLastKey())
 
+    //print(INT_Max)
+    //print(INT_Min)
     //print(FLT_NaN    )
     //print(FLT_Inf    )
     //print(FLT_InfNeg )
