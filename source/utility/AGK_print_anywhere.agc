@@ -4,14 +4,16 @@
 TYPE _PrintA_
     iTXT AS AGK_Text[PRINTA_MAX]
 
-    Q_Strg AS STRING[-1]
-    Q_Algn AS INTEGER[-1]
-    Q_PosX AS FLOAT[-1]
-    Q_PosY AS FLOAT[-1]
-    Q_Size AS FLOAT[-1]
-    Q_Colr AS INTEGER[-1]
+    //Q_Strg AS STRING[PRINTA_MAX]
+    //Q_Algn AS INTEGER[PRINTA_MAX]
+    //Q_PosX AS FLOAT[PRINTA_MAX]
+    //Q_PosY AS FLOAT[PRINTA_MAX]
+    //Q_Size AS FLOAT[PRINTA_MAX]
+    //Q_Colr AS INTEGER[PRINTA_MAX]
+
+    Queue AS INTEGER
 ENDTYPE
-GLOBAL PrintA_Data AS _PrintA_
+GLOBAL PrntA AS _PrintA_
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #Constant PRINTA_MAX = 63
@@ -23,10 +25,12 @@ GLOBAL PrintA_Data AS _PrintA_
 FUNCTION InitializePrintA()
     iTxt AS INTEGER
     FOR iTxt = 0 TO PRINTA_MAX
-        PrintA_Data.iTXT[iTxt] = CreateText("")
-            SetTextVisible(PrintA_Data.iTXT[iTxt],0)
-            SetTextDepth(PrintA_Data.iTXT[iTxt],1)
+        PrntA.iTXT[iTxt] = CreateText("")
+            SetTextVisible(PrntA.iTXT[iTxt],0)
+            SetTextDepth(PrntA.iTXT[iTxt],1)
     NEXT iTxt
+
+    PrntA.Queue = -1
 ENDFUNCTION
 
 
@@ -34,7 +38,7 @@ ENDFUNCTION
 FUNCTION SetPrintAFont(iFnt AS INTEGER)
     iTxt AS INTEGER
     FOR iTxt = 0 TO PRINTA_MAX
-        SetTextFont(PrintA_Data.iTXT[iTxt], iFnt)
+        SetTextFont(PrntA.iTXT[iTxt], iFnt)
     NEXT iTxt
 ENDFUNCTION
 
@@ -42,35 +46,35 @@ ENDFUNCTION
 ////FUNCTION SetPrintA_Align(Align AS INTEGER)
 ////    iTxt AS INTEGER
 ////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextAlignment(PrintA_Data.iTXT[iTxt], Align)
+////        SetTextAlignment(PrntA.iTXT[iTxt], Align)
 ////    NEXT iTxt
 ////ENDFUNCTION
 ////
 ////FUNCTION SetPrintA_Size(Size AS FLOAT)
 ////    iTxt AS INTEGER
 ////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextSize(PrintA_Data.iTXT[iTxt],Size)
+////        SetTextSize(PrntA.iTXT[iTxt],Size)
 ////    NEXT iTxt
 ////ENDFUNCTION
 ////
 ////FUNCTION SetPrintA_Color(Red AS INTEGER, Grn AS INTEGER, Blu AS INTEGER, Alf AS INTEGER)
 ////    iTxt AS INTEGER
 ////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextColor(PrintA_Data.iTXT[iTxt], COLOR)
+////        SetTextColor(PrntA.iTXT[iTxt], COLOR)
 ////    NEXT iTxt
 ////ENDFUNCTION
 ////
 ////FUNCTION SetPrintA_ColorABGR(ClrABGR AS INTEGER)
 ////    iTxt AS INTEGER
 ////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextColor(PrintA_Data.iTXT[iTxt], COLOR)
+////        SetTextColor(PrntA.iTXT[iTxt], COLOR)
 ////    NEXT iTxt
 ////ENDFUNCTION
 ////
 ////FUNCTION SetPrintA_ColorRGBA(ClrRGBA AS INTEGER)
 ////    iTxt AS INTEGER
 ////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextColor(PrintA_Data.iTXT[iTxt], COLOR)
+////        SetTextColor(PrntA.iTXT[iTxt], COLOR)
 ////    NEXT iTxt
 ////ENDFUNCTION
 
@@ -84,21 +88,23 @@ FUNCTION PrintA(TextStr   AS STRING,
                 PosY      AS FLOAT,
                 Size      AS FLOAT,
                 ColorABGR AS INTEGER )
-    PrintA_Data.Q_Strg.insert(TextStr)
-    PrintA_Data.Q_Algn.insert(Align)
-    PrintA_Data.Q_PosX.insert(PosX)
-    PrintA_Data.Q_PosY.insert(PosY)
-    PrintA_Data.Q_Size.insert(Size)
-    PrintA_Data.Q_Colr.insert(ColorABGR)
+
+    IF PrntA.Queue >= PRINTA_MAX THEN EXITFUNCTION
+    INC PrntA.Queue
+
+    SetTextString(   PrntA.iTXT[PrntA.Queue],  TextStr)
+    SetTextAlignment(PrntA.iTXT[PrntA.Queue],  Align)
+    SetTextPosition( PrntA.iTXT[PrntA.Queue],  PosX, PosY)
+    SetTextSize(     PrntA.iTXT[PrntA.Queue],  Size)
+    SetTextColor(    PrntA.iTXT[PrntA.Queue], (ColorABGR && 0x000000FF), (ColorABGR && 0x0000FF00)>>8, (ColorABGR && 0x00FF0000)>>16, (ColorABGR && 0xFF000000)>>24 )
 ENDFUNCTION
 
 
 ////FUNCTION PrintA(TextStr   AS STRING,
 ////                PosX      AS FLOAT,
 ////                PosY      AS FLOAT )
-////    PrintA_Data.Q_Strg.insert(TextStr)
-////    PrintA_Data.Q_PosX.insert(PosX)
-////    PrintA_Data.Q_PosY.insert(PosY)
+////    SetTextString(   PrntA.iTXT[PrntA.Queue],  TextStr)
+////    SetTextPosition( PrntA.iTXT[PrntA.Queue],  PosX, PosY)
 ////ENDFUNCTION
 
 
@@ -107,24 +113,12 @@ ENDFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION DrawPrintA()
     iTxt AS INTEGER
-    FOR iTxt = 0 TO PrintA_Data.Q_Strg.length
-        SetTextString(   PrintA_Data.iTXT[iTxt],  PrintA_Data.Q_Strg[iTxt])
-        SetTextAlignment(PrintA_Data.iTXT[iTxt],  PrintA_Data.Q_Algn[iTxt])
-        SetTextPosition( PrintA_Data.iTXT[iTxt],  PrintA_Data.Q_PosX[iTxt], PrintA_Data.Q_PosY[iTxt])
-        SetTextSize(     PrintA_Data.iTXT[iTxt],  PrintA_Data.Q_Size[iTxt])
-        SetTextColor(    PrintA_Data.iTXT[iTxt], (PrintA_Data.Q_Colr[iTxt] && 0x000000FF), (PrintA_Data.Q_Colr[iTxt] && 0x0000FF00)>>8, (PrintA_Data.Q_Colr[iTxt] && 0x00FF0000)>>16, (PrintA_Data.Q_Colr[iTxt] && 0xFF000000)>>24 )
-
-        SetTextVisible(PrintA_Data.iTXT[iTxt],1)
-        DrawText(PrintA_Data.iTXT[iTxt])
-        SetTextVisible(PrintA_Data.iTXT[iTxt],0)
+    FOR iTxt = 0 TO PrntA.Queue
+        SetTextVisible(PrntA.iTXT[iTxt],1)
+        DrawText(PrntA.iTXT[iTxt])
+        SetTextVisible(PrntA.iTXT[iTxt],0)
     NEXT iTxt
 
-    // Flush DrawQueue:
-    PrintA_Data.Q_Strg.length = EMPTY
-    PrintA_Data.Q_Algn.length = EMPTY
-    PrintA_Data.Q_PosX.length = EMPTY
-    PrintA_Data.Q_PosY.length = EMPTY
-    PrintA_Data.Q_Size.length = EMPTY
-    PrintA_Data.Q_Colr.length = EMPTY
+    PrntA.Queue = -1
 ENDFUNCTION
 
