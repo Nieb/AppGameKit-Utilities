@@ -60,7 +60,9 @@ DO
     //print(FLT_InfNeg )
     //print(FLT_ZeroNeg)
 
-    //DrawPrintA()
+    //PrintA("BLARG!", 0, cos(GetMilliseconds()*0.1)*250+512, sin(GetMilliseconds()*0.2)*250+384, 32, 0xFF000000 + GetMilliseconds() )
+
+    DrawPrintA()
     Sync()
 LOOP
 END
