@@ -60,7 +60,12 @@ DO
     //print(FLT_InfNeg )
     //print(FLT_ZeroNeg)
 
-    //PrintA("BLARG!", 0, cos(GetMilliseconds()*0.1)*250+512, sin(GetMilliseconds()*0.2)*250+384, 32, 0xFF000000 + GetMilliseconds() )
+    Clr AS INTEGER : Clr = 0xFF000000
+    Millis AS INTEGER : Millis = GetMilliseconds()
+    Clr = Clr + (round( (sin(Millis*1.6) * 0.5 + 0.5) * 255 )<<16)
+    Clr = Clr + (round( (sin(Millis*0.7) * 0.5 + 0.5) * 255 )<< 8)
+    Clr = Clr +  round( (sin(Millis*1.0) * 0.5 + 0.5) * 255 )
+    PrintA("BLARG!", 0, cos(Millis*0.1)*250+512, sin(Millis*0.2)*250+384, 32, Clr)
 
     DrawPrintA()
     Sync()
