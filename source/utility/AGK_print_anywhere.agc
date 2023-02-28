@@ -35,48 +35,17 @@ ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION SetPrintAFont(iFnt AS INTEGER)
-    iTxt AS INTEGER
-    FOR iTxt = 0 TO PRINTA_MAX
-        SetTextFont(PrntA.iTXT[iTxt], iFnt)
-    NEXT iTxt
-ENDFUNCTION
-
-
-////FUNCTION SetPrintA_Align(Align AS INTEGER)
-////    iTxt AS INTEGER
-////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextAlignment(PrntA.iTXT[iTxt], Align)
-////    NEXT iTxt
-////ENDFUNCTION
-////
-////FUNCTION SetPrintA_Size(Size AS FLOAT)
-////    iTxt AS INTEGER
-////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextSize(PrntA.iTXT[iTxt],Size)
-////    NEXT iTxt
-////ENDFUNCTION
-////
-////FUNCTION SetPrintA_Color(Red AS INTEGER, Grn AS INTEGER, Blu AS INTEGER, Alf AS INTEGER)
-////    iTxt AS INTEGER
-////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextColor(PrntA.iTXT[iTxt], COLOR)
-////    NEXT iTxt
-////ENDFUNCTION
-////
-////FUNCTION SetPrintA_ColorABGR(ClrABGR AS INTEGER)
-////    iTxt AS INTEGER
-////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextColor(PrntA.iTXT[iTxt], COLOR)
-////    NEXT iTxt
-////ENDFUNCTION
-////
-////FUNCTION SetPrintA_ColorRGBA(ClrRGBA AS INTEGER)
-////    iTxt AS INTEGER
-////    FOR iTxt = 0 TO PRINTA_MAX
-////        SetTextColor(PrntA.iTXT[iTxt], COLOR)
-////    NEXT iTxt
-////ENDFUNCTION
+FUNCTION SetPrintAFont(  iFnt  AS INTEGER) : iTxt AS INTEGER : FOR iTxt = 0 TO PRINTA_MAX : SetTextFont(     PrntA.iTXT[iTxt], iFnt)  : NEXT iTxt : ENDFUNCTION
+//FUNCTION SetPrintA_Align(Align AS INTEGER) : iTxt AS INTEGER : FOR iTxt = 0 TO PRINTA_MAX : SetTextAlignment(PrntA.iTXT[iTxt], Align) : NEXT iTxt : ENDFUNCTION
+//FUNCTION SetPrintA_Size( Size  AS FLOAT)   : iTxt AS INTEGER : FOR iTxt = 0 TO PRINTA_MAX : SetTextSize(     PrntA.iTXT[iTxt], Size)  : NEXT iTxt : ENDFUNCTION
+//FUNCTION SetPrintA_Color(Red AS INTEGER, Grn AS INTEGER, Blu AS INTEGER, Alf AS INTEGER)
+//    iTxt AS INTEGER
+//    FOR iTxt = 0 TO PRINTA_MAX
+//        SetTextColor(PrntA.iTXT[iTxt], Red, Grn, Blu, Alf)
+//    NEXT iTxt
+//ENDFUNCTION
+//FUNCTION SetPrintA_ColorABGR(ClrABGR AS INTEGER) : iTxt AS INTEGER : FOR iTxt = 0 TO PRINTA_MAX : SetTextColor(PrntA.iTXT[iTxt], COLOR) : NEXT iTxt : ENDFUNCTION
+//FUNCTION SetPrintA_ColorRGBA(ClrRGBA AS INTEGER) : iTxt AS INTEGER : FOR iTxt = 0 TO PRINTA_MAX : SetTextColor(PrntA.iTXT[iTxt], COLOR) : NEXT iTxt : ENDFUNCTION
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,10 +61,10 @@ FUNCTION PrintA(TextStr   AS STRING,
     IF PrntA.Queue >= PRINTA_MAX THEN EXITFUNCTION
     INC PrntA.Queue
 
-    SetTextString(   PrntA.iTXT[PrntA.Queue],  TextStr)
-    SetTextAlignment(PrntA.iTXT[PrntA.Queue],  Align)
-    SetTextPosition( PrntA.iTXT[PrntA.Queue],  PosX, PosY)
-    SetTextSize(     PrntA.iTXT[PrntA.Queue],  Size)
+    SetTextString(   PrntA.iTXT[PrntA.Queue], TextStr)
+    SetTextAlignment(PrntA.iTXT[PrntA.Queue], Align)
+    SetTextPosition( PrntA.iTXT[PrntA.Queue], PosX, PosY)
+    SetTextSize(     PrntA.iTXT[PrntA.Queue], Size)
     SetTextColor(    PrntA.iTXT[PrntA.Queue], (ColorABGR && 0x000000FF), (ColorABGR && 0x0000FF00)>>8, (ColorABGR && 0x00FF0000)>>16, (ColorABGR && 0xFF000000)>>24 )
 ENDFUNCTION
 
