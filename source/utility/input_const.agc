@@ -82,11 +82,11 @@
 #Constant KEY_NumPad_8           = 104
 #Constant KEY_NumPad_9           = 105
 
-#Constant KEY_NumPad_Asterisk    = 106
-#Constant KEY_NumPad_Plus        = 107
-#Constant KEY_NumPad_Subtract    = 109
+#Constant KEY_NumPad_Mul         = 106
+#Constant KEY_NumPad_Add         = 107
+#Constant KEY_NumPad_Sub         = 109
 #Constant KEY_NumPad_Decimal     = 110
-#Constant KEY_NumPad_Divide      = 111
+#Constant KEY_NumPad_Div         = 111
 
 #Constant KEY_F1                 = 112
 #Constant KEY_F2                 = 113
@@ -119,9 +119,9 @@
 #Constant KEY_Period             = 190 // .
 #Constant KEY_Slash              = 191 // /
 #Constant KEY_Grave              = 192 // `    ~ "Tilde"
-#Constant KEY_SquareBracketLeft  = 219 // [
+#Constant KEY_BracketLeft        = 219 // [
 #Constant KEY_Backslash          = 220 // \
-#Constant KEY_SquareBracketRight = 221 // ]
+#Constant KEY_BracketRight       = 221 // ]
 #Constant KEY_Apostrophe         = 222 // '
 
 #Constant KEY_Shift_Left         = 257
