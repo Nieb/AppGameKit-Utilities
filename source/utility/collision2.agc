@@ -235,10 +235,10 @@ FUNCTION LineVsAar( Lin_PosA REF AS Vec2, Lin_PosB REF AS Vec2,
     r  AS FLOAT
     s  AS FLOAT
     //=====================================================================================================================================
-    Delta_2A_2B_X = Rct_Rt    - Rct_Pos.x
-    Delta_2A_2B_Y = Rct_Pos.y - Rct_Pos.y
-    Delta_1A_2A_X = Lin_PosA.x    - Rct_Pos.x
-    Delta_1A_2A_Y = Lin_PosA.y    - Rct_Pos.y
+    Delta_2A_2B_X = Rct_Rt     - Rct_Pos.x
+    Delta_2A_2B_Y = Rct_Pos.y  - Rct_Pos.y
+    Delta_1A_2A_X = Lin_PosA.x - Rct_Pos.x
+    Delta_1A_2A_Y = Lin_PosA.y - Rct_Pos.y
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
     n2 = (Delta_1A_2A_Y * Delta_2A_2B_X) - (Delta_1A_2A_X * Delta_2A_2B_Y)
     d  = (Delta_1A_1B_X * Delta_2A_2B_Y) - (Delta_1A_1B_Y * Delta_2A_2B_X)
@@ -246,8 +246,8 @@ FUNCTION LineVsAar( Lin_PosA REF AS Vec2, Lin_PosB REF AS Vec2,
     s  = n2 / d
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //=====================================================================================================================================
-    Delta_2A_2B_X = Rct_Rt - Rct_Rt
-    Delta_2A_2B_Y = Rct_Bm - Rct_Pos.y
+    Delta_2A_2B_X = Rct_Rt     - Rct_Rt
+    Delta_2A_2B_Y = Rct_Bm     - Rct_Pos.y
     Delta_1A_2A_X = Lin_PosA.x - Rct_Rt
     Delta_1A_2A_Y = Lin_PosA.y - Rct_Pos.y
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
@@ -257,10 +257,10 @@ FUNCTION LineVsAar( Lin_PosA REF AS Vec2, Lin_PosB REF AS Vec2,
     s  = n2 / d
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //=====================================================================================================================================
-    Delta_2A_2B_X = Rct_Pos.x - Rct_Rt
-    Delta_2A_2B_Y = Rct_Bm    - Rct_Bm
-    Delta_1A_2A_X = Lin_PosA.x    - Rct_Rt
-    Delta_1A_2A_Y = Lin_PosA.y    - Rct_Bm
+    Delta_2A_2B_X = Rct_Pos.x  - Rct_Rt
+    Delta_2A_2B_Y = Rct_Bm     - Rct_Bm
+    Delta_1A_2A_X = Lin_PosA.x - Rct_Rt
+    Delta_1A_2A_Y = Lin_PosA.y - Rct_Bm
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
     n2 = (Delta_1A_2A_Y * Delta_2A_2B_X) - (Delta_1A_2A_X * Delta_2A_2B_Y)
     d  = (Delta_1A_1B_X * Delta_2A_2B_Y) - (Delta_1A_1B_Y * Delta_2A_2B_X)
@@ -269,10 +269,10 @@ FUNCTION LineVsAar( Lin_PosA REF AS Vec2, Lin_PosB REF AS Vec2,
     IF (r >= 0.0 AND r <= 1.0) AND (s >= 0.0 AND s <= 1.0) THEN EXITFUNCTION 1
     //=====================================================================================================================================
     // The function will never make it here.
-    Delta_2A_2B_X = Rct_Pos.x - Rct_Pos.x
-    Delta_2A_2B_Y = Rct_Pos.y - Rct_Bm
-    Delta_1A_2A_X = Lin_PosA.x    - Rct_Pos.x
-    Delta_1A_2A_Y = Lin_PosA.y    - Rct_Bm
+    Delta_2A_2B_X = Rct_Pos.x  - Rct_Pos.x
+    Delta_2A_2B_Y = Rct_Pos.y  - Rct_Bm
+    Delta_1A_2A_X = Lin_PosA.x - Rct_Pos.x
+    Delta_1A_2A_Y = Lin_PosA.y - Rct_Bm
     n1 = (Delta_1A_2A_Y * Delta_1A_1B_X) - (Delta_1A_2A_X * Delta_1A_1B_Y)
     n2 = (Delta_1A_2A_Y * Delta_2A_2B_X) - (Delta_1A_2A_X * Delta_2A_2B_Y)
     d  = (Delta_1A_1B_X * Delta_2A_2B_Y) - (Delta_1A_1B_Y * Delta_2A_2B_X)
