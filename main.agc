@@ -109,5 +109,4 @@ END
 #Include "source/utility/type_vector2.agc"
 #Include "source/utility/type_vector3.agc"
 #Include "source/utility/type_vector4.agc"
-#Include "source/utility/type_vector_const.agc"
 
