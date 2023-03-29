@@ -27,10 +27,11 @@ FUNCTION UpdateTime()
     ELSE                                       : Time.LastFrame = Time.ThisFrame
     ENDIF
 
-    //  This effectively makes all Deltas 'Units per-second'.    @@
-    IF (Time.Speed > 0.001) : Time.Multiplier = 60.0 * Time.Delta * Time.Speed
-    ELSE                    : Time.Multiplier = 60.0 * Time.Delta
-    ENDIF
+    //  This effectively makes all Deltas 'Units per-second'.
+    Time.Multiplier = 60.0 * Time.Delta
+    //IF (Time.Speed > 0.001) : Time.Multiplier = 60.0 * Time.Delta * Time.Speed
+    //ELSE                    : Time.Multiplier = 60.0 * Time.Delta
+    //ENDIF
 ENDFUNCTION
 
 
