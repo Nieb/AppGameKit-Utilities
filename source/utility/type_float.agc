@@ -16,10 +16,10 @@ FUNCTION flt(Int AS FLOAT) : ENDFUNCTION Int
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION InitializeFloat()
     TempBlock AS INTEGER : TempBlock = CreateMemblock(16)
-    SetMemblockInt(TempBlock, 0, 0x7fffffff)
-    SetMemblockInt(TempBlock, 4, 0x7f800000)
-    SetMemblockInt(TempBlock, 8, 0xff800000)
-    SetMemblockInt(TempBlock,12, 0x80000000)
+    SetMemblockInt(TempBlock,  0, 0x7fffffff)
+    SetMemblockInt(TempBlock,  4, 0x7f800000)
+    SetMemblockInt(TempBlock,  8, 0xff800000)
+    SetMemblockInt(TempBlock, 12, 0x80000000)
 
     GLOBAL FLT_NaN     AS FLOAT : FLT_NaN     = GetMemblockFloat(TempBlock,  0)  //#Constant FLT_NaN     = 0x7fffffff
     GLOBAL FLT_Inf     AS FLOAT : FLT_Inf     = GetMemblockFloat(TempBlock,  4)  //#Constant FLT_Inf     = 0x7f800000
