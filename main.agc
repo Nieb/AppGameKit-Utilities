@@ -51,7 +51,15 @@ DO
     Print("")
     Print("")
 
+
+    //UpdateInputMouse()
+    //Print("Mouse Pos:    "+str(Mouse.Pos.x)   +"  "+str(Mouse.Pos.y)   )
+    //Print("Mouse PosOld: "+str(Mouse.PosOld.x)+"  "+str(Mouse.PosOld.y))
+    //Print("Mouse Delta:  "+str(Mouse.Delta.x) +"  "+str(Mouse.Delta.y) )
+
+
     //Print(GetRawLastKey())
+
 
     //print(INT_Max)
     //print(INT_Min)
@@ -60,14 +68,22 @@ DO
     //print(FLT_InfNeg )
     //print(FLT_ZeroNeg)
 
-    Clr AS INTEGER : Clr = 0xFF000000
-    Millis AS INTEGER : Millis = GetMilliseconds()
-    Clr = Clr + (round( (sin(Millis*1.6) * 0.5 + 0.5) * 255 )<<16)
-    Clr = Clr + (round( (sin(Millis*0.7) * 0.5 + 0.5) * 255 )<< 8)
-    Clr = Clr +  round( (sin(Millis*1.0) * 0.5 + 0.5) * 255 )
-    PrintA("BLARG!", 0, cos(Millis*0.1)*250+512, sin(Millis*0.2)*250+384, 32, Clr)
+
+    //Print(PrntA.iTXT[0])
+    //Print(PrntA.iTXT[1])
+    //Print(PrntA.iTXT[2])
+    //Print(PrntA.iTXT[3])
+
+    //Clr AS INTEGER : Clr = 0xFF000000
+    //Millis AS INTEGER : Millis = GetMilliseconds()
+    //Clr = Clr + (round( (sin(Millis*1.6) * 0.5 + 0.5) * 255 )<<16)
+    //Clr = Clr + (round( (sin(Millis*0.7) * 0.5 + 0.5) * 255 )<< 8)
+    //Clr = Clr +  round( (sin(Millis*1.0) * 0.5 + 0.5) * 255 )
+    //PrintA("BLARG!", 0, cos(Millis*0.1)*250+512, sin(Millis*0.2)*250+384, 32, Clr)
+
 
     DrawPrintA()
+
     Sync()
 LOOP
 END
