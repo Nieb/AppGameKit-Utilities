@@ -8,6 +8,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//#Constant StrLeft(          = Left(
+//#Constant StrSearch(        = FindString(
+//#Constant StrSearchReverse( = FindStringReverse(
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  Convert to STRING, then pad left with Spaces.
 FUNCTION PadStr(StringMe AS FLOAT, PadLeft AS INTEGER, TruncRight AS INTEGER)
     Result       AS STRING  : Result       = str(StringMe, TruncRight)  //  Fun fact:  TruncRight = -1  will show all digits.
@@ -37,6 +45,12 @@ FUNCTION Hex2(StringMe AS INTEGER, PadLeft AS INTEGER)
     Result = "0x"+ReplaceString(Spaces(PadLeft - StringLength)," ","0",-1) + Result
 ENDFUNCTION Result
 
+FUNCTION Hex3(StringMe AS INTEGER, PadLeft AS INTEGER)
+    Result       AS STRING  : Result       = hex(StringMe)
+    StringLength AS INTEGER : StringLength = len(Result)
+    IF (StringLength >= PadLeft) THEN EXITFUNCTION Result //  Prevent spaces() crash.
+    Result = ReplaceString(Spaces(PadLeft - StringLength)," ","0",-1) + Result
+ENDFUNCTION Result
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +61,7 @@ FUNCTION CommaDelimit(StringMe AS INTEGER)
     NumberString AS STRING  : NumberString = str(StringMe)
     NumberLength AS INTEGER : NumberLength = len(NumberString)
     iDigit       AS INTEGER
-    IF (StringMe > -1000 AND StringMe < 1000)
+    IF (StringMe >= -999 AND StringMe <= 999)
         Result = str(StringMe)
     ELSEIF (StringMe < 0)
         FOR iDigit = 1 TO NumberLength
@@ -70,7 +84,7 @@ FUNCTION PadCommaDelimit(StringMe AS INTEGER, PadLeft AS INTEGER)
     NumberString AS STRING  : NumberString = str(StringMe)
     NumberLength AS INTEGER : NumberLength = len(NumberString)
     iDigit       AS INTEGER
-    IF (StringMe > -1000 AND StringMe < 1000)
+    IF (StringMe >= -999 AND StringMe <= 999)
         Result = str(StringMe)
     ELSEIF (StringMe < 0)
         FOR iDigit = 1 TO NumberLength
