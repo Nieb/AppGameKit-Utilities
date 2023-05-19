@@ -4,9 +4,9 @@ A collection of various utility functions.
 ### ***This is all very much a work in progress.***
 <br/>
 
-## A note about Vectors & Thetas:
+## A note on Vectors & Thetas:
 Upon dealing with the incoherent mess of 3D coordinate spaces in ComputerGraphics, Mathematics, Aviation, etc.<br/>
-Then, learning that "there is no 'correct' coordinate space", they are arbitrary.<br/>
+Then, learning that "there is no correct coordinate space, they are arbitrary".<br/>
 This is the coordinate space that I've settled upon using:
 
 ![Coordinate System](README_Coordinate_System.png)
@@ -21,7 +21,7 @@ These rules are adhered to, unless I've overlooked something. Or, the code is ol
   *Note: this is the opposite of typical English grammar.*
 
 * Naming uses Capitals for the first letter of every word, lowercase for the rest. This includes acronyms.<br/>
-  Exceptions include constants and some other rare occasions.
+  Exceptions include constants and some other occasions.
 
 * An attempt is made to make the nameing & usage of variable & function names read like a natural language sentence.
 
@@ -34,11 +34,11 @@ These rules are adhered to, unless I've overlooked something. Or, the code is ol
 Pos = "Position"
 Vel = "Velocity"
 Rot = "Rotation"
+Rds = "Radius"
 Siz = "Size"
 Scl = "Scale"
-Bnd = "Bounds"
+Bnds = "Bounds"
 Nrm = "Normal"
-Rds = "Radius"
 Dir = "Direction" or "Directory"
 Lok = "Look"
           The normalized-vector direction something is facing.
@@ -77,7 +77,7 @@ Sph = "Sphere"
 Box = "Right-Angled-Quadrilateral-Hexahedron" :P
 ```
 
-* Descriptive indexes are always used, never i, j, x, y, a, b, etc.<br/>
+* Descriptive indexes are tyipcally used.<br/>
 #### Index Examples:
 ```
 FOR iThg = 0 TO Thing.length
