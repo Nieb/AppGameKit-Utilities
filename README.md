@@ -20,7 +20,8 @@ These rules are adhered to, unless I've overlooked something. Or, the code is ol
   Example: instead of "NewLength", "LengthNew" is used.<br/>
   *Note: this is the opposite of typical English grammar.*
 
-* Naming uses Capitals for the first letter of every word, lowercase for the rest. This includes acronyms.<br/>
+* TitleCase is typically used.<br/>
+  Capitals for the first letter of every word, lowercase for the rest. This includes acronyms.<br/>
   Exceptions include constants and some other occasions.
 
 * An attempt is made to make the nameing & usage of variable & function names read like a natural language sentence.
