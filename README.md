@@ -78,7 +78,7 @@ Sph = "Sphere"
 Box = "Right-Angled-Quadrilateral-Hexahedron" :P
 ```
 
-* Descriptive indexes are tyipcally used.<br/>
+* Descriptive indexes are typically used.<br/>
 #### Index Examples:
 ```
 FOR iThg = 0 TO Thing.length
