@@ -43,7 +43,7 @@ FUNCTION InitializeVector3()
 
     GLOBAL Axis3_XY  AS Vec3 : Axis3_XY  = vec3(Sqrt2Rcp, Sqrt2Rcp,      0.0)
     GLOBAL Axis3_YZ  AS Vec3 : Axis3_YZ  = vec3(     0.0, Sqrt2Rcp, Sqrt2Rcp)
-    GLOBAL Axis3_ZX  AS Vec3 : Axis3_ZX  = vec3(Sqrt2Rcp,      0.0, Sqrt2Rcp)
+    GLOBAL Axis3_XZ  AS Vec3 : Axis3_XZ  = vec3(Sqrt2Rcp,      0.0, Sqrt2Rcp)
 
     GLOBAL Axis3_XYZ AS Vec3 : Axis3_XYZ = vec3(Sqrt3Rcp, Sqrt3Rcp, Sqrt3Rcp)
 ENDFUNCTION
