@@ -83,7 +83,7 @@ FUNCTION DrawCircle12(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, ClrABGR AS INTEGER,    
     B.z = Cir_Pos.z + (-0.8660254 * Cir_Rds)
     IF (Pch <> 0.0) : A = pch3(A, Pch) : B = pch3(B, Pch) : ENDIF
     IF (Yaw <> 0.0) : A = yaw3(A, Yaw) : B = yaw3(B, Yaw) : ENDIF
-    GOSUB DrawTheCircleLine
+    GOSUB DrawSegments
 
     A = B
     B.x = Cir_Pos.x + ( 0.8660254 * Cir_Rds)
@@ -91,7 +91,7 @@ FUNCTION DrawCircle12(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, ClrABGR AS INTEGER,    
     B.z = Cir_Pos.z + (-0.5       * Cir_Rds)
     IF (Pch <> 0.0) THEN B = pch3(B, Pch)
     IF (Yaw <> 0.0) THEN B = yaw3(B, Yaw)
-    GOSUB DrawTheCircleLine
+    GOSUB DrawSegments
 
     A = B
     B.x = Cir_Pos.x + ( 1.0       * Cir_Rds)
@@ -99,10 +99,10 @@ FUNCTION DrawCircle12(Cir_Pos AS Vec3, Cir_Rds AS FLOAT, ClrABGR AS INTEGER,    
     B.z = Cir_Pos.z + ( 0.0       * Cir_Rds)
     IF (Pch <> 0.0) THEN B = pch3(B, Pch)
     IF (Yaw <> 0.0) THEN B = yaw3(B, Yaw)
-    GOSUB DrawTheCircleLine
+    GOSUB DrawSegments
 
     EXITFUNCTION
-DrawTheCircleLine:
+DrawSegments:
     DrawLine(GetScreenXFrom3D( A.x, A.y,- A.z), GetScreenYFrom3D( A.x, A.y,- A.z), GetScreenXFrom3D( B.x, B.y,- B.z), GetScreenYFrom3D( B.x, B.y,- B.z), ClrABGR,ClrABGR-0x00CCCC00)
     DrawLine(GetScreenXFrom3D( A.x,-A.y,--A.z), GetScreenYFrom3D( A.x,-A.y,--A.z), GetScreenXFrom3D( B.x,-B.y,--B.z), GetScreenYFrom3D( B.x,-B.y,--B.z), ClrABGR,ClrABGR-0x00FF00FF)
     DrawLine(GetScreenXFrom3D(-A.x,-A.y,--A.z), GetScreenYFrom3D(-A.x,-A.y,--A.z), GetScreenXFrom3D(-B.x,-B.y,--B.z), GetScreenYFrom3D(-B.x,-B.y,--B.z), ClrABGR,ClrABGR-0x0000CCFF)
