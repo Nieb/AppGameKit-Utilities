@@ -51,38 +51,22 @@ DO
     Print("")
     Print("")
 
+    IF 1
+        Millis AS INTEGER : Millis = GetMilliseconds()
+        Clr AS INTEGER : Clr = 0xFF000000
+        Clr = Clr + (round( (sin(Millis*1.6) * 0.5 + 0.5) * 255 )<<16)
+        Clr = Clr + (round( (sin(Millis*0.7) * 0.5 + 0.5) * 255 )<< 8)
+        Clr = Clr +  round( (sin(Millis*1.0) * 0.5 + 0.5) * 255 )
+        PrintA("BLARG!", 0, cos(Millis*0.1)*250+512, sin(Millis*0.2)*250+384, 32, Clr)
+        DrawPrintA()
+    ENDIF
 
-    //UpdateInputMouse()
-    //Print("Mouse Pos:    "+str(Mouse.Pos.x)   +"  "+str(Mouse.Pos.y)   )
-    //Print("Mouse PosOld: "+str(Mouse.PosOld.x)+"  "+str(Mouse.PosOld.y))
-    //Print("Mouse Delta:  "+str(Mouse.Delta.x) +"  "+str(Mouse.Delta.y) )
-
-
-    //Print(GetRawLastKey())
-
-
-    //print(INT_Max)
-    //print(INT_Min)
-    //print(FLT_NaN    )
-    //print(FLT_Inf    )
-    //print(FLT_InfNeg )
-    //print(FLT_ZeroNeg)
-
-
-    //Print(PrntA.iTXT[0])
-    //Print(PrntA.iTXT[1])
-    //Print(PrntA.iTXT[2])
-    //Print(PrntA.iTXT[3])
-
-    //Clr AS INTEGER : Clr = 0xFF000000
-    //Millis AS INTEGER : Millis = GetMilliseconds()
-    //Clr = Clr + (round( (sin(Millis*1.6) * 0.5 + 0.5) * 255 )<<16)
-    //Clr = Clr + (round( (sin(Millis*0.7) * 0.5 + 0.5) * 255 )<< 8)
-    //Clr = Clr +  round( (sin(Millis*1.0) * 0.5 + 0.5) * 255 )
-    //PrintA("BLARG!", 0, cos(Millis*0.1)*250+512, sin(Millis*0.2)*250+384, 32, Clr)
-
-
-    DrawPrintA()
+    IF 0
+        Print2(" AngleToVec2(  0) = ", AngleToVec2(  0), 2, 6)
+        Print2(" AngleToVec2( 90) = ", AngleToVec2( 90), 2, 6)
+        Print2(" AngleToVec2(180) = ", AngleToVec2(180), 2, 6)
+        Print2(" AngleToVec2(270) = ", AngleToVec2(270), 2, 6)
+    ENDIF
 
     Sync()
 LOOP
@@ -95,9 +79,6 @@ END
 #Include "source/utility/AGK_const.agc"
 #Include "source/utility/AGK_imgui.agc"
 #Include "source/utility/AGK_print_anywhere.agc"
-#Include "source/utility/camera.agc"
-#Include "source/utility/camera_firstperson.agc"
-#Include "source/utility/camera_pivot.agc"
 #Include "source/utility/canvas.agc"
 #Include "source/utility/collision1.agc"
 #Include "source/utility/collision2.agc"
@@ -111,12 +92,9 @@ END
 #Include "source/utility/math.agc"
 #Include "source/utility/math_const.agc"
 #Include "source/utility/shader.agc"
-#Include "source/utility/signeddistance2.agc"
-#Include "source/utility/signeddistance3.agc"
 #Include "source/utility/time.agc"
 #Include "source/utility/type_array.agc"
 #Include "source/utility/type_color.agc"
-#Include "source/utility/type_fixed.agc"
 #Include "source/utility/type_float.agc"
 #Include "source/utility/type_integer.agc"
 #Include "source/utility/type_string.agc"
