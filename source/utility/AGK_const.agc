@@ -54,8 +54,8 @@
 #Constant BLENDMODE_Alpha    = 1    //  Default for SPRITE.
 #Constant BLENDMODE_Additive = 2
 
-//  Transparency without blending.
-// SetObjectAlphaMask( ObjID, 0|1 )
+//  Transparency without blending:
+//      SetObjectAlphaMask( ObjID, 0|1 )
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
