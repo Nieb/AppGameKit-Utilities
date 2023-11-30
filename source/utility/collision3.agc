@@ -54,9 +54,15 @@ ENDFUNCTION HitPos
 FUNCTION IRayVsIAap_X( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3,     //  Plane spans YZ.
                        PlnPosX AS FLOAT )
     HitPos AS Vec3
+
     Distance AS FLOAT : Distance = (PlnPosX - Ray_Pos.x) / Ray_Nrm.x         //@@  ... * Ray_NrmRcp.x
+
     IF (Distance < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-    HitPos = add3( Ray_Pos, mul3f(Ray_Nrm,Distance) )
+
+    //HitPos = add3( Ray_Pos, mul3f(Ray_Nrm, Distance) )
+    HitPos.x = Ray_Pos.x + Ray_Nrm.x * Distance
+    HitPos.y = Ray_Pos.y + Ray_Nrm.y * Distance
+    HitPos.z = Ray_Pos.z + Ray_Nrm.z * Distance
 ENDFUNCTION HitPos
 
 
@@ -126,28 +132,28 @@ FUNCTION IRayVsAab( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_NrmRcp REF AS 
 
     //  Reorient Min<──>Max relative to Ray_Pos.
     HoldMe AS FLOAT
-    IF (DstMinX > DstMaxX) : HoldMe = DstMinX : DstMinX = DstMaxX : DstMaxX = HoldMe : ENDIF // max(DstMinX, DstMaxX)
-    IF (DstMinY > DstMaxY) : HoldMe = DstMinY : DstMinY = DstMaxY : DstMaxY = HoldMe : ENDIF // max(DstMinY, DstMaxY)
-    IF (DstMinZ > DstMaxZ) : HoldMe = DstMinZ : DstMinZ = DstMaxZ : DstMaxZ = HoldMe : ENDIF // max(DstMinZ, DstMaxZ)
+    IF (DstMinX > DstMaxX): HoldMe = DstMinX : DstMinX = DstMaxX : DstMaxX = HoldMe : ENDIF // max(DstMinX, DstMaxX)
+    IF (DstMinY > DstMaxY): HoldMe = DstMinY : DstMinY = DstMaxY : DstMaxY = HoldMe : ENDIF // max(DstMinY, DstMaxY)
+    IF (DstMinZ > DstMaxZ): HoldMe = DstMinZ : DstMinZ = DstMaxZ : DstMaxZ = HoldMe : ENDIF // max(DstMinZ, DstMaxZ)
 
     //  Select PlaneHits in Quadrant/Octant of Box.
     DistFront AS FLOAT
-    IF DstMinX > DstMinY // max(DstMinX, DstMinY)
-        IF (DstMinX > DstMinZ) : DistFront = DstMinX : ELSE : DistFront = DstMinZ : ENDIF // max(DstMinX, DstMinZ)
+    IF (DstMinX > DstMinY) // max(DstMinX, DstMinY)
+        IF (DstMinX > DstMinZ): DistFront = DstMinX : ELSE : DistFront = DstMinZ : ENDIF // max(DstMinX, DstMinZ)
     ELSE
-        IF (DstMinY > DstMinZ) : DistFront = DstMinY : ELSE : DistFront = DstMinZ : ENDIF // max(DstMinY, DstMinZ)
+        IF (DstMinY > DstMinZ): DistFront = DstMinY : ELSE : DistFront = DstMinZ : ENDIF // max(DstMinY, DstMinZ)
     ENDIF
     DistBack AS FLOAT
-    IF DstMaxX < DstMaxY // min(DstMaxX, DstMaxY)
-        IF (DstMaxX < DstMaxZ) : DistBack = DstMaxX : ELSE : DistBack = DstMaxZ : ENDIF // min(DstMaxX, DstMaxZ)
+    IF (DstMaxX < DstMaxY) // min(DstMaxX, DstMaxY)
+        IF (DstMaxX < DstMaxZ): DistBack = DstMaxX : ELSE : DistBack = DstMaxZ : ENDIF // min(DstMaxX, DstMaxZ)
     ELSE
-        IF (DstMaxY < DstMaxZ) : DistBack = DstMaxY : ELSE : DistBack = DstMaxZ : ENDIF // min(DstMaxY, DstMaxZ)
+        IF (DstMaxY < DstMaxZ): DistBack = DstMaxY : ELSE : DistBack = DstMaxZ : ENDIF // min(DstMaxY, DstMaxZ)
     ENDIF
 
     //  Did we hit it?
     HitPos AS Vec3
-    IF     (DistBack  <      0.0) : HitPos.x = MISS //  Box is behind us.
-    ELSEIF (DistFront > DistBack) : HitPos.x = MISS //  Ray does not collide.
+    IF     (DistBack  <      0.0): HitPos.x = MISS //  Box is behind us.
+    ELSEIF (DistFront > DistBack): HitPos.x = MISS //  Ray does not collide.
     ELSE
         HitPos.x = Ray_Pos.x + Ray_Nrm.x*DistFront  //  Get HitPosition.
         HitPos.y = Ray_Pos.y + Ray_Nrm.y*DistFront  //: HitPos   = add3( Ray_Pos, mul3f(Ray_Nrm,DistFront) )
@@ -172,33 +178,39 @@ FUNCTION RayVsTriangle( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_Len AS FLO
   //TriVrt[0] = TriVrt[0]
     TriVrt[1] = sub3(TriVrt[1], TriVrt[0])  // TriVrt1 In TriVrt0 LocalSpace.
     TriVrt[2] = sub3(TriVrt[2], TriVrt[0])  // TriVrt2 In TriVrt0 LocalSpace.
+
     Tri_Nrm AS Vec3 : Tri_Nrm = crs3(TriVrt[1], TriVrt[2])  //  Tri_Dir, not normalized...
 
     RayPosLocal AS Vec3 : RayPosLocal = sub3(TriVrt[0], Ray_Pos)  // Ray_Pos In TriVrt0 LocalSpace.
 
-    // Is Ray pointing towards Triangle-Normal (FrontFace), or with Triangle-Normal (away from FrontFace).
-    Dtrmnt AS FLOAT : Dtrmnt = dot3(Ray_Nrm, Tri_Nrm)  // "Determinant".
+    // Is Ray pointing towards TriangleNormal (FrontFace), or with TriangleNormal (away from FrontFace).
+    Dtrmnt AS FLOAT : Dtrmnt = dot3(Ray_Nrm, Tri_Nrm)  // "Determinant"
 
     // ???
     Crs_RPL_RN AS Vec3 : Crs_RPL_RN = crs3(RayPosLocal, Ray_Nrm)
 
     Dot_CrsRPLRN_V2 AS FLOAT
     Dot_CrsRPLRN_V1 AS FLOAT
-    Dot_RPL_TN  AS FLOAT
-    IF Dtrmnt >= 0.0 // Ray is pointing same direction as Triangle-Normal.
+    Dot_RPL_TN AS FLOAT
+    IF Dtrmnt >= 0.0 // Ray is pointing same direction as TriangleNormal.
         IF NOT BackFaceTest : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 < 0.0 OR Dot_CrsRPLRN_V2                   >         Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 < 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 >         Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_RPL_TN      =  dot3(RayPosLocal, Tri_Nrm)   : IF (Dot_RPL_TN      < 0.0 OR Dot_RPL_TN                        > Ray_Len*Dtrmnt OR Dtrmnt < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-    ELSE // Ray is pointing opposite of Triangle-Normal.
-        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 > 0.0 OR Dot_CrsRPLRN_V2                   <         Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 > 0.0 OR Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 <         Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
-        Dot_RPL_TN      =  dot3(RayPosLocal, Tri_Nrm)   : IF (Dot_RPL_TN      > 0.0 OR Dot_RPL_TN                        < Ray_Len*Dtrmnt                    ) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 < 0.0  OR  Dot_CrsRPLRN_V2 > Dtrmnt)                          : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 < 0.0  OR  Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 > Dtrmnt)        : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_RPL_TN      =  dot3(RayPosLocal, Tri_Nrm)   : IF (Dot_RPL_TN      < 0.0  OR  Dot_RPL_TN > Ray_Len*Dtrmnt  OR  Dtrmnt < EPSILON) : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+    ELSE // Ray is pointing opposite of TriangleNormal.
+        Dot_CrsRPLRN_V2 =  dot3(Crs_RPL_RN,  TriVrt[2]) : IF (Dot_CrsRPLRN_V2 > 0.0  OR  Dot_CrsRPLRN_V2 < Dtrmnt)                          : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_CrsRPLRN_V1 = -dot3(Crs_RPL_RN,  TriVrt[1]) : IF (Dot_CrsRPLRN_V1 > 0.0  OR  Dot_CrsRPLRN_V2 + Dot_CrsRPLRN_V1 < Dtrmnt)        : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
+        Dot_RPL_TN      =  dot3(RayPosLocal, Tri_Nrm)   : IF (Dot_RPL_TN      > 0.0  OR  Dot_RPL_TN < Ray_Len*Dtrmnt)                       : HitPos.x = MISS : EXITFUNCTION HitPos : ENDIF
     ENDIF
 
   //DtrmntRcp = 1.0 / Dtrmnt
   //HitDist   = Dot_RPL_TN * DtrmntRcp
-    HitPos = add3(    Ray_Pos, mul3f( Ray_Nrm, Dot_RPL_TN * (1.0/Dtrmnt) )    )
+  //HitPos = add3(    Ray_Pos, mul3f( Ray_Nrm, Dot_RPL_TN * (1.0/Dtrmnt) )    )
+
+    HitDist AS FLOAT : HitDist = Dot_RPL_TN * (1.0 / Dtrmnt)
+    HitPos.x = Ray_Pos.x + (Ray_Nrm.x * HitDist)
+    HitPos.y = Ray_Pos.y + (Ray_Nrm.y * HitDist)
+    HitPos.z = Ray_Pos.z + (Ray_Nrm.z * HitDist)
 ENDFUNCTION HitPos
 
 
@@ -207,7 +219,7 @@ FUNCTION RayVsTriMesh( Ray_Pos REF AS Vec3, Ray_Nrm REF AS Vec3, Ray_Len AS FLOA
                        TriMesh REF AS Vec3[], BackFaceTest AS INTEGER )
 
     // Option to stop at first Hit,
-    // or to register all hits, then return hits sorted in distance order?
+    // or to register all hits, then return hits sorted in distance order?  ( 0:NEAR ... n:FAR )
 
     HitPos AS Vec3[]
 
