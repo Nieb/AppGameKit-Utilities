@@ -85,9 +85,9 @@ FUNCTION maxf(FltA AS FLOAT, FltB AS FLOAT) : IF (FltA > FltB) THEN EXITFUNCTION
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FUNCTION rndto(RoundMe AS FLOAT, RoundTo AS FLOAT)
-    ModMe AS FLOAT : ModMe = fmod(RoundMe, RoundTo)
-    IF     (ModMe > 0.0) : IF (ModMe >  RoundTo*0.5) : RoundMe = RoundMe + (RoundTo -     ModMe ) : ELSE : RoundMe = RoundMe -     ModMe  : ENDIF
-    ELSEIF (ModMe < 0.0) : IF (ModMe < -RoundTo*0.5) : RoundMe = RoundMe - (RoundTo - abs(ModMe)) : ELSE : RoundMe = RoundMe + abs(ModMe) : ENDIF
+    MeMod AS FLOAT : MeMod = fmod(RoundMe, RoundTo)
+    IF     (MeMod > 0.0) : IF (MeMod >  RoundTo*0.5) : RoundMe = RoundMe + (RoundTo -     MeMod ) : ELSE : RoundMe = RoundMe -     MeMod  : ENDIF
+    ELSEIF (MeMod < 0.0) : IF (MeMod < -RoundTo*0.5) : RoundMe = RoundMe - (RoundTo - abs(MeMod)) : ELSE : RoundMe = RoundMe + abs(MeMod) : ENDIF
     ENDIF
 ENDFUNCTION RoundMe
 
