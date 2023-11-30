@@ -202,7 +202,7 @@ ENDFUNCTION VecA
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION len3(VecA AS Vec3) // "Length" of 'VecA'. ( Distance from (0,0,0). )
+FUNCTION len3(VecA AS Vec3) // "Length" of 'VecA'.  ( aka: Distance from (0,0,0) )
     VecA.x = sqrt(VecA.x*VecA.x + VecA.y*VecA.y + VecA.z*VecA.z)
 ENDFUNCTION VecA.x
 
@@ -556,7 +556,7 @@ ENDFUNCTION Result
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rot3(Pnt REF AS Vec3, Axis REF AS Vec3, Theta AS FLOAT) // "Rotate" 'Point' around Pivot(0,0,0) on 'Axis'.
+FUNCTION rot3(Pnt REF AS Vec3, Axis REF AS Vec3, Theta AS FLOAT) // "Rotate" 'Point' around Pivot(0,0,0) on 'Axis' by 'Theta'.
     IF (Theta = 0.0)
         EXITFUNCTION Pnt
     ELSE
@@ -574,7 +574,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rot3p(Pnt REF AS Vec3, Pivot REF AS Vec3, Axis REF AS Vec3, Theta AS FLOAT) // "Rotate" 'Point' around 'Pivot' on 'Axis'.
+FUNCTION rot3p(Pnt REF AS Vec3, Pivot REF AS Vec3, Axis REF AS Vec3, Theta AS FLOAT) // "Rotate" 'Point' around 'Pivot' on 'Axis' by 'Theta'.
     IF (Theta = 0.0)
         EXITFUNCTION Pnt
     ELSE
@@ -596,7 +596,7 @@ ENDFUNCTION Result
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FUNCTION rot3m(Pnt REF AS Vec3, ThetaVec REF AS Vec3) // "Rotate" 'Point' around Pivot(0,0,0) on multiple axes.       Simultaneous Multi-Axis Angular Rotation.
+FUNCTION rot3m(Pnt REF AS Vec3, ThetaVec REF AS Vec3) // "Rotate" 'Point' around Pivot(0,0,0) by 'Theta(Pitch, Yaw, Roll)'.       Simultaneous Multi-Axis Angular Rotation.
     IF (ThetaVec.x = 0.0 AND ThetaVec.y = 0.0 AND ThetaVec.z = 0.0)
         EXITFUNCTION Pnt
     ELSE
@@ -609,15 +609,14 @@ FUNCTION rot3m(Pnt REF AS Vec3, ThetaVec REF AS Vec3) // "Rotate" 'Point' around
 
         // Derive singular rotation 'Axis'. ('ThetaVec' normalized.)
         ThetaRcp AS FLOAT : ThetaRcp = 1.0 / Theta
-        Axis AS Vec3
-        Axis.x = ThetaVec.x * ThetaRcp
-        Axis.y = ThetaVec.y * ThetaRcp
-        Axis.z = ThetaVec.z * ThetaRcp
+        Axis_X AS FLOAT : Axis_X = ThetaVec.x * ThetaRcp
+        Axis_Y AS FLOAT : Axis_Y = ThetaVec.y * ThetaRcp
+        Axis_Z AS FLOAT : Axis_Z = ThetaVec.z * ThetaRcp
 
         Result AS Vec3
-        Result.x = ( Pnt.x * (Axis.x*Axis.x * iCosT +        CosT) )  +  ( Pnt.y * (Axis.y*Axis.x * iCosT - Axis.z*SinT) )  +  ( Pnt.z * (Axis.z*Axis.x * iCosT + Axis.y*SinT) )
-        Result.y = ( Pnt.x * (Axis.x*Axis.y * iCosT + Axis.z*SinT) )  +  ( Pnt.y * (Axis.y*Axis.y * iCosT +        CosT) )  +  ( Pnt.z * (Axis.z*Axis.y * iCosT - Axis.x*SinT) )
-        Result.z = ( Pnt.x * (Axis.x*Axis.z * iCosT - Axis.y*SinT) )  +  ( Pnt.y * (Axis.y*Axis.z * iCosT + Axis.x*SinT) )  +  ( Pnt.z * (Axis.z*Axis.z * iCosT +        CosT) )
+        Result.x = ( Pnt.x * (Axis_X*Axis_X * iCosT +        CosT) )  +  ( Pnt.y * (Axis_Y*Axis_X * iCosT - Axis_Z*SinT) )  +  ( Pnt.z * (Axis_Z*Axis_X * iCosT + Axis_Y*SinT) )
+        Result.y = ( Pnt.x * (Axis_X*Axis_Y * iCosT + Axis_Z*SinT) )  +  ( Pnt.y * (Axis_Y*Axis_Y * iCosT +        CosT) )  +  ( Pnt.z * (Axis_Z*Axis_Y * iCosT - Axis_X*SinT) )
+        Result.z = ( Pnt.x * (Axis_X*Axis_Z * iCosT - Axis_Y*SinT) )  +  ( Pnt.y * (Axis_Y*Axis_Z * iCosT + Axis_X*SinT) )  +  ( Pnt.z * (Axis_Z*Axis_Z * iCosT +        CosT) )
     ENDIF
 ENDFUNCTION Result
 
