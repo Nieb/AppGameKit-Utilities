@@ -48,6 +48,12 @@ Trgt = "Target"
             Example:  Thing.VelTrgt  Thing.RotTrgt
 
 Clr = "Color"
+Red = "Red"
+Grn = "Green"
+Blu = "Blue"
+Ylw = "Yellow"
+Cyn = "Cyan"
+Vlt = "Violet"
 
 Dlt = "Delta"
 
