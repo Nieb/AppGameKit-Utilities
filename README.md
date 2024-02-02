@@ -14,7 +14,7 @@ This is the coordinate space that I've settled upon using:
 <br/>
 
 ## Variable & Function Naming:
-These rules are adhered to, unless I've overlooked something. Or, the code is old and needs revisited.
+These rules are adhered to unless I've overlooked something or the code is old and needs revisited.
 
 * Naming follows hierarchal ordering. That being: ThingAttribute.<br/>
   Example: instead of "NewLength", "LengthNew" is used.<br/>
@@ -26,8 +26,8 @@ These rules are adhered to, unless I've overlooked something. Or, the code is ol
 
 * An attempt is made to make the nameing & usage of variable & function names read like a natural language sentence.
 
-* Underscores are typically avoided.<br/>
-  There are exceptions...
+* Underscores are avoided.<br/>
+  There are exceptions.
 
 * Single-letter & overly-truncated variable/function names are avoided, unless truncation is desired for compact code.<br/>
 #### Common Abbreviations:
@@ -38,7 +38,7 @@ Rot = "Rotation"
 Rds = "Radius"
 Siz = "Size"
 Scl = "Scale"
-Bnds = "Bounds"
+Bds = "Bounds"
 Nrm = "Normal"
 Dir = "Direction" or "Directory"
 Lok = "Look"
