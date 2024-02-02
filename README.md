@@ -24,7 +24,7 @@ These rules are adhered to unless I've overlooked something or the code is old a
   Capitals for the first letter of every word, lowercase for the rest. This includes acronyms.<br/>
   Exceptions include constants and some other occasions.
 
-* An attempt is made to make the nameing & usage of variable & function names read like a natural language sentence.
+* An attempt is made to make the nameing and usage of variable & function names read like a natural language sentence.
 
 * Underscores are avoided.<br/>
   There are exceptions.
